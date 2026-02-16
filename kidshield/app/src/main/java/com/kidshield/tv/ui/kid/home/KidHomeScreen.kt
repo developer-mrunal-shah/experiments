@@ -80,22 +80,27 @@ fun KidHomeScreen(
                         )
                     }
 
-                    // Parent access button (subtle)
+                    // Parent access button - more prominent for first-time users
                     Surface(
                         onClick = onParentAccess,
                         shape = ClickableSurfaceDefaults.shape(shape = CircleShape),
-                        scale = ClickableSurfaceDefaults.scale(focusedScale = 1.05f),
-                        modifier = Modifier.size(48.dp),
+                        scale = ClickableSurfaceDefaults.scale(focusedScale = 1.1f),
+                        modifier = Modifier.size(if (uiState.categories.isEmpty()) 56.dp else 48.dp),
                         colors = ClickableSurfaceDefaults.colors(
-                            containerColor = Color.Transparent,
-                            focusedContainerColor = MaterialTheme.colorScheme.surfaceVariant
+                            containerColor = if (uiState.categories.isEmpty()) 
+                                MaterialTheme.colorScheme.primary.copy(alpha = 0.2f)
+                            else Color.Transparent,
+                            focusedContainerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.3f)
                         )
                     ) {
                         Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
                             Icon(
                                 Icons.Default.Settings,
-                                contentDescription = "Parent Settings",
-                                tint = MaterialTheme.colorScheme.onSurfaceVariant
+                                contentDescription = "Parent Settings - Click here to set up apps",
+                                tint = if (uiState.categories.isEmpty()) 
+                                    MaterialTheme.colorScheme.primary
+                                else MaterialTheme.colorScheme.onSurfaceVariant,
+                                modifier = Modifier.size(if (uiState.categories.isEmpty()) 28.dp else 24.dp)
                             )
                         }
                     }
@@ -148,15 +153,42 @@ fun KidHomeScreen(
                 }
             }
 
-            // Empty state
+            // Empty state - First time user experience
             if (uiState.categories.isEmpty() && !uiState.isLoading) {
                 item {
-                    Box(
-                        modifier = Modifier.fillMaxWidth().padding(top = 64.dp),
-                        contentAlignment = Alignment.Center
+                    Column(
+                        modifier = Modifier.fillMaxWidth().padding(top = 32.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
                     ) {
+                        // Welcome message for parents
+                        Column(
+                            modifier = Modifier.padding(24.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Text(
+                                text = "👋 Welcome to KidShield!",
+                                style = TvTextStyles.headlineMedium,
+                                color = MaterialTheme.colorScheme.primary
+                            )
+                            Spacer(modifier = Modifier.height(12.dp))
+                            Text(
+                                text = "Parents: Click the settings gear (⚙️) above to get started",
+                                style = TvTextStyles.titleLarge,
+                                color = MaterialTheme.colorScheme.onSurface
+                            )
+                            Spacer(modifier = Modifier.height(8.dp))
+                            Text(
+                                text = "You'll create a PIN and choose which apps your kids can use",
+                                style = TvTextStyles.bodyLarge,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
+                        
+                        Spacer(modifier = Modifier.height(32.dp))
+                        
+                        // Kid-friendly message
                         Text(
-                            text = "No apps available yet. Ask a parent to set up your apps!",
+                            text = "🎮 Your apps will appear here once a parent sets them up!",
                             style = TvTextStyles.titleLarge,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )

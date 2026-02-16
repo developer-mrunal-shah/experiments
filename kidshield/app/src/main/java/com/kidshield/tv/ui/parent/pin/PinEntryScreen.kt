@@ -60,11 +60,20 @@ fun PinEntryScreen(
         Text(
             text = when {
                 uiState.isSetupMode && uiState.isConfirmStep -> "Confirm your PIN"
-                uiState.isSetupMode -> "Create a Parent PIN"
+                uiState.isSetupMode -> "Welcome! Create a Parent PIN (4-6 digits)"
                 else -> "Enter Parent PIN"
             },
             style = TvTextStyles.headlineMedium
         )
+
+        if (uiState.isSetupMode && !uiState.isConfirmStep) {
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = "This PIN will protect parent settings and let you manage your child's apps",
+                style = TvTextStyles.bodyLarge,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
 
         Spacer(modifier = Modifier.height(12.dp))
 
