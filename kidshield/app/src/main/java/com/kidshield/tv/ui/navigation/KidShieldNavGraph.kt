@@ -88,9 +88,25 @@ fun KidShieldNavGraph(
             )
         }
 
-        composable(Screen.TimeLimits.route) {
+        composable(
+            Screen.TimeLimits.route,
+            arguments = listOf(
+                navArgument("fromSetup") { 
+                    type = NavType.BoolType
+                    defaultValue = false
+                }
+            )
+        ) { backStackEntry ->
+            val fromSetup = backStackEntry.arguments?.getBoolean("fromSetup") ?: false
             TimeLimitsScreen(
-                onBack = { navController.popBackStack() }
+                onBack = { navController.popBackStack() },
+                showContinueSetup = fromSetup,
+                onContinueSetup = { 
+                    // Navigate back to setup wizard step 3 (completion)
+                    navController.navigate(Screen.SetupWizard.createRoute(step = 3)) {
+                        popUpTo(Screen.SetupWizard.route) { inclusive = true }
+                    }
+                }
             )
         }
 
@@ -114,9 +130,25 @@ fun KidShieldNavGraph(
             )
         }
 
-        composable(Screen.AppManagement.route) {
+        composable(
+            Screen.AppManagement.route,
+            arguments = listOf(
+                navArgument("fromSetup") { 
+                    type = NavType.BoolType
+                    defaultValue = false
+                }
+            )
+        ) { backStackEntry ->
+            val fromSetup = backStackEntry.arguments?.getBoolean("fromSetup") ?: false
             AppManagementScreen(
-                onBack = { navController.popBackStack() }
+                onBack = { navController.popBackStack() },
+                showContinueSetup = fromSetup,
+                onContinueSetup = { 
+                    // Navigate back to setup wizard step 2 (time limits)
+                    navController.navigate(Screen.SetupWizard.createRoute(step = 2)) {
+                        popUpTo(Screen.SetupWizard.route) { inclusive = true }
+                    }
+                }
             )
         }
 
@@ -127,9 +159,25 @@ fun KidShieldNavGraph(
             )
         }
 
-        composable(Screen.SetupWizard.route) {
+        composable(
+            Screen.SetupWizard.route,
+            arguments = listOf(
+                navArgument("step") { 
+                    type = NavType.IntType
+                    defaultValue = 0
+                }
+            )
+        ) { backStackEntry ->
+            val initialStep = backStackEntry.arguments?.getInt("step") ?: 0
             SetupWizardScreen(
-                onBack = { navController.popBackStack() }
+                initialStep = initialStep,
+                onBack = { navController.popBackStack() },
+                onNavigateToAppManagement = { 
+                    navController.navigate(Screen.AppManagement.createRoute(fromSetup = true))
+                },
+                onNavigateToTimeLimits = { 
+                    navController.navigate(Screen.TimeLimits.createRoute(fromSetup = true))
+                }
             )
         }
     }
