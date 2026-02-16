@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arduino Project Sheets — Print Edition</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Nunito', sans-serif; background: #fff; color: #1a1a2e; font-size: 13px; line-height: 1.5; }
+
+@media print {
+  body { font-size: 11px; }
+  .no-print { display: none !important; }
+  .project-sheet { page-break-after: always; break-after: page; }
+  .project-sheet:last-child { page-break-after: auto; }
+  @page { margin: 0.6in; size: letter; }
+}
+
+.no-print {
+  background: linear-gradient(135deg, #0f172a, #1e1b4b);
+  color: #fff;
+  padding: 24px 32px;
+  text-align: center;
+  font-size: 16px;
+}
+.no-print button {
+  background: #22c55e;
+  border: none;
+  color: #fff;
+  padding: 12px 32px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 12px;
+  font-family: 'Nunito';
+}
+
+.project-sheet {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 24px 32px;
+}
+
+.sheet-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  border-bottom: 3px solid #1a1a2e;
+  padding-bottom: 12px;
+  margin-bottom: 16px;
+}
+.sheet-icon { font-size: 40px; }
+.sheet-title { font-size: 24px; font-weight: 800; }
+.sheet-subtitle { font-size: 14px; color: #666; }
+.sheet-meta { margin-left: auto; text-align: right; font-size: 12px; color: #888; }
+
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+
+.box {
+  border: 1.5px solid #ddd;
+  border-radius: 8px;
+  padding: 14px;
+}
+.box h4 {
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+  color: #333;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 4px;
+}
+.box ul { padding-left: 18px; }
+.box li { margin-bottom: 3px; }
+
+.wiring-table { width: 100%; border-collapse: collapse; margin-bottom: 16px; }
+.wiring-table th {
+  background: #f0f0f0;
+  padding: 6px 10px;
+  text-align: left;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 2px solid #ccc;
+}
+.wiring-table td {
+  padding: 6px 10px;
+  border-bottom: 1px solid #eee;
+}
+.wiring-table tr:nth-child(even) { background: #fafafa; }
+
+.code-block {
+  background: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 12px 14px;
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  margin-bottom: 16px;
+  overflow-x: auto;
+}
+
+.challenge-box {
+  border: 2px dashed #a855f7;
+  border-radius: 8px;
+  padding: 14px;
+  margin-bottom: 16px;
+  background: #faf5ff;
+}
+.challenge-box h4 { color: #7c3aed; border: none; }
+
+.science-box {
+  border: 2px solid #eab308;
+  border-radius: 8px;
+  padding: 14px;
+  background: #fffbeb;
+}
+.science-box h4 { color: #a16207; border: none; }
+
+.safety-note {
+  background: #fef2f2;
+  border: 1px solid #fca5a5;
+  border-radius: 6px;
+  padding: 10px 14px;
+  margin-bottom: 16px;
+  font-size: 12px;
+  color: #991b1b;
+}
+
+.checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+.checkbox {
+  width: 14px;
+  height: 14px;
+  border: 1.5px solid #999;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.notes-area {
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  height: 80px;
+  margin-top: 8px;
+  background: #fafafa;
+  position: relative;
+}
+.notes-area::after {
+  content: "My Notes:";
+  position: absolute;
+  top: 8px;
+  left: 10px;
+  font-size: 11px;
+  color: #bbb;
+}
+
+/* Cover Page */
+.cover-page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 60px 32px;
+  text-align: center;
+  min-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.cover-page h1 { font-size: 36px; margin-bottom: 8px; }
+.cover-page .cover-sub { font-size: 18px; color: #666; margin-bottom: 40px; }
+.cover-page .cover-icon { font-size: 80px; margin-bottom: 24px; }
+.kit-info { text-align: left; max-width: 500px; margin: 0 auto; }
+.kit-info h3 { font-size: 14px; margin-bottom: 8px; color: #333; border-bottom: 2px solid #22c55e; display: inline-block; padding-bottom: 2px; }
+.kit-info p { color: #666; font-size: 13px; margin-bottom: 16px; line-height: 1.6; }
+</style>
+</head>
+<body>
+
+<div class="no-print">
+  <div style="font-size:28px; margin-bottom:8px">🤖 Arduino Learning Lab — Printable Project Sheets</div>
+  <p>12 projects ready to print and use at your workbench!</p>
+  <button onclick="window.print()">🖨️ Print All Project Sheets</button>
+</div>
+
+<!-- COVER PAGE -->
+<div class="cover-page project-sheet">
+  <div class="cover-icon">🤖</div>
+  <h1>Arduino Learning Lab</h1>
+  <p class="cover-sub">12 Projects from Blinking LEDs to Building Robots</p>
+  <div style="width:100%; height:2px; background:#1a1a2e; margin:20px 0"></div>
+  <div class="kit-info">
+    <h3>🧰 Your Kits</h3>
+    <p><strong>Kit 1:</strong> ELEGOO Mega R3 Most Complete Ultimate Starter Kit — 60+ components including sensors, LEDs, LCD display, breadboard, buzzer, buttons, and more.</p>
+    <p><strong>Kit 2:</strong> ELEGOO UNO R3 Smart Robot Car Kit V4 — Robot chassis, motors, wheels, ultrasonic sensor, line tracker, IR remote, Bluetooth module.</p>
+    <h3>📋 How to Use These Sheets</h3>
+    <p>1. Start with Project 1 and work your way up<br>
+    2. Gather the parts listed in "You'll Need"<br>
+    3. Follow the wiring connections carefully<br>
+    4. Type the code into Arduino IDE and upload<br>
+    5. Try the Level Up Challenge when you're done!<br>
+    6. Check off each step as you complete it</p>
+    <h3>⚡ Safety Rules</h3>
+    <p>• Always disconnect USB before changing wires<br>
+    • Never connect more than 5V to any sensor<br>
+    • If something gets hot, unplug immediately<br>
+    • Ask an adult for help with soldering or batteries</p>
+  </div>
+  <div style="margin-top:40px; color:#888; font-size:12px">
+    Name: ___________________________&nbsp;&nbsp;&nbsp;Date Started: _______________
+  </div>
+</div>
+
+<script>
+const projects = [
+  {
+    id: 1, title: "Hello LED!", subtitle: "Your first blink", icon: "💡",
+    difficulty: 1, category: "Basics", time: "15 min",
+    kit: "ELEGOO Mega Starter Kit",
+    components: ["Arduino board", "USB Cable", "1 LED", "1 Resistor (220Ω)", "Breadboard", "2 Jumper wires"],
+    learn: ["How circuits work", "Digital output pins", "Uploading code to Arduino"],
+    description: "Make an LED blink on and off — teaching your Arduino to wave hello!",
+    wiring: [
+      ["Arduino Pin 13", "Resistor (220Ω)", "Connect with a jumper wire"],
+      ["Resistor other leg", "LED long leg (+)", "Longer leg = positive (anode)"],
+      ["LED short leg (−)", "Arduino GND", "GND = Ground (return path)"]
+    ],
+    code: `// Project 1: Hello LED!
+// Make an LED blink on and off
+
+void setup() {
+  pinMode(13, OUTPUT);  // Pin 13 is an output
+}
+
+void loop() {
+  digitalWrite(13, HIGH);  // Turn LED ON
+  delay(1000);             // Wait 1 second
+  digitalWrite(13, LOW);   // Turn LED OFF
+  delay(1000);             // Wait 1 second
+}`,
+    challenge: "Make the LED blink faster (change 1000 to 200). Then try SOS in Morse code: 3 short blinks, 3 long blinks, 3 short blinks!",
+    science: "When electricity flows through an LED, it produces light. The resistor limits current so the LED doesn't burn out — like a speed bump for electrons!"
+  },
+  {
+    id: 2, title: "Traffic Light", subtitle: "Control 3 LEDs in sequence", icon: "🚦",
+    difficulty: 1, category: "Basics", time: "25 min",
+    kit: "ELEGOO Mega Starter Kit",
+    components: ["Arduino board", "Breadboard", "1 Red LED", "1 Yellow LED", "1 Green LED", "3 Resistors (220Ω)", "7 Jumper wires"],
+    learn: ["Using multiple output pins", "Sequencing with delays", "How traffic lights work"],
+    description: "Build a miniature traffic light that cycles through red, yellow, and green!",
+    wiring: [
+      ["Arduino Pin 4", "Resistor → Red LED → GND", "Red light"],
+      ["Arduino Pin 3", "Resistor → Yellow LED → GND", "Yellow light"],
+      ["Arduino Pin 2", "Resistor → Green LED → GND", "Green light"]
+    ],
+    code: `// Project 2: Traffic Light
+int red = 4;
+int yellow = 3;
+int green = 2;
+
+void setup() {
+  pinMode(red, OUTPUT);
+  pinMode(yellow, OUTPUT);
+  pinMode(green, OUTPUT);
+}
+
+void loop() {
+  digitalWrite(green, HIGH);   // Green ON
+  delay(5000);
+  digitalWrite(green, LOW);
+
+  digitalWrite(yellow, HIGH);  // Yellow ON
+  delay(2000);
+  digitalWrite(yellow, LOW);
+
+  digitalWrite(red, HIGH);     // Red ON
+  delay(5000);
+  digitalWrite(red, LOW);
+}`,
+    challenge: "Add a push button for pedestrians! When pressed, the light turns red. Hint: use digitalRead() to check the button.",
+    science: "Real traffic lights use timers AND sensors. Some smart lights use cameras and AI to count how many cars are waiting!"
+  },
+  {
+    id: 3, title: "Piano Keys", subtitle: "Make music with a buzzer", icon: "🎹",
+    difficulty: 2, category: "Sound", time: "30 min",
+    kit: "ELEGOO Mega Starter Kit",
+    components: ["Arduino board", "Breadboard", "Piezo Buzzer", "4 Push Buttons", "4 Resistors (10kΩ)", "Jumper wires"],
+    learn: ["Reading button inputs", "Generating sound frequencies", "The tone() function"],
+    description: "Build a 4-key piano! Press buttons to play different musical notes.",
+    wiring: [
+      ["Buzzer (+)", "Arduino Pin 8", "Sound output"],
+      ["Buzzer (−)", "GND", ""],
+      ["Button 1", "Pin 2 + 10kΩ to GND", "Note C (262 Hz)"],
+      ["Button 2", "Pin 3 + 10kΩ to GND", "Note E (330 Hz)"],
+      ["Button 3", "Pin 4 + 10kΩ to GND", "Note G (392 Hz)"],
+      ["Button 4", "Pin 5 + 10kΩ to GND", "Note C5 (523 Hz)"]
+    ],
+    code: `// Project 3: Piano Keys
+int buzzer = 8;
+int buttons[] = {2, 3, 4, 5};
+int notes[] = {262, 330, 392, 523}; // C, E, G, C5
+
+void setup() {
+  for(int i = 0; i < 4; i++) {
+    pinMode(buttons[i], INPUT_PULLUP);
+  }
+}
+
+void loop() {
+  bool played = false;
+  for(int i = 0; i < 4; i++) {
+    if(digitalRead(buttons[i]) == LOW) {
+      tone(buzzer, notes[i]);
+      played = true;
+    }
+  }
+  if(!played) noTone(buzzer);
+}`,
+    challenge: "Play \"Twinkle Twinkle Little Star\" automatically! Notes: C C G G A A G, F F E E D D C. Use tone() and delay().",
+    science: "Sound = vibrations! The buzzer vibrates air at different speeds. Middle C vibrates 262 times per second (262 Hz)!"
+  },
+  {
+    id: 4, title: "Night Light", subtitle: "Auto-sensing darkness", icon: "🌙",
+    difficulty: 2, category: "Sensors", time: "25 min",
+    kit: "ELEGOO Mega Starter Kit",
+    components: ["Arduino board", "Breadboard", "Photoresistor (LDR)", "1 LED", "1 Resistor (220Ω)", "1 Resistor (10kΩ)", "Jumper wires"],
+    learn: ["Analog input reading", "Light sensors", "Threshold decisions", "Serial Monitor"],
+    description: "Build a smart night light that turns on automatically in the dark!",
+    wiring: [
+      ["Photoresistor leg 1", "5V", "Power side"],
+      ["Photoresistor leg 2", "Analog Pin A0", "Signal (also connect 10kΩ from here to GND)"],
+      ["LED circuit", "Pin 9 → 220Ω → LED → GND", "Output light"]
+    ],
+    code: `// Project 4: Night Light
+int lightSensor = A0;
+int ledPin = 9;
+int threshold = 400;  // Adjust this!
+
+void setup() {
+  pinMode(ledPin, OUTPUT);
+  Serial.begin(9600);
+}
+
+void loop() {
+  int lightLevel = analogRead(lightSensor);
+  Serial.print("Light: ");
+  Serial.println(lightLevel);
+
+  if(lightLevel < threshold) {
+    digitalWrite(ledPin, HIGH);  // Dark = ON
+  } else {
+    digitalWrite(ledPin, LOW);   // Bright = OFF
+  }
+  delay(100);
+}`,
+    challenge: "Make the LED gradually get brighter as it gets darker using analogWrite() and map()!",
+    science: "A photoresistor changes resistance with light. Dark = high resistance (millions of ohms). Bright = low resistance (hundreds of ohms)!"
+  },
+  {
+    id: 5, title: "Distance Detector", subtitle: "Ultrasonic range finder", icon: "📡",
+    difficulty: 2, category: "Sensors", time: "30 min",
+    kit: "ELEGOO Mega Starter Kit",
+    components: ["Arduino board", "Breadboard", "HC-SR04 Ultrasonic Sensor", "Piezo Buzzer", "Jumper wires"],
+    learn: ["How ultrasonic sensors work", "Measuring distance", "Speed of sound", "Mapping values"],
+    description: "Build a parking sensor that beeps faster as objects get closer!",
+    wiring: [
+      ["HC-SR04 VCC", "Arduino 5V", "Power"],
+      ["HC-SR04 Trig", "Arduino Pin 9", "Sends sound pulse"],
+      ["HC-SR04 Echo", "Arduino Pin 10", "Receives bounce-back"],
+      ["HC-SR04 GND", "Arduino GND", ""],
+      ["Buzzer +", "Pin 8", "Warning beeper"]
+    ],
+    code: `// Project 5: Distance Detector
+int trigPin = 9;
+int echoPin = 10;
+int buzzer = 8;
+
+void setup() {
+  pinMode(trigPin, OUTPUT);
+  pinMode(echoPin, INPUT);
+  pinMode(buzzer, OUTPUT);
+  Serial.begin(9600);
+}
+
+void loop() {
+  // Send ultrasonic pulse
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+
+  // Measure echo time
+  long duration = pulseIn(echoPin, HIGH);
+  int distance = duration * 0.034 / 2;
+
+  Serial.print("Distance: ");
+  Serial.print(distance);
+  Serial.println(" cm");
+
+  // Beep faster when closer
+  if(distance < 30) {
+    int beepDelay = map(distance, 0, 30, 50, 500);
+    tone(buzzer, 1000, 50);
+    delay(beepDelay);
+  }
+  delay(50);
+}`,
+    challenge: "Add 3 LEDs (green/yellow/red) that light up based on distance, like a real parking display!",
+    science: "Bats use the same trick — echolocation! They send sound pulses and time the echoes to know how far away things are."
+  },
+  {
+    id: 6, title: "Thermometer", subtitle: "Digital temperature display", icon: "🌡️",
+    difficulty: 2, category: "Sensors", time: "30 min",
+    kit: "ELEGOO Mega Starter Kit",
+    components: ["Arduino board", "Breadboard", "TMP36 Temperature Sensor", "16x2 LCD Display (I2C)", "Jumper wires"],
+    learn: ["Temperature sensors", "Analog-to-temp conversion", "LCD displays", "Real-world data"],
+    description: "Build a digital thermometer showing live temperature on an LCD!",
+    wiring: [
+      ["TMP36 left pin", "5V", "Power (flat side facing you)"],
+      ["TMP36 middle pin", "Analog A0", "Temperature signal"],
+      ["TMP36 right pin", "GND", "Ground"],
+      ["LCD SDA", "Arduino A4", "I2C data"],
+      ["LCD SCL", "Arduino A5", "I2C clock"]
+    ],
+    code: `// Project 6: Thermometer
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
+
+LiquidCrystal_I2C lcd(0x27, 16, 2);
+int tempPin = A0;
+
+void setup() {
+  lcd.init();
+  lcd.backlight();
+  lcd.print("Thermometer");
+  delay(2000);
+}
+
+void loop() {
+  int reading = analogRead(tempPin);
+  float voltage = reading * 5.0 / 1024.0;
+  float tempC = (voltage - 0.5) * 100.0;
+  float tempF = tempC * 9.0/5.0 + 32.0;
+
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("Temp: ");
+  lcd.print(tempC, 1);
+  lcd.print(" C");
+  lcd.setCursor(0, 1);
+  lcd.print("      ");
+  lcd.print(tempF, 1);
+  lcd.print(" F");
+  delay(1000);
+}`,
+    challenge: "Add a warning buzzer for high temperature! Also try colored LEDs: blue=cold, green=comfy, red=hot.",
+    science: "TMP36 uses semiconductors: voltage changes by exactly 10 millivolts per degree Celsius. Math + physics = measurement!"
+  },
+  {
+    id: 7, title: "IR Remote Control", subtitle: "Control LEDs with a remote", icon: "📺",
+    difficulty: 3, category: "Communication", time: "35 min",
+    kit: "ELEGOO Mega Starter Kit",
+    components: ["Arduino board", "Breadboard", "IR Receiver Module", "IR Remote Control", "3 LEDs", "3 Resistors (220Ω)", "Jumper wires"],
+    learn: ["Infrared communication", "Decoding signals", "Using libraries", "Switch/case"],
+    description: "Use a remote control to command your Arduino! Each button controls a different LED.",
+    wiring: [
+      ["IR Receiver Signal", "Arduino Pin 11", "Data output"],
+      ["IR Receiver VCC", "5V", ""],
+      ["IR Receiver GND", "GND", ""],
+      ["3 LEDs", "Pins 2, 3, 4 with 220Ω resistors", "Red, Green, Blue"]
+    ],
+    code: `// Project 7: IR Remote Control
+// Install: IRremote library
+#include <IRremote.h>
+
+int RECV_PIN = 11;
+int leds[] = {2, 3, 4};
+
+void setup() {
+  Serial.begin(9600);
+  IrReceiver.begin(RECV_PIN);
+  for(int i = 0; i < 3; i++)
+    pinMode(leds[i], OUTPUT);
+  Serial.println("Press remote buttons...");
+}
+
+void loop() {
+  if(IrReceiver.decode()) {
+    unsigned long code =
+      IrReceiver.decodedIRData.decodedRawData;
+    Serial.println(code, HEX);
+
+    // Replace codes with YOUR remote's codes!
+    // Run first to see your button codes
+    switch(code) {
+      case 0xFFA25D: // Button 1
+        digitalWrite(leds[0],
+          !digitalRead(leds[0]));
+        break;
+      case 0xFF629D: // Button 2
+        digitalWrite(leds[1],
+          !digitalRead(leds[1]));
+        break;
+      case 0xFFE21D: // Button 3
+        digitalWrite(leds[2],
+          !digitalRead(leds[2]));
+        break;
+    }
+    IrReceiver.resume();
+  }
+}`,
+    challenge: "Decode ALL remote buttons and build a full LED light show! Add fade effects with analogWrite().",
+    science: "Infrared light is invisible to our eyes! Your remote sends IR pulses in patterns — each button has a unique code, like a secret handshake."
+  },
+  {
+    id: 8, title: "Mood Lamp", subtitle: "RGB color mixing", icon: "🌈",
+    difficulty: 2, category: "Creative", time: "25 min",
+    kit: "ELEGOO Mega Starter Kit",
+    components: ["Arduino board", "Breadboard", "1 RGB LED (common cathode)", "3 Resistors (220Ω)", "Jumper wires"],
+    learn: ["PWM (Pulse Width Modulation)", "Color mixing with RGB", "analogWrite()", "Smooth transitions"],
+    description: "Create a lamp that smoothly fades through every color of the rainbow!",
+    wiring: [
+      ["RGB Red pin", "Pin 9 through 220Ω", "Red channel"],
+      ["RGB Green pin", "Pin 10 through 220Ω", "Green channel"],
+      ["RGB Blue pin", "Pin 11 through 220Ω", "Blue channel"],
+      ["RGB longest pin", "GND", "Common cathode"]
+    ],
+    code: `// Project 8: Mood Lamp - Rainbow Fade
+int redPin = 9, greenPin = 10, bluePin = 11;
+
+void setup() {
+  pinMode(redPin, OUTPUT);
+  pinMode(greenPin, OUTPUT);
+  pinMode(bluePin, OUTPUT);
+}
+
+void setColor(int r, int g, int b) {
+  analogWrite(redPin, r);
+  analogWrite(greenPin, g);
+  analogWrite(bluePin, b);
+}
+
+void loop() {
+  // Fade Red -> Green
+  for(int i = 0; i < 256; i++) {
+    setColor(255-i, i, 0);
+    delay(10);
+  }
+  // Fade Green -> Blue
+  for(int i = 0; i < 256; i++) {
+    setColor(0, 255-i, i);
+    delay(10);
+  }
+  // Fade Blue -> Red
+  for(int i = 0; i < 256; i++) {
+    setColor(i, 0, 255-i);
+    delay(10);
+  }
+}`,
+    challenge: "Add a potentiometer to control the fade speed! Or add a button to freeze on your favorite color.",
+    science: "Your eyes have 3 color receptors: red, green, blue. By mixing these 3 colors at different brightness, we trick your eyes into seeing any color!"
+  },
+  {
+    id: 9, title: "Servo Sweeper", subtitle: "Motorized movement", icon: "🦾",
+    difficulty: 2, category: "Motors", time: "20 min",
+    kit: "ELEGOO Mega Starter Kit",
+    components: ["Arduino board", "Servo Motor (SG90)", "1 Potentiometer", "Jumper wires"],
+    learn: ["Servo motor control", "Servo library", "Mapping analog to angles", "Mechanical movement"],
+    description: "Control a servo motor with a dial! Turn the knob, servo follows your exact position.",
+    wiring: [
+      ["Servo Orange wire", "Arduino Pin 9", "Signal wire"],
+      ["Servo Red wire", "5V", "Power"],
+      ["Servo Brown wire", "GND", "Ground"],
+      ["Potentiometer", "5V / A0 / GND", "Left=5V, Middle=A0, Right=GND"]
+    ],
+    code: `// Project 9: Servo Sweeper
+#include <Servo.h>
+
+Servo myServo;
+int potPin = A0;
+
+void setup() {
+  myServo.attach(9);
+  Serial.begin(9600);
+}
+
+void loop() {
+  int potValue = analogRead(potPin);
+  int angle = map(potValue, 0, 1023, 0, 180);
+  myServo.write(angle);
+
+  Serial.print("Angle: ");
+  Serial.println(angle);
+  delay(15);
+}`,
+    challenge: "Mount the ultrasonic sensor on the servo and sweep it back and forth. Print distance at each angle — you've built a radar scanner!",
+    science: "Servos have a feedback circuit that knows their exact position. Unlike regular motors, servos hold a precise angle — that's why robots use them for joints!"
+  },
+  {
+    id: 10, title: "Intruder Alarm", subtitle: "Motion-triggered security", icon: "🚨",
+    difficulty: 3, category: "Sensors", time: "35 min",
+    kit: "ELEGOO Mega Starter Kit",
+    components: ["Arduino board", "Breadboard", "HC-SR04 Ultrasonic", "Buzzer", "Red LED", "Green LED", "2× 220Ω Resistors", "Push Button", "Jumper wires"],
+    learn: ["Security system logic", "State machines", "Armed/disarmed modes", "Combining components"],
+    description: "Build a security system! Arm it with a button — if anyone gets too close, the alarm goes off!",
+    wiring: [
+      ["HC-SR04", "Trig→Pin 9, Echo→Pin 10", "Distance sensor"],
+      ["Buzzer", "Pin 8 + GND", "Alarm sound"],
+      ["Red LED", "Pin 4 with 220Ω", "Alarm indicator"],
+      ["Green LED", "Pin 3 with 220Ω", "Armed indicator"],
+      ["Button", "Pin 2 (INPUT_PULLUP)", "Arm/disarm toggle"]
+    ],
+    code: `// Project 10: Intruder Alarm
+int trigPin=9, echoPin=10;
+int buzzer=8, redLed=4, greenLed=3;
+int button=2;
+bool armed=false, alarm=false;
+int baseDistance=0;
+
+int getDistance() {
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+  return pulseIn(echoPin,HIGH)*0.034/2;
+}
+
+void setup() {
+  pinMode(trigPin, OUTPUT);
+  pinMode(echoPin, INPUT);
+  pinMode(buzzer, OUTPUT);
+  pinMode(redLed, OUTPUT);
+  pinMode(greenLed, OUTPUT);
+  pinMode(button, INPUT_PULLUP);
+  Serial.begin(9600);
+}
+
+void loop() {
+  if(digitalRead(button)==LOW) {
+    armed=!armed; alarm=false;
+    if(armed) {
+      baseDistance=getDistance();
+      Serial.println("ARMED!");
+      tone(buzzer,1000,200);
+    } else {
+      Serial.println("Disarmed");
+      noTone(buzzer);
+    }
+    delay(500);
+  }
+  digitalWrite(greenLed, armed);
+  if(armed && !alarm) {
+    int dist=getDistance();
+    if(abs(dist-baseDistance)>15) {
+      alarm=true;
+      Serial.println("*** INTRUDER! ***");
+    }
+  }
+  if(alarm) {
+    digitalWrite(redLed, HIGH);
+    tone(buzzer,2000,100); delay(100);
+    digitalWrite(redLed, LOW);
+    tone(buzzer,1500,100); delay(100);
+  }
+  delay(50);
+}`,
+    challenge: "Add a 10-second countdown when arming (like real alarm systems). Show it on Serial Monitor with a beep each second!",
+    science: "Real security systems combine infrared motion detectors, magnetic door contacts, glass break sensors, and cameras — all connected to a central brain like your Arduino!"
+  },
+  {
+    id: 11, title: "Weather Station", subtitle: "Multi-sensor data logger", icon: "⛅",
+    difficulty: 3, category: "Advanced", time: "45 min",
+    kit: "ELEGOO Mega Starter Kit",
+    components: ["Arduino board", "TMP36 Temperature Sensor", "Photoresistor", "16x2 LCD (I2C)", "10kΩ Resistor", "Breadboard", "Jumper wires"],
+    learn: ["Combining multiple sensors", "Data display", "Real-time monitoring", "Scientific measurement"],
+    description: "Build a mini weather station monitoring temperature and light — your personal environmental dashboard!",
+    wiring: [
+      ["TMP36", "5V / A0 / GND", "Temperature sensor"],
+      ["Photoresistor + 10kΩ", "A1 voltage divider", "Light level"],
+      ["LCD I2C", "SDA→A4, SCL→A5", "Display"]
+    ],
+    code: `// Project 11: Weather Station
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
+
+LiquidCrystal_I2C lcd(0x27, 16, 2);
+
+void setup() {
+  lcd.init();
+  lcd.backlight();
+  Serial.begin(9600);
+  lcd.print("Weather Station");
+  delay(2000);
+}
+
+void loop() {
+  float voltage =
+    analogRead(A0) * 5.0 / 1024.0;
+  float tempC = (voltage - 0.5) * 100.0;
+
+  int light = analogRead(A1);
+  String brightness;
+  if(light > 800) brightness = "Sunny";
+  else if(light > 400) brightness = "Cloudy";
+  else brightness = "Dark";
+
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("Temp: ");
+  lcd.print(tempC, 1);
+  lcd.print("C");
+  lcd.setCursor(0, 1);
+  lcd.print("Light: ");
+  lcd.print(brightness);
+
+  // Log for Serial Plotter
+  Serial.print(tempC);
+  Serial.print(",");
+  Serial.println(light);
+  delay(2000);
+}`,
+    challenge: "Use Serial Plotter to graph temperature over time! Leave it running for an hour. Can you spot when someone opens a window?",
+    science: "Real weather stations measure temperature, humidity, pressure, wind speed, rainfall, UV index, and more. Satellites have weather stations that watch the whole planet!"
+  },
+  {
+    id: 12, title: "Robot Car", subtitle: "Obstacle-avoiding robot!", icon: "🤖",
+    difficulty: 3, category: "Robotics", time: "60 min",
+    kit: "ELEGOO Robot Car Kit V4",
+    components: ["Arduino UNO (from car kit)", "L298N Motor Driver", "2 DC Motors + Wheels", "Robot chassis", "Battery pack", "HC-SR04 Ultrasonic", "Jumper wires"],
+    learn: ["DC motor control", "H-bridge motor drivers", "Autonomous navigation", "Obstacle avoidance"],
+    description: "The grand finale! Build a robot car that drives around and avoids obstacles on its own!",
+    wiring: [
+      ["L298N IN1, IN2", "Pins 5, 6", "Left motor control"],
+      ["L298N IN3, IN4", "Pins 9, 10", "Right motor control"],
+      ["L298N ENA, ENB", "Pins 3, 11 (PWM)", "Speed control"],
+      ["L298N 12V", "Battery pack +", "Motor power"],
+      ["HC-SR04", "Trig→7, Echo→8", "Distance sensor"]
+    ],
+    code: `// Project 12: Robot Car
+int IN1=5,IN2=6,IN3=9,IN4=10;
+int ENA=3, ENB=11;
+int trigPin=7, echoPin=8;
+int speed = 150; // 0-255
+
+int getDistance() {
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+  return pulseIn(echoPin,HIGH)*0.034/2;
+}
+
+void forward() {
+  analogWrite(ENA,speed);
+  analogWrite(ENB,speed);
+  digitalWrite(IN1,HIGH);
+  digitalWrite(IN2,LOW);
+  digitalWrite(IN3,HIGH);
+  digitalWrite(IN4,LOW);
+}
+void turnRight() {
+  analogWrite(ENA,speed);
+  analogWrite(ENB,speed);
+  digitalWrite(IN1,HIGH);
+  digitalWrite(IN2,LOW);
+  digitalWrite(IN3,LOW);
+  digitalWrite(IN4,HIGH);
+}
+void stopCar() {
+  analogWrite(ENA,0);
+  analogWrite(ENB,0);
+}
+
+void setup() {
+  int pins[]={IN1,IN2,IN3,IN4,ENA,ENB,trigPin};
+  for(int p : pins) pinMode(p, OUTPUT);
+  pinMode(echoPin, INPUT);
+  Serial.begin(9600);
+}
+
+void loop() {
+  int dist = getDistance();
+  Serial.println(dist);
+  if(dist > 20) {
+    forward();
+  } else {
+    stopCar(); delay(300);
+    turnRight(); delay(400);
+  }
+  delay(50);
+}`,
+    challenge: "Add a servo to scan left & right before deciding which way to turn. Or add line-following sensors to make it follow a track of black tape!",
+    science: "Self-driving cars use the same idea with more powerful sensors: LIDAR (lasers), cameras, GPS, and machine learning. Your robot is doing the same thing — just simpler!"
+  }
+];
+
+// Generate project sheets
+const container = document.body;
+projects.forEach(p => {
+  const sheet = document.createElement('div');
+  sheet.className = 'project-sheet';
+  const stars = '★'.repeat(p.difficulty) + '☆'.repeat(3-p.difficulty);
+  sheet.innerHTML = `
+    <div class="sheet-header">
+      <span class="sheet-icon">${p.icon}</span>
+      <div>
+        <div class="sheet-title">Project ${p.id}: ${p.title}</div>
+        <div class="sheet-subtitle">${p.subtitle}</div>
+      </div>
+      <div class="sheet-meta">
+        <div>${stars}</div>
+        <div>⏱ ${p.time}</div>
+        <div>📦 ${p.kit}</div>
+      </div>
+    </div>
+
+    <p style="margin-bottom:14px; font-size:14px; line-height:1.6">${p.description}</p>
+
+    <div class="safety-note">⚠️ <strong>Safety First:</strong> Always disconnect USB before changing wires. Double-check all connections before powering on.</div>
+
+    <div class="two-col">
+      <div class="box">
+        <h4>🧰 You'll Need</h4>
+        <div>${p.components.map(c => `<div class="checkbox-row"><div class="checkbox"></div><span>${c}</span></div>`).join('')}</div>
+      </div>
+      <div class="box">
+        <h4>💡 You'll Learn</h4>
+        <ul>${p.learn.map(l => `<li>${l}</li>`).join('')}</ul>
+      </div>
+    </div>
+
+    <div class="box" style="margin-bottom:16px">
+      <h4>🔌 Wiring Connections</h4>
+      <table class="wiring-table">
+        <tr><th>#</th><th>From</th><th>To</th><th>Note</th></tr>
+        ${p.wiring.map((w, i) => `<tr><td><strong>${i+1}</strong></td><td>${w[0]}</td><td>${w[1]}</td><td>${w[2]}</td></tr>`).join('')}
+      </table>
+    </div>
+
+    <div class="box" style="margin-bottom:16px">
+      <h4>💻 Arduino Code</h4>
+      <div class="code-block">${p.code}</div>
+      <div style="font-size:11px; color:#666">📝 <strong>Upload:</strong> Open Arduino IDE → Paste code → Select board (Arduino Uno/Mega) → Select port → Click Upload ▶</div>
+    </div>
+
+    <div class="challenge-box">
+      <h4>🎯 Level Up Challenge!</h4>
+      <p>${p.challenge}</p>
+    </div>
+
+    <div class="science-box">
+      <h4>🔬 Science Corner</h4>
+      <p>${p.science}</p>
+    </div>
+
+    <div class="notes-area"></div>
+  `;
+  container.appendChild(sheet);
+});
+</script>
+
+</body>
+</html>

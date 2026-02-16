@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Learning Lab</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Nunito',sans-serif;background:#0f172a;color:#e2e8f0;min-height:100vh}
+
+/* Animated background */
+body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;background:
+  radial-gradient(ellipse at 20% 50%, rgba(59,130,246,0.08) 0%, transparent 50%),
+  radial-gradient(ellipse at 80% 20%, rgba(168,85,247,0.08) 0%, transparent 50%),
+  radial-gradient(ellipse at 50% 80%, rgba(34,197,94,0.06) 0%, transparent 50%);
+  pointer-events:none;z-index:0}
+
+.container{max-width:1100px;margin:0 auto;padding:24px;position:relative;z-index:1}
+
+/* Header */
+header{text-align:center;padding:48px 0 40px}
+.logo{font-size:64px;margin-bottom:12px;filter:drop-shadow(0 4px 12px rgba(0,0,0,0.3))}
+h1{font-family:'Fredoka One',cursive;font-size:42px;color:#fff;margin-bottom:8px;
+  background:linear-gradient(135deg,#22c55e,#3b82f6,#a855f7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.tagline{color:#94a3b8;font-size:18px;margin-bottom:32px}
+
+/* Stats bar */
+.stats{display:flex;justify-content:center;gap:40px;margin-bottom:48px;flex-wrap:wrap}
+.stat{text-align:center}
+.stat-num{font-size:28px;font-weight:800;color:#fff}
+.stat-label{font-size:12px;color:#64748b;text-transform:uppercase;letter-spacing:1px}
+
+/* Grid */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:24px;margin-bottom:48px}
+
+/* Collection Card */
+.card{background:rgba(30,41,59,0.7);border:1px solid #334155;border-radius:20px;padding:28px;
+  cursor:pointer;transition:all 0.3s;position:relative;overflow:hidden;backdrop-filter:blur(10px)}
+.card:hover{transform:translateY(-6px);box-shadow:0 12px 40px rgba(0,0,0,0.4);border-color:#475569}
+.card-glow{position:absolute;top:-50%;left:-50%;width:200%;height:200%;opacity:0;transition:opacity 0.3s;pointer-events:none}
+.card:hover .card-glow{opacity:1}
+
+.card-icon{font-size:48px;margin-bottom:12px}
+.card-title{font-family:'Fredoka One',cursive;font-size:24px;color:#fff;margin-bottom:4px}
+.card-desc{color:#94a3b8;font-size:14px;line-height:1.6;margin-bottom:16px}
+
+.card-meta{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.tag{padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;background:rgba(255,255,255,0.06);color:#94a3b8;border:1px solid #334155}
+
+.card-footer{display:flex;justify-content:space-between;align-items:center;padding-top:16px;border-top:1px solid #1e293b}
+.card-footer span{font-size:13px;color:#64748b}
+
+.card-actions{display:flex;gap:8px}
+.btn{padding:8px 18px;border-radius:10px;border:none;font-weight:700;font-size:13px;cursor:pointer;
+  font-family:'Nunito';transition:all 0.2s;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.btn-primary{background:linear-gradient(135deg,var(--card-color,#22c55e),color-mix(in srgb,var(--card-color,#22c55e),#000 20%));color:#fff}
+.btn-primary:hover{filter:brightness(1.1);transform:scale(1.03)}
+.btn-secondary{background:rgba(255,255,255,0.06);color:#94a3b8;border:1px solid #334155}
+.btn-secondary:hover{background:rgba(255,255,255,0.1);color:#fff}
+
+/* Add Collection Card */
+.card-add{border:2px dashed #334155;background:transparent;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;min-height:280px;cursor:default}
+.card-add:hover{border-color:#475569;background:rgba(30,41,59,0.3);transform:none;box-shadow:none}
+.add-icon{font-size:48px;color:#334155;margin-bottom:12px}
+.add-text{color:#475569;font-size:16px;font-weight:700;margin-bottom:8px}
+.add-sub{color:#334155;font-size:13px;text-align:center;line-height:1.5;max-width:220px}
+
+/* Loading */
+.loading{text-align:center;padding:60px;color:#64748b}
+.spinner{width:40px;height:40px;border:3px solid #1e293b;border-top:3px solid #3b82f6;border-radius:50%;
+  animation:spin 1s linear infinite;margin:0 auto 16px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Error state */
+.error-card{background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.2);border-radius:12px;padding:20px;margin-bottom:24px}
+.error-card p{color:#fca5a5;font-size:14px}
+
+/* Footer */
+footer{text-align:center;padding:32px 0;border-top:1px solid #1e293b;color:#475569;font-size:13px}
+footer a{color:#64748b;text-decoration:none}
+footer a:hover{color:#94a3b8}
+
+/* Responsive */
+@media(max-width:700px){
+  header{padding:32px 0 24px}
+  h1{font-size:28px}
+  .stats{gap:24px}
+  .grid{grid-template-columns:1fr}
+  .card-footer{flex-direction:column;gap:12px;align-items:flex-start}
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <div class="logo">🧪</div>
+    <h1>Learning Lab</h1>
+    <p class="tagline">A self-hosted library of hands-on projects for curious minds</p>
+  </header>
+
+  <div class="stats" id="stats">
+    <div class="stat"><div class="stat-num" id="stat-collections">-</div><div class="stat-label">Collections</div></div>
+    <div class="stat"><div class="stat-num" id="stat-projects">-</div><div class="stat-label">Total Projects</div></div>
+    <div class="stat"><div class="stat-num" id="stat-topics">-</div><div class="stat-label">Topics</div></div>
+  </div>
+
+  <div id="app">
+    <div class="loading">
+      <div class="spinner"></div>
+      <p>Discovering collections...</p>
+    </div>
+  </div>
+
+  <footer>
+    <p>Learning Lab &middot; Self-hosted on Synology NAS &middot; <a href="#" onclick="location.reload()">Refresh</a></p>
+  </footer>
+</div>
+
+<script>
+// ─── COLLECTION REGISTRY ─────────────────────────────────────
+// This file is auto-generated by add-collection.sh
+// To add a new collection: drop a folder in /collections with a meta.json
+// Then run: ./add-collection.sh  (or it auto-discovers on page load)
+
+// We try to discover collections by fetching a manifest, falling back to
+// a hardcoded list. On a static file server (like Synology Web Station),
+// we use the manifest approach since directory listing may not be available.
+
+const MANIFEST_PATH = 'collections/manifest.json';
+
+async function loadManifest() {
+  try {
+    const resp = await fetch(MANIFEST_PATH);
+    if (resp.ok) return await resp.json();
+  } catch(e) {}
+  // Fallback: hardcoded collection list
+  return { collections: ["arduino"] };
+}
+
+async function loadCollection(name) {
+  try {
+    const resp = await fetch(`collections/${name}/meta.json`);
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    const meta = await resp.json();
+    meta._folder = name;
+    return meta;
+  } catch(e) {
+    console.warn(`Could not load collection "${name}":`, e);
+    return null;
+  }
+}
+
+function renderCollections(collections) {
+  const app = document.getElementById('app');
+  const validCollections = collections.filter(c => c !== null);
+
+  // Update stats
+  const totalProjects = validCollections.reduce((sum, c) => sum + (c.projectCount || 0), 0);
+  const allTags = [...new Set(validCollections.flatMap(c => c.tags || []))];
+  document.getElementById('stat-collections').textContent = validCollections.length;
+  document.getElementById('stat-projects').textContent = totalProjects;
+  document.getElementById('stat-topics').textContent = allTags.length;
+
+  let html = '<div class="grid">';
+
+  validCollections.forEach(c => {
+    const color = c.color || '#3b82f6';
+    const interactive = c.pages?.interactive ? `collections/${c._folder}/${c.pages.interactive}` : `collections/${c._folder}/index.html`;
+    const printable = c.pages?.printable ? `collections/${c._folder}/${c.pages.printable}` : null;
+
+    html += `
+      <div class="card" style="--card-color:${color}">
+        <div class="card-glow" style="background:radial-gradient(circle at 30% 30%, ${color}15, transparent 60%)"></div>
+        <div class="card-icon">${c.icon || '📚'}</div>
+        <div class="card-title">${c.title}</div>
+        <div class="card-desc">${c.description || ''}</div>
+        <div class="card-meta">
+          ${c.age ? `<span class="tag">Ages ${c.age}</span>` : ''}
+          ${c.projectCount ? `<span class="tag">${c.projectCount} projects</span>` : ''}
+          ${c.difficulty ? `<span class="tag">${c.difficulty}</span>` : ''}
+        </div>
+        <div class="card-footer">
+          <span>Created ${c.created || 'recently'}</span>
+          <div class="card-actions">
+            ${printable ? `<a href="${printable}" class="btn btn-secondary">🖨️ Print</a>` : ''}
+            <a href="${interactive}" class="btn btn-primary" style="background:linear-gradient(135deg,${color},color-mix(in srgb,${color},#000 20%))">🚀 Launch</a>
+          </div>
+        </div>
+      </div>
+    `;
+  });
+
+  // "Add Collection" placeholder card
+  html += `
+    <div class="card card-add">
+      <div class="add-icon">+</div>
+      <div class="add-text">Add a Collection</div>
+      <div class="add-sub">Drop a folder with a meta.json into <code>/collections</code> and refresh this page</div>
+    </div>
+  `;
+
+  html += '</div>';
+  app.innerHTML = html;
+}
+
+// Boot
+(async () => {
+  const manifest = await loadManifest();
+  const collections = await Promise.all(
+    manifest.collections.map(name => loadCollection(name))
+  );
+  renderCollections(collections);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+{
+  "title": "Arduino Learning Lab",
+  "icon": "🤖",
+  "color": "#22c55e",
+  "description": "12 projects from blinking LEDs to building autonomous robots. Uses ELEGOO Mega Starter Kit and Smart Robot Car Kit V4.",
+  "age": "9-12",
+  "projectCount": 12,
+  "difficulty": "Beginner → Advanced",
+  "tags": ["electronics", "robotics", "coding", "sensors", "arduino"],
+  "pages": {
+    "interactive": "index.html",
+    "printable": "print.html"
+  },
+  "created": "2026-02-16",
+  "author": "Palani's Learning Lab"
+}

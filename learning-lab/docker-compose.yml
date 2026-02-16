@@ -1,0 +1,23 @@
+version: "3.8"
+
+# ─── Learning Lab ────────────────────────────────────────────
+# Self-hosted project library on Synology NAS
+#
+# Deploy via Synology Container Manager (Docker):
+#   1. Copy this entire 'learning-lab' folder to your NAS
+#   2. Open Container Manager → Project → Create
+#   3. Point to this docker-compose.yml
+#   4. Access at http://<NAS-IP>:8080
+
+services:
+  learning-lab:
+    image: nginx:alpine
+    container_name: learning-lab
+    ports:
+      - "8080:80"
+    volumes:
+      - ./:/usr/share/nginx/html:ro
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    restart: unless-stopped
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"

@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arduino Learning Lab</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.9/babel.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Nunito',sans-serif; background:#131a2b; color:#e2e8f0; transition: background 0.4s; }
+:root {
+  --green:#22c55e; --blue:#3b82f6; --purple:#a855f7; --orange:#f97316;
+  --red:#ef4444; --yellow:#eab308; --cyan:#06b6d4; --pink:#ec4899;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width:8px; }
+::-webkit-scrollbar-track { background:#1e293b; }
+::-webkit-scrollbar-thumb { background:#475569; border-radius:4px; }
+
+/* Code blocks */
+pre { background:#0d1117; border:1px solid #30363d; border-radius:8px; padding:16px; overflow-x:auto; font-size:13px; line-height:1.6; }
+code { font-family:'Fira Code','Courier New',monospace; }
+.kw { color:#ff7b72; } .fn { color:#d2a8ff; } .str { color:#a5d6ff; }
+.cm { color:#8b949e; } .num { color:#79c0ff; } .type { color:#ffa657; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+
+const { useState, useEffect, useRef } = React;
+
+// ─── PROJECT DATA ───────────────────────────────────────────
+const PROJECTS = [
+  {
+    id: 1,
+    title: "Hello LED!",
+    subtitle: "Your first blink",
+    icon: "💡",
+    difficulty: 1,
+    category: "Basics",
+    color: "#22c55e",
+    time: "15 min",
+    components: ["Arduino Uno", "USB Cable", "1 LED", "1 Resistor (220Ω)", "Breadboard", "2 Jumper wires"],
+    learn: ["How circuits work", "Digital output pins", "Uploading code to Arduino"],
+    description: "Every inventor starts here! You'll make an LED blink on and off — it's like teaching your Arduino to wave hello.",
+    wiring: [
+      { from: "Arduino Pin 13", to: "Resistor (220Ω)", note: "Connect with a jumper wire" },
+      { from: "Resistor", to: "LED long leg (+)", note: "The longer leg is positive (anode)" },
+      { from: "LED short leg (−)", to: "Arduino GND", note: "GND means Ground — the return path" }
+    ],
+    code: `<span class="cm">// Project 1: Hello LED!</span>
+<span class="cm">// Make an LED blink on and off</span>
+
+<span class="kw">void</span> <span class="fn">setup</span>() {
+  <span class="fn">pinMode</span>(<span class="num">13</span>, <span class="type">OUTPUT</span>);  <span class="cm">// Tell Arduino: pin 13 is an output</span>
+}
+
+<span class="kw">void</span> <span class="fn">loop</span>() {
+  <span class="fn">digitalWrite</span>(<span class="num">13</span>, <span class="type">HIGH</span>);  <span class="cm">// Turn LED ON</span>
+  <span class="fn">delay</span>(<span class="num">1000</span>);               <span class="cm">// Wait 1 second</span>
+  <span class="fn">digitalWrite</span>(<span class="num">13</span>, <span class="type">LOW</span>);   <span class="cm">// Turn LED OFF</span>
+  <span class="fn">delay</span>(<span class="num">1000</span>);               <span class="cm">// Wait 1 second</span>
+}`,
+    challenge: "Can you make the LED blink faster? Try changing 1000 to 200. What about making it blink in a pattern — like SOS in Morse code (3 short, 3 long, 3 short)?",
+    science: "When electricity flows through an LED, it produces light. The resistor limits the current so the LED doesn't burn out — think of it like a speed bump for electrons!"
+  },
+  {
+    id: 2,
+    title: "Traffic Light",
+    subtitle: "Control 3 LEDs in sequence",
+    icon: "🚦",
+    difficulty: 1,
+    category: "Basics",
+    color: "#ef4444",
+    time: "25 min",
+    components: ["Arduino Uno", "Breadboard", "1 Red LED", "1 Yellow LED", "1 Green LED", "3 Resistors (220Ω)", "7 Jumper wires"],
+    learn: ["Using multiple output pins", "Sequencing with delays", "How real traffic lights work"],
+    description: "Build a miniature traffic light that cycles through red, yellow, and green — just like the ones on the street!",
+    wiring: [
+      { from: "Arduino Pin 4", to: "Resistor → Red LED → GND", note: "Red light" },
+      { from: "Arduino Pin 3", to: "Resistor → Yellow LED → GND", note: "Yellow light" },
+      { from: "Arduino Pin 2", to: "Resistor → Green LED → GND", note: "Green light" }
+    ],
+    code: `<span class="cm">// Project 2: Traffic Light</span>
+<span class="kw">int</span> red = <span class="num">4</span>;
+<span class="kw">int</span> yellow = <span class="num">3</span>;
+<span class="kw">int</span> green = <span class="num">2</span>;
+
+<span class="kw">void</span> <span class="fn">setup</span>() {
+  <span class="fn">pinMode</span>(red, <span class="type">OUTPUT</span>);
+  <span class="fn">pinMode</span>(yellow, <span class="type">OUTPUT</span>);
+  <span class="fn">pinMode</span>(green, <span class="type">OUTPUT</span>);
+}
+
+<span class="kw">void</span> <span class="fn">loop</span>() {
+  <span class="cm">// Green ON for 5 seconds</span>
+  <span class="fn">digitalWrite</span>(green, <span class="type">HIGH</span>);
+  <span class="fn">delay</span>(<span class="num">5000</span>);
+  <span class="fn">digitalWrite</span>(green, <span class="type">LOW</span>);
+
+  <span class="cm">// Yellow ON for 2 seconds</span>
+  <span class="fn">digitalWrite</span>(yellow, <span class="type">HIGH</span>);
+  <span class="fn">delay</span>(<span class="num">2000</span>);
+  <span class="fn">digitalWrite</span>(yellow, <span class="type">LOW</span>);
+
+  <span class="cm">// Red ON for 5 seconds</span>
+  <span class="fn">digitalWrite</span>(red, <span class="type">HIGH</span>);
+  <span class="fn">delay</span>(<span class="num">5000</span>);
+  <span class="fn">digitalWrite</span>(red, <span class="type">LOW</span>);
+}`,
+    challenge: "Add a pedestrian button! Connect a push button and make the light turn red when someone presses it. Hint: you'll need digitalRead().",
+    science: "Traffic lights use timers and sensors to manage the flow of cars. Some smart traffic lights use cameras and AI to detect how many cars are waiting!"
+  },
+  {
+    id: 3,
+    title: "Piano Keys",
+    subtitle: "Make music with a buzzer",
+    icon: "🎹",
+    difficulty: 2,
+    category: "Sound",
+    color: "#a855f7",
+    time: "30 min",
+    components: ["Arduino Uno", "Breadboard", "Piezo Buzzer", "4 Push Buttons", "4 Resistors (10kΩ)", "Jumper wires"],
+    learn: ["Reading button inputs", "Generating sound frequencies", "The tone() function"],
+    description: "Build a 4-key piano! Press different buttons to play different musical notes through a buzzer.",
+    wiring: [
+      { from: "Buzzer (+)", to: "Arduino Pin 8", note: "Sound output pin" },
+      { from: "Buzzer (−)", to: "GND", note: "" },
+      { from: "Buttons", to: "Pins 2, 3, 4, 5", note: "Each button connects to a pin AND to GND through a 10kΩ resistor" }
+    ],
+    code: `<span class="cm">// Project 3: Piano Keys</span>
+<span class="kw">int</span> buzzer = <span class="num">8</span>;
+<span class="kw">int</span> buttons[] = {<span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>, <span class="num">5</span>};
+<span class="kw">int</span> notes[] = {<span class="num">262</span>, <span class="num">330</span>, <span class="num">392</span>, <span class="num">523</span>}; <span class="cm">// C, E, G, C5</span>
+
+<span class="kw">void</span> <span class="fn">setup</span>() {
+  <span class="kw">for</span>(<span class="kw">int</span> i = <span class="num">0</span>; i < <span class="num">4</span>; i++) {
+    <span class="fn">pinMode</span>(buttons[i], <span class="type">INPUT_PULLUP</span>);
+  }
+}
+
+<span class="kw">void</span> <span class="fn">loop</span>() {
+  <span class="kw">bool</span> played = <span class="kw">false</span>;
+  <span class="kw">for</span>(<span class="kw">int</span> i = <span class="num">0</span>; i < <span class="num">4</span>; i++) {
+    <span class="kw">if</span>(<span class="fn">digitalRead</span>(buttons[i]) == <span class="type">LOW</span>) {
+      <span class="fn">tone</span>(buzzer, notes[i]);
+      played = <span class="kw">true</span>;
+    }
+  }
+  <span class="kw">if</span>(!played) <span class="fn">noTone</span>(buzzer);
+}`,
+    challenge: "Can you play a song? Try making the Arduino play \"Twinkle Twinkle Little Star\" automatically using tone() and delay(). The notes are: C C G G A A G, F F E E D D C.",
+    science: "Sound is made by vibrations. The buzzer vibrates the air at different speeds (frequencies) to make different pitches. Middle C vibrates 262 times per second!"
+  },
+  {
+    id: 4,
+    title: "Night Light",
+    subtitle: "Auto-sensing darkness",
+    icon: "🌙",
+    difficulty: 2,
+    category: "Sensors",
+    color: "#eab308",
+    time: "25 min",
+    components: ["Arduino Uno", "Breadboard", "Photoresistor (LDR)", "1 LED", "1 Resistor (220Ω)", "1 Resistor (10kΩ)", "Jumper wires"],
+    learn: ["Analog input reading", "Light sensors", "Threshold-based decisions", "Serial Monitor"],
+    description: "Build a smart night light that turns on automatically when the room gets dark — just like real street lights!",
+    wiring: [
+      { from: "Photoresistor", to: "5V and Analog Pin A0", note: "One leg to 5V, other leg to A0" },
+      { from: "10kΩ Resistor", to: "A0 and GND", note: "This creates a voltage divider" },
+      { from: "Pin 9 → 220Ω Resistor → LED → GND", to: "", note: "Output LED circuit" }
+    ],
+    code: `<span class="cm">// Project 4: Night Light</span>
+<span class="kw">int</span> lightSensor = <span class="type">A0</span>;
+<span class="kw">int</span> ledPin = <span class="num">9</span>;
+<span class="kw">int</span> threshold = <span class="num">400</span>;  <span class="cm">// Adjust this value!</span>
+
+<span class="kw">void</span> <span class="fn">setup</span>() {
+  <span class="fn">pinMode</span>(ledPin, <span class="type">OUTPUT</span>);
+  <span class="fn">Serial</span>.<span class="fn">begin</span>(<span class="num">9600</span>);  <span class="cm">// Start Serial Monitor</span>
+}
+
+<span class="kw">void</span> <span class="fn">loop</span>() {
+  <span class="kw">int</span> lightLevel = <span class="fn">analogRead</span>(lightSensor);
+  <span class="fn">Serial</span>.<span class="fn">print</span>(<span class="str">"Light: "</span>);
+  <span class="fn">Serial</span>.<span class="fn">println</span>(lightLevel);
+
+  <span class="kw">if</span>(lightLevel < threshold) {
+    <span class="fn">digitalWrite</span>(ledPin, <span class="type">HIGH</span>);  <span class="cm">// Dark → LED ON</span>
+  } <span class="kw">else</span> {
+    <span class="fn">digitalWrite</span>(ledPin, <span class="type">LOW</span>);   <span class="cm">// Bright → LED OFF</span>
+  }
+  <span class="fn">delay</span>(<span class="num">100</span>);
+}`,
+    challenge: "Instead of just ON/OFF, can you make the LED gradually get brighter as it gets darker? Hint: use analogWrite() and the map() function!",
+    science: "A photoresistor changes its resistance based on light. In the dark, its resistance is high (millions of ohms). In bright light, it drops to just hundreds of ohms!"
+  },
+  {
+    id: 5,
+    title: "Distance Detector",
+    subtitle: "Ultrasonic range finder",
+    icon: "📡",
+    difficulty: 2,
+    category: "Sensors",
+    color: "#06b6d4",
+    time: "30 min",
+    components: ["Arduino Uno", "Breadboard", "HC-SR04 Ultrasonic Sensor", "Piezo Buzzer", "Jumper wires"],
+    learn: ["How ultrasonic sensors work", "Measuring distance", "Speed of sound", "Mapping values"],
+    description: "Build a parking sensor! It beeps faster as objects get closer — just like the one in a car's bumper.",
+    wiring: [
+      { from: "HC-SR04 VCC", to: "Arduino 5V", note: "Power the sensor" },
+      { from: "HC-SR04 Trig", to: "Arduino Pin 9", note: "Trigger sends the sound pulse" },
+      { from: "HC-SR04 Echo", to: "Arduino Pin 10", note: "Echo receives the bounce-back" },
+      { from: "HC-SR04 GND", to: "Arduino GND", note: "" },
+      { from: "Buzzer", to: "Pin 8 and GND", note: "Warning beeper" }
+    ],
+    code: `<span class="cm">// Project 5: Distance Detector</span>
+<span class="kw">int</span> trigPin = <span class="num">9</span>;
+<span class="kw">int</span> echoPin = <span class="num">10</span>;
+<span class="kw">int</span> buzzer = <span class="num">8</span>;
+
+<span class="kw">void</span> <span class="fn">setup</span>() {
+  <span class="fn">pinMode</span>(trigPin, <span class="type">OUTPUT</span>);
+  <span class="fn">pinMode</span>(echoPin, <span class="type">INPUT</span>);
+  <span class="fn">pinMode</span>(buzzer, <span class="type">OUTPUT</span>);
+  <span class="fn">Serial</span>.<span class="fn">begin</span>(<span class="num">9600</span>);
+}
+
+<span class="kw">void</span> <span class="fn">loop</span>() {
+  <span class="cm">// Send ultrasonic pulse</span>
+  <span class="fn">digitalWrite</span>(trigPin, <span class="type">LOW</span>);
+  <span class="fn">delayMicroseconds</span>(<span class="num">2</span>);
+  <span class="fn">digitalWrite</span>(trigPin, <span class="type">HIGH</span>);
+  <span class="fn">delayMicroseconds</span>(<span class="num">10</span>);
+  <span class="fn">digitalWrite</span>(trigPin, <span class="type">LOW</span>);
+
+  <span class="cm">// Measure echo time</span>
+  <span class="kw">long</span> duration = <span class="fn">pulseIn</span>(echoPin, <span class="type">HIGH</span>);
+  <span class="kw">int</span> distance = duration * <span class="num">0.034</span> / <span class="num">2</span>; <span class="cm">// cm</span>
+
+  <span class="fn">Serial</span>.<span class="fn">print</span>(<span class="str">"Distance: "</span>);
+  <span class="fn">Serial</span>.<span class="fn">print</span>(distance);
+  <span class="fn">Serial</span>.<span class="fn">println</span>(<span class="str">" cm"</span>);
+
+  <span class="cm">// Beep faster when closer</span>
+  <span class="kw">if</span>(distance < <span class="num">30</span>) {
+    <span class="kw">int</span> beepDelay = <span class="fn">map</span>(distance, <span class="num">0</span>, <span class="num">30</span>, <span class="num">50</span>, <span class="num">500</span>);
+    <span class="fn">tone</span>(buzzer, <span class="num">1000</span>, <span class="num">50</span>);
+    <span class="fn">delay</span>(beepDelay);
+  }
+  <span class="fn">delay</span>(<span class="num">50</span>);
+}`,
+    challenge: "Add 3 LEDs (green, yellow, red) that light up based on distance: green for far, yellow for medium, red for close. Like a real parking sensor display!",
+    science: "Bats use the same trick! They send out sound pulses and listen for echoes. By timing how long the echo takes, they know how far away things are. This is called echolocation."
+  },
+  {
+    id: 6,
+    title: "Thermometer",
+    subtitle: "Digital temperature display",
+    icon: "🌡️",
+    difficulty: 2,
+    category: "Sensors",
+    color: "#f97316",
+    time: "30 min",
+    components: ["Arduino Uno", "Breadboard", "TMP36 Temperature Sensor", "16x2 LCD Display (with I2C)", "Jumper wires"],
+    learn: ["Temperature sensors", "Analog-to-temperature conversion", "LCD displays", "Real-world data"],
+    description: "Build your own digital thermometer that shows the current temperature on an LCD screen!",
+    wiring: [
+      { from: "TMP36 left pin", to: "5V", note: "Power (flat side facing you)" },
+      { from: "TMP36 middle pin", to: "Analog A0", note: "Signal output" },
+      { from: "TMP36 right pin", to: "GND", note: "Ground" },
+      { from: "LCD SDA", to: "Arduino A4", note: "I2C data line" },
+      { from: "LCD SCL", to: "Arduino A5", note: "I2C clock line" }
+    ],
+    code: `<span class="cm">// Project 6: Thermometer</span>
+<span class="cm">// If using I2C LCD, install LiquidCrystal_I2C library</span>
+<span class="kw">#include</span> <span class="str">&lt;Wire.h&gt;</span>
+<span class="kw">#include</span> <span class="str">&lt;LiquidCrystal_I2C.h&gt;</span>
+
+<span class="type">LiquidCrystal_I2C</span> lcd(<span class="num">0x27</span>, <span class="num">16</span>, <span class="num">2</span>);
+<span class="kw">int</span> tempPin = <span class="type">A0</span>;
+
+<span class="kw">void</span> <span class="fn">setup</span>() {
+  lcd.<span class="fn">init</span>();
+  lcd.<span class="fn">backlight</span>();
+  lcd.<span class="fn">print</span>(<span class="str">"Thermometer"</span>);
+  <span class="fn">delay</span>(<span class="num">2000</span>);
+}
+
+<span class="kw">void</span> <span class="fn">loop</span>() {
+  <span class="kw">int</span> reading = <span class="fn">analogRead</span>(tempPin);
+  <span class="kw">float</span> voltage = reading * <span class="num">5.0</span> / <span class="num">1024.0</span>;
+  <span class="kw">float</span> tempC = (voltage - <span class="num">0.5</span>) * <span class="num">100.0</span>;
+  <span class="kw">float</span> tempF = tempC * <span class="num">9.0</span>/<span class="num">5.0</span> + <span class="num">32.0</span>;
+
+  lcd.<span class="fn">clear</span>();
+  lcd.<span class="fn">setCursor</span>(<span class="num">0</span>, <span class="num">0</span>);
+  lcd.<span class="fn">print</span>(<span class="str">"Temp: "</span>);
+  lcd.<span class="fn">print</span>(tempC, <span class="num">1</span>);
+  lcd.<span class="fn">print</span>(<span class="str">" C"</span>);
+  lcd.<span class="fn">setCursor</span>(<span class="num">0</span>, <span class="num">1</span>);
+  lcd.<span class="fn">print</span>(<span class="str">"      "</span>);
+  lcd.<span class="fn">print</span>(tempF, <span class="num">1</span>);
+  lcd.<span class="fn">print</span>(<span class="str">" F"</span>);
+  <span class="fn">delay</span>(<span class="num">1000</span>);
+}`,
+    challenge: "Add a warning buzzer that beeps when the temperature goes above a certain limit. You could also add colored LEDs: blue for cold, green for comfortable, red for hot!",
+    science: "The TMP36 sensor uses a special property of semiconductors: as temperature changes, the voltage it outputs changes by exactly 10 millivolts per degree Celsius."
+  },
+  {
+    id: 7,
+    title: "IR Remote Control",
+    subtitle: "Control LEDs with a remote",
+    icon: "📺",
+    difficulty: 3,
+    category: "Communication",
+    color: "#ec4899",
+    time: "35 min",
+    components: ["Arduino Uno", "Breadboard", "IR Receiver Module", "IR Remote Control", "3 LEDs", "3 Resistors (220Ω)", "Jumper wires"],
+    learn: ["Infrared communication", "Decoding signals", "Using libraries", "Switch/case logic"],
+    description: "Use your TV-style remote control to command your Arduino! Press different buttons to control different LEDs.",
+    wiring: [
+      { from: "IR Receiver Signal", to: "Arduino Pin 11", note: "Data output from receiver" },
+      { from: "IR Receiver VCC", to: "5V", note: "" },
+      { from: "IR Receiver GND", to: "GND", note: "" },
+      { from: "LEDs", to: "Pins 2, 3, 4 with resistors", note: "Red, Green, Blue LEDs" }
+    ],
+    code: `<span class="cm">// Project 7: IR Remote Control</span>
+<span class="cm">// Install IRremote library from Library Manager</span>
+<span class="kw">#include</span> <span class="str">&lt;IRremote.h&gt;</span>
+
+<span class="kw">int</span> RECV_PIN = <span class="num">11</span>;
+<span class="kw">int</span> leds[] = {<span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>};
+
+<span class="kw">void</span> <span class="fn">setup</span>() {
+  <span class="fn">Serial</span>.<span class="fn">begin</span>(<span class="num">9600</span>);
+  <span class="type">IrReceiver</span>.<span class="fn">begin</span>(RECV_PIN);
+  <span class="kw">for</span>(<span class="kw">int</span> i = <span class="num">0</span>; i < <span class="num">3</span>; i++)
+    <span class="fn">pinMode</span>(leds[i], <span class="type">OUTPUT</span>);
+  <span class="fn">Serial</span>.<span class="fn">println</span>(<span class="str">"Ready! Press remote buttons..."</span>);
+}
+
+<span class="kw">void</span> <span class="fn">loop</span>() {
+  <span class="kw">if</span>(<span class="type">IrReceiver</span>.<span class="fn">decode</span>()) {
+    <span class="kw">unsigned long</span> code = <span class="type">IrReceiver</span>.decodedIRData.decodedRawData;
+    <span class="fn">Serial</span>.<span class="fn">println</span>(code, <span class="type">HEX</span>);
+
+    <span class="cm">// Map your remote's button codes here!</span>
+    <span class="cm">// First: run this and press buttons to see codes</span>
+    <span class="cm">// Then: replace these example codes with yours</span>
+    <span class="kw">switch</span>(code) {
+      <span class="kw">case</span> <span class="num">0xFFA25D</span>:  <span class="cm">// Button 1</span>
+        <span class="fn">digitalWrite</span>(leds[<span class="num">0</span>], !<span class="fn">digitalRead</span>(leds[<span class="num">0</span>]));
+        <span class="kw">break</span>;
+      <span class="kw">case</span> <span class="num">0xFF629D</span>:  <span class="cm">// Button 2</span>
+        <span class="fn">digitalWrite</span>(leds[<span class="num">1</span>], !<span class="fn">digitalRead</span>(leds[<span class="num">1</span>]));
+        <span class="kw">break</span>;
+      <span class="kw">case</span> <span class="num">0xFFE21D</span>:  <span class="cm">// Button 3</span>
+        <span class="fn">digitalWrite</span>(leds[<span class="num">2</span>], !<span class="fn">digitalRead</span>(leds[<span class="num">2</span>]));
+        <span class="kw">break</span>;
+    }
+    <span class="type">IrReceiver</span>.<span class="fn">resume</span>();
+  }
+}`,
+    challenge: "Decode ALL the buttons on your remote and build a full LED light show controller. Add fade effects using analogWrite() for button presses!",
+    science: "Infrared light is invisible to our eyes but not to electronics! Your TV remote sends pulses of IR light in specific patterns. Each button has a unique code, like a secret handshake."
+  },
+  {
+    id: 8,
+    title: "Mood Lamp",
+    subtitle: "RGB color mixing",
+    icon: "🌈",
+    difficulty: 2,
+    category: "Creative",
+    color: "#8b5cf6",
+    time: "25 min",
+    components: ["Arduino Uno", "Breadboard", "1 RGB LED (common cathode)", "3 Resistors (220Ω)", "1 Potentiometer (optional)", "Jumper wires"],
+    learn: ["PWM (Pulse Width Modulation)", "Color mixing with RGB", "analogWrite()", "Smooth transitions"],
+    description: "Create a lamp that smoothly fades through every color of the rainbow! RGB LEDs mix red, green, and blue light to create any color.",
+    wiring: [
+      { from: "RGB LED Red pin", to: "Pin 9 through 220Ω resistor", note: "" },
+      { from: "RGB LED Green pin", to: "Pin 10 through 220Ω resistor", note: "" },
+      { from: "RGB LED Blue pin", to: "Pin 11 through 220Ω resistor", note: "" },
+      { from: "RGB LED longest pin (cathode)", to: "GND", note: "Common ground" }
+    ],
+    code: `<span class="cm">// Project 8: Mood Lamp — Rainbow Fade</span>
+<span class="kw">int</span> redPin = <span class="num">9</span>;
+<span class="kw">int</span> greenPin = <span class="num">10</span>;
+<span class="kw">int</span> bluePin = <span class="num">11</span>;
+
+<span class="kw">void</span> <span class="fn">setup</span>() {
+  <span class="fn">pinMode</span>(redPin, <span class="type">OUTPUT</span>);
+  <span class="fn">pinMode</span>(greenPin, <span class="type">OUTPUT</span>);
+  <span class="fn">pinMode</span>(bluePin, <span class="type">OUTPUT</span>);
+}
+
+<span class="kw">void</span> <span class="fn">setColor</span>(<span class="kw">int</span> r, <span class="kw">int</span> g, <span class="kw">int</span> b) {
+  <span class="fn">analogWrite</span>(redPin, r);
+  <span class="fn">analogWrite</span>(greenPin, g);
+  <span class="fn">analogWrite</span>(bluePin, b);
+}
+
+<span class="kw">void</span> <span class="fn">loop</span>() {
+  <span class="cm">// Fade through rainbow colors</span>
+  <span class="kw">for</span>(<span class="kw">int</span> i = <span class="num">0</span>; i < <span class="num">256</span>; i++) {
+    <span class="fn">setColor</span>(<span class="num">255</span>-i, i, <span class="num">0</span>);  <span class="cm">// Red → Green</span>
+    <span class="fn">delay</span>(<span class="num">10</span>);
+  }
+  <span class="kw">for</span>(<span class="kw">int</span> i = <span class="num">0</span>; i < <span class="num">256</span>; i++) {
+    <span class="fn">setColor</span>(<span class="num">0</span>, <span class="num">255</span>-i, i);  <span class="cm">// Green → Blue</span>
+    <span class="fn">delay</span>(<span class="num">10</span>);
+  }
+  <span class="kw">for</span>(<span class="kw">int</span> i = <span class="num">0</span>; i < <span class="num">256</span>; i++) {
+    <span class="fn">setColor</span>(i, <span class="num">0</span>, <span class="num">255</span>-i);  <span class="cm">// Blue → Red</span>
+    <span class="fn">delay</span>(<span class="num">10</span>);
+  }
+}`,
+    challenge: "Add a potentiometer to control the speed of the color change! Or add a button that freezes on your favorite color.",
+    science: "Your eyes have 3 types of color receptors: red, green, and blue. By mixing these 3 colors of light at different brightnesses, we can trick your eyes into seeing any color!"
+  },
+  {
+    id: 9,
+    title: "Servo Sweeper",
+    subtitle: "Motorized movement",
+    icon: "🦾",
+    difficulty: 2,
+    category: "Motors",
+    color: "#14b8a6",
+    time: "20 min",
+    components: ["Arduino Uno", "Servo Motor (SG90)", "1 Potentiometer", "Jumper wires"],
+    learn: ["Servo motor control", "The Servo library", "Mapping analog input to angles", "Mechanical movement"],
+    description: "Control a servo motor with a dial! Turn the potentiometer and watch the servo follow your exact position.",
+    wiring: [
+      { from: "Servo Orange wire", to: "Arduino Pin 9", note: "Signal/control wire" },
+      { from: "Servo Red wire", to: "5V", note: "Power" },
+      { from: "Servo Brown wire", to: "GND", note: "Ground" },
+      { from: "Potentiometer", to: "5V, A0, GND", note: "Left→5V, Middle→A0, Right→GND" }
+    ],
+    code: `<span class="cm">// Project 9: Servo Sweeper</span>
+<span class="kw">#include</span> <span class="str">&lt;Servo.h&gt;</span>
+
+<span class="type">Servo</span> myServo;
+<span class="kw">int</span> potPin = <span class="type">A0</span>;
+
+<span class="kw">void</span> <span class="fn">setup</span>() {
+  myServo.<span class="fn">attach</span>(<span class="num">9</span>);
+  <span class="fn">Serial</span>.<span class="fn">begin</span>(<span class="num">9600</span>);
+}
+
+<span class="kw">void</span> <span class="fn">loop</span>() {
+  <span class="kw">int</span> potValue = <span class="fn">analogRead</span>(potPin);
+  <span class="kw">int</span> angle = <span class="fn">map</span>(potValue, <span class="num">0</span>, <span class="num">1023</span>, <span class="num">0</span>, <span class="num">180</span>);
+
+  myServo.<span class="fn">write</span>(angle);
+
+  <span class="fn">Serial</span>.<span class="fn">print</span>(<span class="str">"Angle: "</span>);
+  <span class="fn">Serial</span>.<span class="fn">println</span>(angle);
+  <span class="fn">delay</span>(<span class="num">15</span>);
+}`,
+    challenge: "Build a mini radar! Mount the ultrasonic sensor on the servo, sweep it back and forth, and print distance readings for each angle. You've built a real radar scanner!",
+    science: "Servo motors have a special feedback circuit inside that knows their exact position. Unlike regular motors that just spin, servos can hold a precise angle — that's why robots use them for joints!"
+  },
+  {
+    id: 10,
+    title: "Intruder Alarm",
+    subtitle: "Motion-triggered security",
+    icon: "🚨",
+    difficulty: 3,
+    category: "Sensors",
+    color: "#ef4444",
+    time: "35 min",
+    components: ["Arduino Uno", "Breadboard", "HC-SR04 Ultrasonic Sensor", "Piezo Buzzer", "1 Red LED", "1 Green LED", "2 Resistors (220Ω)", "1 Push Button", "Jumper wires"],
+    learn: ["Security system logic", "State machines", "Armed/disarmed modes", "Combining multiple components"],
+    description: "Build a real security system! Arm it with a button, and if anyone gets too close, the alarm goes off with flashing lights and sirens.",
+    wiring: [
+      { from: "HC-SR04", to: "Trig→Pin 9, Echo→Pin 10", note: "Distance sensor" },
+      { from: "Buzzer", to: "Pin 8", note: "Alarm sound" },
+      { from: "Red LED", to: "Pin 4 with resistor", note: "Alarm indicator" },
+      { from: "Green LED", to: "Pin 3 with resistor", note: "Armed indicator" },
+      { from: "Button", to: "Pin 2 with INPUT_PULLUP", note: "Arm/disarm toggle" }
+    ],
+    code: `<span class="cm">// Project 10: Intruder Alarm</span>
+<span class="kw">int</span> trigPin = <span class="num">9</span>, echoPin = <span class="num">10</span>;
+<span class="kw">int</span> buzzer = <span class="num">8</span>, redLed = <span class="num">4</span>, greenLed = <span class="num">3</span>;
+<span class="kw">int</span> button = <span class="num">2</span>;
+<span class="kw">bool</span> armed = <span class="kw">false</span>, alarm = <span class="kw">false</span>;
+<span class="kw">int</span> baseDistance = <span class="num">0</span>;
+
+<span class="kw">int</span> <span class="fn">getDistance</span>() {
+  <span class="fn">digitalWrite</span>(trigPin, <span class="type">LOW</span>);
+  <span class="fn">delayMicroseconds</span>(<span class="num">2</span>);
+  <span class="fn">digitalWrite</span>(trigPin, <span class="type">HIGH</span>);
+  <span class="fn">delayMicroseconds</span>(<span class="num">10</span>);
+  <span class="fn">digitalWrite</span>(trigPin, <span class="type">LOW</span>);
+  <span class="kw">return</span> <span class="fn">pulseIn</span>(echoPin, <span class="type">HIGH</span>) * <span class="num">0.034</span> / <span class="num">2</span>;
+}
+
+<span class="kw">void</span> <span class="fn">setup</span>() {
+  <span class="fn">pinMode</span>(trigPin, <span class="type">OUTPUT</span>);
+  <span class="fn">pinMode</span>(echoPin, <span class="type">INPUT</span>);
+  <span class="fn">pinMode</span>(buzzer, <span class="type">OUTPUT</span>);
+  <span class="fn">pinMode</span>(redLed, <span class="type">OUTPUT</span>);
+  <span class="fn">pinMode</span>(greenLed, <span class="type">OUTPUT</span>);
+  <span class="fn">pinMode</span>(button, <span class="type">INPUT_PULLUP</span>);
+  <span class="fn">Serial</span>.<span class="fn">begin</span>(<span class="num">9600</span>);
+}
+
+<span class="kw">void</span> <span class="fn">loop</span>() {
+  <span class="cm">// Toggle armed state with button</span>
+  <span class="kw">if</span>(<span class="fn">digitalRead</span>(button) == <span class="type">LOW</span>) {
+    armed = !armed;
+    alarm = <span class="kw">false</span>;
+    <span class="kw">if</span>(armed) {
+      baseDistance = <span class="fn">getDistance</span>();
+      <span class="fn">Serial</span>.<span class="fn">println</span>(<span class="str">"ARMED!"</span>);
+      <span class="fn">tone</span>(buzzer, <span class="num">1000</span>, <span class="num">200</span>);
+    } <span class="kw">else</span> {
+      <span class="fn">Serial</span>.<span class="fn">println</span>(<span class="str">"Disarmed"</span>);
+      <span class="fn">noTone</span>(buzzer);
+    }
+    <span class="fn">delay</span>(<span class="num">500</span>);
+  }
+
+  <span class="fn">digitalWrite</span>(greenLed, armed);
+
+  <span class="kw">if</span>(armed && !alarm) {
+    <span class="kw">int</span> dist = <span class="fn">getDistance</span>();
+    <span class="kw">if</span>(<span class="fn">abs</span>(dist - baseDistance) > <span class="num">15</span>) {
+      alarm = <span class="kw">true</span>;
+      <span class="fn">Serial</span>.<span class="fn">println</span>(<span class="str">"*** INTRUDER! ***"</span>);
+    }
+  }
+
+  <span class="kw">if</span>(alarm) {
+    <span class="fn">digitalWrite</span>(redLed, <span class="type">HIGH</span>);
+    <span class="fn">tone</span>(buzzer, <span class="num">2000</span>, <span class="num">100</span>);
+    <span class="fn">delay</span>(<span class="num">100</span>);
+    <span class="fn">digitalWrite</span>(redLed, <span class="type">LOW</span>);
+    <span class="fn">tone</span>(buzzer, <span class="num">1500</span>, <span class="num">100</span>);
+    <span class="fn">delay</span>(<span class="num">100</span>);
+  }
+  <span class="fn">delay</span>(<span class="num">50</span>);
+}`,
+    challenge: "Add a 10-second countdown when you arm it (like a real alarm system). Show the countdown on the Serial Monitor and beep each second!",
+    science: "Real security systems use a combination of sensors: infrared motion detectors, magnetic door contacts, glass break sensors, and cameras — all connected to a central brain, just like your Arduino!"
+  },
+  {
+    id: 11,
+    title: "Weather Station",
+    subtitle: "Multi-sensor data logger",
+    icon: "⛅",
+    difficulty: 3,
+    category: "Advanced",
+    color: "#0ea5e9",
+    time: "45 min",
+    components: ["Arduino Uno", "TMP36 Temperature Sensor", "Photoresistor", "16x2 LCD (I2C)", "Resistor (10kΩ)", "Breadboard", "Jumper wires"],
+    learn: ["Combining multiple sensors", "Data display", "Real-time monitoring", "Scientific measurement"],
+    description: "Build a mini weather station that monitors temperature and light levels, showing live data on an LCD screen — your personal environmental dashboard!",
+    wiring: [
+      { from: "TMP36", to: "5V, A0, GND", note: "Temperature sensor" },
+      { from: "Photoresistor + 10kΩ", to: "A1 voltage divider", note: "Light level" },
+      { from: "LCD I2C", to: "SDA→A4, SCL→A5", note: "Display" }
+    ],
+    code: `<span class="cm">// Project 11: Weather Station</span>
+<span class="kw">#include</span> <span class="str">&lt;Wire.h&gt;</span>
+<span class="kw">#include</span> <span class="str">&lt;LiquidCrystal_I2C.h&gt;</span>
+
+<span class="type">LiquidCrystal_I2C</span> lcd(<span class="num">0x27</span>, <span class="num">16</span>, <span class="num">2</span>);
+
+<span class="kw">void</span> <span class="fn">setup</span>() {
+  lcd.<span class="fn">init</span>();
+  lcd.<span class="fn">backlight</span>();
+  <span class="fn">Serial</span>.<span class="fn">begin</span>(<span class="num">9600</span>);
+  lcd.<span class="fn">print</span>(<span class="str">"Weather Station"</span>);
+  <span class="fn">delay</span>(<span class="num">2000</span>);
+}
+
+<span class="kw">void</span> <span class="fn">loop</span>() {
+  <span class="cm">// Read temperature</span>
+  <span class="kw">float</span> voltage = <span class="fn">analogRead</span>(<span class="type">A0</span>) * <span class="num">5.0</span> / <span class="num">1024.0</span>;
+  <span class="kw">float</span> tempC = (voltage - <span class="num">0.5</span>) * <span class="num">100.0</span>;
+
+  <span class="cm">// Read light level</span>
+  <span class="kw">int</span> light = <span class="fn">analogRead</span>(<span class="type">A1</span>);
+  <span class="type">String</span> brightness;
+  <span class="kw">if</span>(light > <span class="num">800</span>) brightness = <span class="str">"Sunny"</span>;
+  <span class="kw">else if</span>(light > <span class="num">400</span>) brightness = <span class="str">"Cloudy"</span>;
+  <span class="kw">else</span> brightness = <span class="str">"Dark"</span>;
+
+  lcd.<span class="fn">clear</span>();
+  lcd.<span class="fn">setCursor</span>(<span class="num">0</span>, <span class="num">0</span>);
+  lcd.<span class="fn">print</span>(<span class="str">"Temp: "</span>);
+  lcd.<span class="fn">print</span>(tempC, <span class="num">1</span>);
+  lcd.<span class="fn">print</span>(<span class="str">"C"</span>);
+  lcd.<span class="fn">setCursor</span>(<span class="num">0</span>, <span class="num">1</span>);
+  lcd.<span class="fn">print</span>(<span class="str">"Light: "</span>);
+  lcd.<span class="fn">print</span>(brightness);
+
+  <span class="cm">// Also log to Serial for graphing</span>
+  <span class="fn">Serial</span>.<span class="fn">print</span>(tempC);
+  <span class="fn">Serial</span>.<span class="fn">print</span>(<span class="str">","</span>);
+  <span class="fn">Serial</span>.<span class="fn">println</span>(light);
+
+  <span class="fn">delay</span>(<span class="num">2000</span>);
+}`,
+    challenge: "Use the Serial Plotter in Arduino IDE to graph your temperature over time! Leave it running for an hour and see how temperature changes. Can you spot when someone opens a window?",
+    science: "Real weather stations measure many things: temperature, humidity, air pressure, wind speed, rainfall, UV index, and more. Satellites orbiting Earth have weather stations that look down at the whole planet!"
+  },
+  {
+    id: 12,
+    title: "Robot Car Basics",
+    subtitle: "Your first moving robot",
+    icon: "🤖",
+    difficulty: 3,
+    category: "Robotics",
+    color: "#f59e0b",
+    time: "60 min",
+    components: ["Arduino Uno", "L298N Motor Driver", "2 DC Motors", "Robot chassis/wheels", "Battery pack (4xAA or 9V)", "HC-SR04 Ultrasonic Sensor", "Jumper wires"],
+    learn: ["DC motor control", "H-bridge motor drivers", "Autonomous navigation", "Obstacle avoidance"],
+    description: "The grand finale! Build a robot car that drives around and avoids obstacles on its own. This combines everything you've learned into one awesome project!",
+    wiring: [
+      { from: "L298N IN1, IN2", to: "Arduino Pins 5, 6", note: "Left motor control" },
+      { from: "L298N IN3, IN4", to: "Arduino Pins 9, 10", note: "Right motor control" },
+      { from: "L298N ENA, ENB", to: "Pins 3, 11 (PWM)", note: "Speed control" },
+      { from: "L298N 12V", to: "Battery pack +", note: "Motor power (separate!)" },
+      { from: "HC-SR04", to: "Trig→7, Echo→8", note: "Front-facing distance sensor" }
+    ],
+    code: `<span class="cm">// Project 12: Robot Car with Obstacle Avoidance</span>
+<span class="cm">// Motor pins</span>
+<span class="kw">int</span> IN1=<span class="num">5</span>, IN2=<span class="num">6</span>, IN3=<span class="num">9</span>, IN4=<span class="num">10</span>;
+<span class="kw">int</span> ENA=<span class="num">3</span>, ENB=<span class="num">11</span>;
+<span class="kw">int</span> trigPin=<span class="num">7</span>, echoPin=<span class="num">8</span>;
+<span class="kw">int</span> speed = <span class="num">150</span>; <span class="cm">// 0-255</span>
+
+<span class="kw">int</span> <span class="fn">getDistance</span>() {
+  <span class="fn">digitalWrite</span>(trigPin, <span class="type">LOW</span>);
+  <span class="fn">delayMicroseconds</span>(<span class="num">2</span>);
+  <span class="fn">digitalWrite</span>(trigPin, <span class="type">HIGH</span>);
+  <span class="fn">delayMicroseconds</span>(<span class="num">10</span>);
+  <span class="fn">digitalWrite</span>(trigPin, <span class="type">LOW</span>);
+  <span class="kw">return</span> <span class="fn">pulseIn</span>(echoPin, <span class="type">HIGH</span>) * <span class="num">0.034</span> / <span class="num">2</span>;
+}
+
+<span class="kw">void</span> <span class="fn">forward</span>()  { <span class="fn">analogWrite</span>(ENA,speed); <span class="fn">analogWrite</span>(ENB,speed);
+  <span class="fn">digitalWrite</span>(IN1,<span class="type">HIGH</span>); <span class="fn">digitalWrite</span>(IN2,<span class="type">LOW</span>);
+  <span class="fn">digitalWrite</span>(IN3,<span class="type">HIGH</span>); <span class="fn">digitalWrite</span>(IN4,<span class="type">LOW</span>); }
+
+<span class="kw">void</span> <span class="fn">turnRight</span>() { <span class="fn">analogWrite</span>(ENA,speed); <span class="fn">analogWrite</span>(ENB,speed);
+  <span class="fn">digitalWrite</span>(IN1,<span class="type">HIGH</span>); <span class="fn">digitalWrite</span>(IN2,<span class="type">LOW</span>);
+  <span class="fn">digitalWrite</span>(IN3,<span class="type">LOW</span>); <span class="fn">digitalWrite</span>(IN4,<span class="type">HIGH</span>); }
+
+<span class="kw">void</span> <span class="fn">stopCar</span>()  { <span class="fn">analogWrite</span>(ENA,<span class="num">0</span>); <span class="fn">analogWrite</span>(ENB,<span class="num">0</span>); }
+
+<span class="kw">void</span> <span class="fn">setup</span>() {
+  <span class="kw">int</span> pins[] = {IN1,IN2,IN3,IN4,ENA,ENB,trigPin};
+  <span class="kw">for</span>(<span class="kw">int</span> p : pins) <span class="fn">pinMode</span>(p, <span class="type">OUTPUT</span>);
+  <span class="fn">pinMode</span>(echoPin, <span class="type">INPUT</span>);
+  <span class="fn">Serial</span>.<span class="fn">begin</span>(<span class="num">9600</span>);
+}
+
+<span class="kw">void</span> <span class="fn">loop</span>() {
+  <span class="kw">int</span> dist = <span class="fn">getDistance</span>();
+  <span class="fn">Serial</span>.<span class="fn">println</span>(dist);
+
+  <span class="kw">if</span>(dist > <span class="num">20</span>) {
+    <span class="fn">forward</span>();
+  } <span class="kw">else</span> {
+    <span class="fn">stopCar</span>();
+    <span class="fn">delay</span>(<span class="num">300</span>);
+    <span class="fn">turnRight</span>();
+    <span class="fn">delay</span>(<span class="num">400</span>);
+  }
+  <span class="fn">delay</span>(<span class="num">50</span>);
+}`,
+    challenge: "Make the robot smarter! Add a servo to scan left and right before deciding which way to turn. Or add line-following sensors to make it follow a track made with black tape!",
+    science: "Self-driving cars use the same basic idea but with much more powerful sensors: LIDAR (laser distance), cameras, GPS, and machine learning. Your robot is doing the same thing — just simpler!"
+  }
+];
+
+// ─── MAIN APP ───────────────────────────────────────────────
+function App() {
+  const [view, setView] = useState("home");
+  const [selectedProject, setSelectedProject] = useState(null);
+  const [completed, setCompleted] = useState({});
+  const [player, setPlayer] = useState("");
+  const [showSetup, setShowSetup] = useState(true);
+
+  const completedCount = Object.keys(completed).filter(k => completed[k]).length;
+  const totalProjects = PROJECTS.length;
+  const xp = completedCount * 100;
+  const level = Math.floor(xp / 300) + 1;
+  const levelNames = ["Beginner", "Tinkerer", "Builder", "Inventor", "Engineer", "Roboticist", "Master"];
+
+  const toggleComplete = (id) => {
+    setCompleted(prev => ({ ...prev, [id]: !prev[id] }));
+  };
+
+  if (showSetup) {
+    return React.createElement(SetupScreen, { onStart: (name) => { setPlayer(name); setShowSetup(false); }});
+  }
+
+  if (view === "project" && selectedProject) {
+    return React.createElement(ProjectView, {
+      project: selectedProject,
+      isCompleted: completed[selectedProject.id],
+      onToggleComplete: () => toggleComplete(selectedProject.id),
+      onBack: () => setView("home")
+    });
+  }
+
+  return React.createElement("div", { style: { minHeight: "100vh", background: "#131a2b" }},
+    // Header
+    React.createElement("header", { style: { background: "rgba(19,26,43,0.95)", backdropFilter: "blur(12px)", borderBottom: "1px solid #1e293b", padding: "16px 24px", position: "sticky", top: 0, zIndex: 100, transition: "all 0.3s" }},
+      React.createElement("div", { style: { maxWidth: 1200, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12 }},
+        React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 12 }},
+          React.createElement("div", { style: { fontSize: 28 }}, "\u{1F916}"),
+          React.createElement("div", null,
+            React.createElement("h1", { style: { fontFamily: "'Fredoka One', cursive", fontSize: 22, color: "#fff", margin: 0 }}, "Arduino Learning Lab"),
+            React.createElement("p", { style: { fontSize: 13, color: "#94a3b8", margin: 0 }}, "Hey " + player + "! Level " + level + " " + (levelNames[Math.min(level-1, levelNames.length-1)]))
+          )
+        ),
+        React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 20 }},
+          React.createElement("div", { style: { textAlign: "center" }},
+            React.createElement("div", { style: { fontSize: 22, fontWeight: 800, color: "#22c55e" }}, xp + " XP"),
+            React.createElement("div", { style: { fontSize: 11, color: "#64748b" }}, completedCount + "/" + totalProjects + " projects")
+          ),
+          React.createElement("div", { style: { width: 120, height: 8, background: "#1e293b", borderRadius: 4, overflow: "hidden" }},
+            React.createElement("div", { style: { width: ((xp % 300) / 300 * 100) + "%", height: "100%", background: "linear-gradient(90deg, #22c55e, #3b82f6)", borderRadius: 4, transition: "width 0.5s" }})
+          )
+        )
+      )
+    ),
+
+    // Project Grid
+    React.createElement("main", { style: { maxWidth: 1200, margin: "0 auto", padding: "32px 24px" }},
+      React.createElement("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(320, 1fr))", gap: 20 }},
+        PROJECTS.map(project =>
+          React.createElement(ProjectCard, {
+            key: project.id,
+            project: project,
+            isCompleted: completed[project.id],
+            onClick: () => { setSelectedProject(project); setView("project"); }
+          })
+        )
+      )
+    )
+  );
+}
+
+// ─── SETUP SCREEN ────────────────────────────────────────────
+function SetupScreen({ onStart }) {
+  const [name, setName] = useState("");
+
+  return React.createElement("div", { style: { minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: "#131a2b", padding: 24 }},
+    React.createElement("div", { style: { textAlign: "center", maxWidth: 500 }},
+      React.createElement("div", { style: { fontSize: 80, marginBottom: 24 }}, "\u{1F916}"),
+      React.createElement("h1", { style: { fontFamily: "'Fredoka One', cursive", fontSize: 36, color: "#fff", marginBottom: 8 }}, "Arduino Learning Lab"),
+      React.createElement("p", { style: { color: "#94a3b8", fontSize: 18, marginBottom: 40 }}, "12 projects from blinking LEDs to building robots!"),
+      React.createElement("div", { style: { display: "flex", gap: 12, justifyContent: "center" }},
+        React.createElement("input", {
+          type: "text",
+          placeholder: "Enter your name...",
+          value: name,
+          onChange: (e) => setName(e.target.value),
+          onKeyDown: (e) => e.key === "Enter" && name.trim() && onStart(name.trim()),
+          style: { padding: "12px 20px", borderRadius: 12, border: "2px solid #334155", background: "#1e293b", color: "#fff", fontSize: 16, outline: "none", width: 240, fontFamily: "Nunito" }
+        }),
+        React.createElement("button", {
+          onClick: () => name.trim() && onStart(name.trim()),
+          style: { padding: "12px 28px", borderRadius: 12, border: "none", background: "linear-gradient(135deg, #22c55e, #16a34a)", color: "#fff", fontSize: 16, fontWeight: 700, cursor: "pointer", fontFamily: "Nunito" }
+        }, "Start! \u{1F680}")
+      )
+    )
+  );
+}
+
+// ─── PROJECT CARD ────────────────────────────────────────────
+function ProjectCard({ project, isCompleted, onClick }) {
+  const stars = [];
+  for (let i = 0; i < 3; i++) {
+    stars.push(React.createElement("span", {
+      key: i,
+      style: { color: i < project.difficulty ? project.color : "#334155", fontSize: 14 }
+    }, "\u2605"));
+  }
+
+  return React.createElement("div", {
+    onClick: onClick,
+    style: {
+      background: isCompleted ? "rgba(34,197,94,0.06)" : "rgba(26,35,53,0.85)",
+      border: isCompleted ? "1px solid rgba(34,197,94,0.2)" : "1px solid #1e293b",
+      borderRadius: 16,
+      padding: 24,
+      cursor: "pointer",
+      transition: "all 0.2s",
+      position: "relative",
+      overflow: "hidden"
+    },
+    onMouseEnter: (e) => { e.currentTarget.style.transform = "translateY(-4px)"; e.currentTarget.style.boxShadow = "0 8px 30px rgba(0,0,0,0.3)"; },
+    onMouseLeave: (e) => { e.currentTarget.style.transform = ""; e.currentTarget.style.boxShadow = ""; }
+  },
+    isCompleted && React.createElement("div", { style: { position: "absolute", top: 12, right: 12, background: "#22c55e", borderRadius: "50%", width: 28, height: 28, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16 }}, "\u2713"),
+    React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 12, marginBottom: 12 }},
+      React.createElement("span", { style: { fontSize: 36 }}, project.icon),
+      React.createElement("div", null,
+        React.createElement("div", { style: { fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: project.color, marginBottom: 2 }}, project.category),
+        React.createElement("h3", { style: { fontSize: 18, fontWeight: 800, color: "#fff", margin: 0 }}, project.title)
+      )
+    ),
+    React.createElement("p", { style: { color: "#94a3b8", fontSize: 14, lineHeight: 1.5, marginBottom: 12 }}, project.subtitle),
+    React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center" }},
+      React.createElement("div", { style: { display: "flex", gap: 2 }}, stars),
+      React.createElement("span", { style: { fontSize: 12, color: "#64748b" }}, "\u{1F552} " + project.time)
+    )
+  );
+}
+
+// ─── PROJECT VIEW ────────────────────────────────────────────
+function ProjectView({ project, isCompleted, onToggleComplete, onBack }) {
+  const [currentStep, setCurrentStep] = useState(0);
+  const [visitedSteps, setVisitedSteps] = useState({0: true});
+  const contentRef = useRef(null);
+
+  const steps = [
+    { id: "overview", label: "Overview", icon: "\u{1F4D6}", shortLabel: "Learn" },
+    { id: "wiring", label: "Wire It Up", icon: "\u{1F50C}", shortLabel: "Wire" },
+    { id: "code", label: "Write Code", icon: "\u{1F4BB}", shortLabel: "Code" },
+    { id: "challenge", label: "Level Up!", icon: "\u{1F3AF}", shortLabel: "Challenge" }
+  ];
+
+  const allStepsVisited = steps.every((_, i) => visitedSteps[i]);
+
+  const goToStep = (idx) => {
+    setCurrentStep(idx);
+    setVisitedSteps(prev => ({...prev, [idx]: true}));
+    if (contentRef.current) contentRef.current.scrollTo({top: 0, behavior: "smooth"});
+    window.scrollTo({top: 0, behavior: "smooth"});
+  };
+
+  const nextStep = () => { if (currentStep < steps.length - 1) goToStep(currentStep + 1); };
+  const prevStep = () => { if (currentStep > 0) goToStep(currentStep - 1); };
+
+  // Consistent muted accent from project color
+  const accentMuted = project.color + "18";
+  const accentBorder = project.color + "40";
+  const baseBg = "#131a2b";
+  const cardBg = "rgba(26,35,53,0.85)";
+
+  return React.createElement("div", { style: { minHeight: "100vh", background: baseBg }},
+
+    // ── Top bar ──
+    React.createElement("div", { style: { background: "rgba(19,26,43,0.95)", backdropFilter: "blur(12px)", borderBottom: "1px solid #1e293b", padding: "12px 24px", display: "flex", alignItems: "center", gap: 16, position: "sticky", top: 0, zIndex: 100 }},
+      React.createElement("button", {
+        onClick: onBack,
+        style: { background: "none", border: "1px solid #334155", borderRadius: 8, color: "#94a3b8", padding: "8px 16px", cursor: "pointer", fontFamily: "Nunito", fontSize: 14, transition: "all 0.2s" }
+      }, "\u2190 All Projects"),
+      React.createElement("span", { style: { fontSize: 28 }}, project.icon),
+      React.createElement("div", { style: { flex: 1 }},
+        React.createElement("span", { style: { fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: project.color, opacity: 0.8 }}, "Project " + project.id + " \u2022 " + project.category),
+        React.createElement("h2", { style: { fontSize: 18, fontWeight: 800, color: "#e2e8f0", margin: 0 }}, project.title)
+      )
+    ),
+
+    // ── Step Progress Bar ──
+    React.createElement("div", { style: { background: "rgba(19,26,43,0.8)", padding: "16px 24px 12px", borderBottom: "1px solid #1e293b" }},
+      React.createElement("div", { style: { maxWidth: 700, margin: "0 auto", display: "flex", alignItems: "center", gap: 0 }},
+        steps.map((step, idx) =>
+          React.createElement(React.Fragment, { key: step.id },
+            // Step circle + label
+            React.createElement("div", {
+              onClick: () => goToStep(idx),
+              style: { display: "flex", flexDirection: "column", alignItems: "center", cursor: "pointer", flex: "0 0 auto", position: "relative", zIndex: 2, transition: "all 0.3s" }
+            },
+              React.createElement("div", {
+                style: {
+                  width: 44, height: 44, borderRadius: "50%",
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  fontSize: 20,
+                  background: idx === currentStep ? project.color : visitedSteps[idx] ? "rgba(34,197,94,0.15)" : "rgba(30,41,59,0.8)",
+                  border: idx === currentStep ? "3px solid " + project.color : visitedSteps[idx] ? "2px solid rgba(34,197,94,0.4)" : "2px solid #334155",
+                  color: idx === currentStep ? "#fff" : visitedSteps[idx] ? "#22c55e" : "#64748b",
+                  transition: "all 0.3s",
+                  boxShadow: idx === currentStep ? "0 0 16px " + project.color + "40" : "none"
+                }
+              }, visitedSteps[idx] && idx !== currentStep ? "\u2713" : step.icon),
+              React.createElement("span", {
+                style: {
+                  marginTop: 6, fontSize: 11, fontWeight: idx === currentStep ? 800 : 600,
+                  color: idx === currentStep ? "#e2e8f0" : visitedSteps[idx] ? "#94a3b8" : "#475569",
+                  transition: "all 0.3s", whiteSpace: "nowrap"
+                }
+              }, step.shortLabel)
+            ),
+            // Connector line between steps
+            idx < steps.length - 1 && React.createElement("div", {
+              style: {
+                flex: 1, height: 3, margin: "0 4px", marginBottom: 20,
+                background: visitedSteps[idx + 1] ? "rgba(34,197,94,0.3)" : "#1e293b",
+                borderRadius: 2, transition: "all 0.4s", minWidth: 24
+              }
+            })
+          )
+        )
+      )
+    ),
+
+    // ── Content Area ──
+    React.createElement("div", { ref: contentRef, style: { maxWidth: 900, margin: "0 auto", padding: "28px 24px 120px" }},
+
+      // STEP 0: Overview
+      currentStep === 0 && React.createElement("div", { style: { animation: "fadeIn 0.3s ease" }},
+        React.createElement("div", { style: { background: cardBg, borderRadius: 16, padding: 24, marginBottom: 20, border: "1px solid #1e293b" }},
+          React.createElement("h3", { style: { color: "#e2e8f0", marginBottom: 12, fontSize: 18 }}, "What you'll build"),
+          React.createElement("p", { style: { fontSize: 17, lineHeight: 1.8, color: "#b0bec5" }}, project.description)
+        ),
+
+        React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 20 }},
+          React.createElement("div", { style: { background: cardBg, borderRadius: 16, padding: 20, border: "1px solid #1e293b" }},
+            React.createElement("h4", { style: { color: "#94a3b8", marginBottom: 12, fontSize: 13, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}, "\u{1F9F0} Gather These Parts"),
+            project.components.map((c, i) =>
+              React.createElement("div", { key: i, style: { padding: "6px 0", color: "#b0bec5", fontSize: 14, borderBottom: i < project.components.length - 1 ? "1px solid rgba(30,41,59,0.6)" : "none" }}, "\u2022 " + c)
+            )
+          ),
+          React.createElement("div", { style: { background: cardBg, borderRadius: 16, padding: 20, border: "1px solid #1e293b" }},
+            React.createElement("h4", { style: { color: "#94a3b8", marginBottom: 12, fontSize: 13, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}, "\u{1F4A1} You'll Learn"),
+            project.learn.map((l, i) =>
+              React.createElement("div", { key: i, style: { padding: "6px 0", color: "#b0bec5", fontSize: 14, borderBottom: i < project.learn.length - 1 ? "1px solid rgba(30,41,59,0.6)" : "none" }}, "\u2713 " + l)
+            )
+          )
+        ),
+
+        React.createElement("div", { style: { background: cardBg, borderRadius: 16, padding: 20, border: "1px solid #1e293b" }},
+          React.createElement("h4", { style: { color: "#d4a853", marginBottom: 8, fontSize: 13, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}, "\u{1F52C} Science Corner"),
+          React.createElement("p", { style: { color: "#b0bec5", lineHeight: 1.7, fontSize: 15 }}, project.science)
+        )
+      ),
+
+      // STEP 1: Wiring
+      currentStep === 1 && React.createElement("div", { style: { animation: "fadeIn 0.3s ease" }},
+        React.createElement("div", { style: { background: cardBg, borderRadius: 16, padding: 24, border: "1px solid #1e293b" }},
+          React.createElement("h3", { style: { color: "#e2e8f0", marginBottom: 8, fontSize: 18 }}, "\u{1F50C} Wiring Connections"),
+          React.createElement("p", { style: { color: "#7e8a9a", marginBottom: 20, fontSize: 14 }}, "Follow each connection carefully. Double-check before powering on!"),
+          project.wiring.map((w, i) =>
+            React.createElement("div", { key: i, style: { display: "flex", alignItems: "center", gap: 16, padding: "14px 0", borderBottom: i < project.wiring.length - 1 ? "1px solid rgba(30,41,59,0.6)" : "none" }},
+              React.createElement("div", { style: { minWidth: 40, height: 40, borderRadius: "50%", background: accentMuted, color: project.color, display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 800, fontSize: 16, border: "1px solid " + accentBorder }}, i + 1),
+              React.createElement("div", null,
+                React.createElement("div", { style: { color: "#e2e8f0", fontWeight: 700, fontSize: 15 }},
+                  w.from, w.to ? " \u2192 " + w.to : ""
+                ),
+                w.note && React.createElement("div", { style: { color: "#7e8a9a", fontSize: 13, marginTop: 3 }}, w.note)
+              )
+            )
+          ),
+          React.createElement("div", { style: { marginTop: 20, padding: 16, background: "rgba(234,179,8,0.06)", borderRadius: 12, border: "1px solid rgba(234,179,8,0.15)" }},
+            React.createElement("p", { style: { color: "#d4a853", fontSize: 14, fontWeight: 600 }}, "\u26A0\uFE0F Always disconnect the USB cable before changing your wiring!")
+          )
+        )
+      ),
+
+      // STEP 2: Code
+      currentStep === 2 && React.createElement("div", { style: { animation: "fadeIn 0.3s ease" }},
+        React.createElement("div", { style: { background: cardBg, borderRadius: 16, padding: 24, border: "1px solid #1e293b" }},
+          React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }},
+            React.createElement("h3", { style: { color: "#e2e8f0", fontSize: 18 }}, "\u{1F4BB} Arduino Code"),
+            React.createElement("button", {
+              onClick: () => {
+                const el = document.createElement("textarea");
+                el.value = project.code.replace(/<[^>]+>/g, "");
+                document.body.appendChild(el);
+                el.select();
+                document.execCommand("copy");
+                document.body.removeChild(el);
+              },
+              style: { padding: "8px 18px", borderRadius: 8, border: "1px solid #334155", background: "rgba(30,41,59,0.8)", color: "#94a3b8", cursor: "pointer", fontSize: 13, fontFamily: "Nunito", transition: "all 0.2s" }
+            }, "\u{1F4CB} Copy Code")
+          ),
+          React.createElement("pre", null,
+            React.createElement("code", { dangerouslySetInnerHTML: { __html: project.code }})
+          ),
+          React.createElement("div", { style: { marginTop: 16, padding: 16, background: "rgba(59,130,246,0.06)", borderRadius: 12, border: "1px solid rgba(59,130,246,0.15)" }},
+            React.createElement("p", { style: { color: "#7ea8d4", fontSize: 14 }},
+              "\u{1F4DD} ",
+              React.createElement("strong", null, "How to upload: "),
+              "Open Arduino IDE \u2192 Paste this code \u2192 Select your board \u2192 Select port \u2192 Click Upload \u25B6"
+            )
+          )
+        )
+      ),
+
+      // STEP 3: Challenge
+      currentStep === 3 && React.createElement("div", { style: { animation: "fadeIn 0.3s ease" }},
+        React.createElement("div", { style: { background: cardBg, borderRadius: 16, padding: 28, border: "1px solid rgba(168,85,247,0.15)" }},
+          React.createElement("h3", { style: { color: "#c4a5e0", marginBottom: 16, fontSize: 22 }}, "\u{1F3AF} Level Up Challenge!"),
+          React.createElement("p", { style: { color: "#b0bec5", lineHeight: 1.8, fontSize: 16 }}, project.challenge),
+          React.createElement("div", { style: { marginTop: 24, padding: 16, background: "rgba(30,41,59,0.5)", borderRadius: 12 }},
+            React.createElement("p", { style: { color: "#7e8a9a", fontSize: 13 }}, "Stuck? Try breaking the challenge into smaller steps. Test each piece before combining them. That's how real engineers solve problems!")
+          )
+        ),
+
+        // Complete button — only shows on last step after all visited
+        allStepsVisited && React.createElement("div", { style: { marginTop: 28, textAlign: "center" }},
+          React.createElement("button", {
+            onClick: onToggleComplete,
+            style: {
+              padding: "16px 44px", borderRadius: 14, border: "none",
+              background: isCompleted ? "rgba(71,85,105,0.6)" : "linear-gradient(135deg, #22c55e, #16a34a)",
+              color: "#fff", fontSize: 17, fontWeight: 700, cursor: "pointer", fontFamily: "Nunito",
+              transition: "all 0.3s", boxShadow: isCompleted ? "none" : "0 4px 20px rgba(34,197,94,0.3)"
+            }
+          }, isCompleted ? "\u{1F504} Mark Incomplete" : "\u2705 Project Complete! (+100 XP)")
+        ),
+
+        !allStepsVisited && React.createElement("div", { style: { marginTop: 28, textAlign: "center", padding: 16, background: "rgba(30,41,59,0.4)", borderRadius: 12 }},
+          React.createElement("p", { style: { color: "#7e8a9a", fontSize: 14 }}, "\u{1F512} Complete all steps to unlock the finish button!")
+        )
+      ),
+
+      // ── Navigation Buttons (Previous / Next) ──
+      React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 32, gap: 16 }},
+        currentStep > 0
+          ? React.createElement("button", {
+              onClick: prevStep,
+              style: {
+                padding: "14px 28px", borderRadius: 12, border: "1px solid #334155",
+                background: "rgba(30,41,59,0.6)", color: "#94a3b8", fontSize: 15, fontWeight: 700,
+                cursor: "pointer", fontFamily: "Nunito", transition: "all 0.2s", display: "flex", alignItems: "center", gap: 8
+              }
+            }, "\u2190 " + steps[currentStep - 1].label)
+          : React.createElement("div"),
+
+        currentStep < steps.length - 1
+          ? React.createElement("button", {
+              onClick: nextStep,
+              style: {
+                padding: "14px 32px", borderRadius: 12, border: "none",
+                background: project.color, color: "#fff", fontSize: 16, fontWeight: 800,
+                cursor: "pointer", fontFamily: "Nunito", transition: "all 0.3s",
+                display: "flex", alignItems: "center", gap: 8,
+                boxShadow: "0 4px 16px " + project.color + "30"
+              }
+            }, "Next: " + steps[currentStep + 1].label + " \u2192")
+          : React.createElement("div")
+      )
+    ),
+
+    // Fade-in animation
+    React.createElement("style", null, "@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }")
+  );
+}
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(React.createElement(App));
+</script>
+</body>
+</html>
