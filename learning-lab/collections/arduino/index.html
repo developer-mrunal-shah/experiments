@@ -9,7 +9,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.9/babel.min.js"></script>
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }
 body { font-family:'Nunito',sans-serif; background:#131a2b; color:#e2e8f0; transition: background 0.4s; }
@@ -51,7 +50,7 @@ code { font-family:'Fira Code','Courier New',monospace; }
     <div style="font-size:14px;color:#64748b">Loading your mission...</div>
   </div>
 </div>
-<script type="text/babel">
+<script>
 
 const { useState, useEffect, useRef } = React;
 
@@ -77,18 +76,18 @@ const PROJECTS = [
       { from: "Resistor", to: "LED long leg (+)", note: "The longer leg is positive (anode)" },
       { from: "LED short leg (−)", to: "Arduino GND", note: "GND means Ground — the return path" }
     ],
-    code: `<span class="cm">// Project 1: Hello LED!</span>
-<span class="cm">// Make an LED blink on and off</span>
+    code: `// Project 1: Hello LED!
+// Make an LED blink on and off
 
-<span class="kw">void</span> <span class="fn">setup</span>() {
-  <span class="fn">pinMode</span>(<span class="num">13</span>, <span class="type">OUTPUT</span>);  <span class="cm">// Tell Arduino: pin 13 is an output</span>
+void setup() {
+  pinMode(13, OUTPUT);  // Tell Arduino: pin 13 is an output
 }
 
-<span class="kw">void</span> <span class="fn">loop</span>() {
-  <span class="fn">digitalWrite</span>(<span class="num">13</span>, <span class="type">HIGH</span>);  <span class="cm">// Turn LED ON</span>
-  <span class="fn">delay</span>(<span class="num">1000</span>);               <span class="cm">// Wait 1 second</span>
-  <span class="fn">digitalWrite</span>(<span class="num">13</span>, <span class="type">LOW</span>);   <span class="cm">// Turn LED OFF</span>
-  <span class="fn">delay</span>(<span class="num">1000</span>);               <span class="cm">// Wait 1 second</span>
+void loop() {
+  digitalWrite(13, HIGH);  // Turn LED ON
+  delay(1000);               // Wait 1 second
+  digitalWrite(13, LOW);   // Turn LED OFF
+  delay(1000);               // Wait 1 second
 }`,
     challenge: "Can you make the LED blink faster? Try changing 1000 to 200. What about making it blink in a pattern — like SOS in Morse code (3 short, 3 long, 3 short)?",
     science: "When electricity flows through an LED, it produces light. The resistor limits the current so the LED doesn't burn out — think of it like a speed bump for electrons!"
@@ -113,32 +112,32 @@ const PROJECTS = [
       { from: "Arduino Pin 3", to: "Resistor → Yellow LED → GND", note: "Yellow light" },
       { from: "Arduino Pin 2", to: "Resistor → Green LED → GND", note: "Green light" }
     ],
-    code: `<span class="cm">// Project 2: Traffic Light</span>
-<span class="kw">int</span> red = <span class="num">4</span>;
-<span class="kw">int</span> yellow = <span class="num">3</span>;
-<span class="kw">int</span> green = <span class="num">2</span>;
+    code: `// Project 2: Traffic Light
+int red = 4;
+int yellow = 3;
+int green = 2;
 
-<span class="kw">void</span> <span class="fn">setup</span>() {
-  <span class="fn">pinMode</span>(red, <span class="type">OUTPUT</span>);
-  <span class="fn">pinMode</span>(yellow, <span class="type">OUTPUT</span>);
-  <span class="fn">pinMode</span>(green, <span class="type">OUTPUT</span>);
+void setup() {
+  pinMode(red, OUTPUT);
+  pinMode(yellow, OUTPUT);
+  pinMode(green, OUTPUT);
 }
 
-<span class="kw">void</span> <span class="fn">loop</span>() {
-  <span class="cm">// Green ON for 5 seconds</span>
-  <span class="fn">digitalWrite</span>(green, <span class="type">HIGH</span>);
-  <span class="fn">delay</span>(<span class="num">5000</span>);
-  <span class="fn">digitalWrite</span>(green, <span class="type">LOW</span>);
+void loop() {
+  // Green ON for 5 seconds
+  digitalWrite(green, HIGH);
+  delay(5000);
+  digitalWrite(green, LOW);
 
-  <span class="cm">// Yellow ON for 2 seconds</span>
-  <span class="fn">digitalWrite</span>(yellow, <span class="type">HIGH</span>);
-  <span class="fn">delay</span>(<span class="num">2000</span>);
-  <span class="fn">digitalWrite</span>(yellow, <span class="type">LOW</span>);
+  // Yellow ON for 2 seconds
+  digitalWrite(yellow, HIGH);
+  delay(2000);
+  digitalWrite(yellow, LOW);
 
-  <span class="cm">// Red ON for 5 seconds</span>
-  <span class="fn">digitalWrite</span>(red, <span class="type">HIGH</span>);
-  <span class="fn">delay</span>(<span class="num">5000</span>);
-  <span class="fn">digitalWrite</span>(red, <span class="type">LOW</span>);
+  // Red ON for 5 seconds
+  digitalWrite(red, HIGH);
+  delay(5000);
+  digitalWrite(red, LOW);
 }`,
     challenge: "Add a pedestrian button! Connect a push button and make the light turn red when someone presses it. Hint: you'll need digitalRead().",
     science: "Traffic lights use timers and sensors to manage the flow of cars. Some smart traffic lights use cameras and AI to detect how many cars are waiting!"
@@ -163,26 +162,26 @@ const PROJECTS = [
       { from: "Buzzer (−)", to: "GND", note: "" },
       { from: "Buttons", to: "Pins 2, 3, 4, 5", note: "Each button connects to a pin AND to GND through a 10kΩ resistor" }
     ],
-    code: `<span class="cm">// Project 3: Piano Keys</span>
-<span class="kw">int</span> buzzer = <span class="num">8</span>;
-<span class="kw">int</span> buttons[] = {<span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>, <span class="num">5</span>};
-<span class="kw">int</span> notes[] = {<span class="num">262</span>, <span class="num">330</span>, <span class="num">392</span>, <span class="num">523</span>}; <span class="cm">// C, E, G, C5</span>
+    code: `// Project 3: Piano Keys
+int buzzer = 8;
+int buttons[] = {2, 3, 4, 5};
+int notes[] = {262, 330, 392, 523}; // C, E, G, C5
 
-<span class="kw">void</span> <span class="fn">setup</span>() {
-  <span class="kw">for</span>(<span class="kw">int</span> i = <span class="num">0</span>; i < <span class="num">4</span>; i++) {
-    <span class="fn">pinMode</span>(buttons[i], <span class="type">INPUT_PULLUP</span>);
+void setup() {
+  for(int i = 0; i < 4; i++) {
+    pinMode(buttons[i], INPUT_PULLUP);
   }
 }
 
-<span class="kw">void</span> <span class="fn">loop</span>() {
-  <span class="kw">bool</span> played = <span class="kw">false</span>;
-  <span class="kw">for</span>(<span class="kw">int</span> i = <span class="num">0</span>; i < <span class="num">4</span>; i++) {
-    <span class="kw">if</span>(<span class="fn">digitalRead</span>(buttons[i]) == <span class="type">LOW</span>) {
-      <span class="fn">tone</span>(buzzer, notes[i]);
-      played = <span class="kw">true</span>;
+void loop() {
+  bool played = false;
+  for(int i = 0; i < 4; i++) {
+    if(digitalRead(buttons[i]) == LOW) {
+      tone(buzzer, notes[i]);
+      played = true;
     }
   }
-  <span class="kw">if</span>(!played) <span class="fn">noTone</span>(buzzer);
+  if(!played) noTone(buzzer);
 }`,
     challenge: "Can you play a song? Try making the Arduino play \"Twinkle Twinkle Little Star\" automatically using tone() and delay(). The notes are: C C G G A A G, F F E E D D C.",
     science: "Sound is made by vibrations. The buzzer vibrates the air at different speeds (frequencies) to make different pitches. Middle C vibrates 262 times per second!"
@@ -207,27 +206,27 @@ const PROJECTS = [
       { from: "10kΩ Resistor", to: "A0 and GND", note: "This creates a voltage divider" },
       { from: "Pin 9 → 220Ω Resistor → LED → GND", to: "", note: "Output LED circuit" }
     ],
-    code: `<span class="cm">// Project 4: Night Light</span>
-<span class="kw">int</span> lightSensor = <span class="type">A0</span>;
-<span class="kw">int</span> ledPin = <span class="num">9</span>;
-<span class="kw">int</span> threshold = <span class="num">400</span>;  <span class="cm">// Adjust this value!</span>
+    code: `// Project 4: Night Light
+int lightSensor = A0;
+int ledPin = 9;
+int threshold = 400;  // Adjust this value!
 
-<span class="kw">void</span> <span class="fn">setup</span>() {
-  <span class="fn">pinMode</span>(ledPin, <span class="type">OUTPUT</span>);
-  <span class="fn">Serial</span>.<span class="fn">begin</span>(<span class="num">9600</span>);  <span class="cm">// Start Serial Monitor</span>
+void setup() {
+  pinMode(ledPin, OUTPUT);
+  Serial.begin(9600);  // Start Serial Monitor
 }
 
-<span class="kw">void</span> <span class="fn">loop</span>() {
-  <span class="kw">int</span> lightLevel = <span class="fn">analogRead</span>(lightSensor);
-  <span class="fn">Serial</span>.<span class="fn">print</span>(<span class="str">"Light: "</span>);
-  <span class="fn">Serial</span>.<span class="fn">println</span>(lightLevel);
+void loop() {
+  int lightLevel = analogRead(lightSensor);
+  Serial.print("Light: ");
+  Serial.println(lightLevel);
 
-  <span class="kw">if</span>(lightLevel < threshold) {
-    <span class="fn">digitalWrite</span>(ledPin, <span class="type">HIGH</span>);  <span class="cm">// Dark → LED ON</span>
-  } <span class="kw">else</span> {
-    <span class="fn">digitalWrite</span>(ledPin, <span class="type">LOW</span>);   <span class="cm">// Bright → LED OFF</span>
+  if(lightLevel < threshold) {
+    digitalWrite(ledPin, HIGH);  // Dark → LED ON
+  } else {
+    digitalWrite(ledPin, LOW);   // Bright → LED OFF
   }
-  <span class="fn">delay</span>(<span class="num">100</span>);
+  delay(100);
 }`,
     challenge: "Instead of just ON/OFF, can you make the LED gradually get brighter as it gets darker? Hint: use analogWrite() and the map() function!",
     science: "A photoresistor changes its resistance based on light. In the dark, its resistance is high (millions of ohms). In bright light, it drops to just hundreds of ohms!"
@@ -254,41 +253,41 @@ const PROJECTS = [
       { from: "HC-SR04 GND", to: "Arduino GND", note: "" },
       { from: "Buzzer", to: "Pin 8 and GND", note: "Warning beeper" }
     ],
-    code: `<span class="cm">// Project 5: Distance Detector</span>
-<span class="kw">int</span> trigPin = <span class="num">9</span>;
-<span class="kw">int</span> echoPin = <span class="num">10</span>;
-<span class="kw">int</span> buzzer = <span class="num">8</span>;
+    code: `// Project 5: Distance Detector
+int trigPin = 9;
+int echoPin = 10;
+int buzzer = 8;
 
-<span class="kw">void</span> <span class="fn">setup</span>() {
-  <span class="fn">pinMode</span>(trigPin, <span class="type">OUTPUT</span>);
-  <span class="fn">pinMode</span>(echoPin, <span class="type">INPUT</span>);
-  <span class="fn">pinMode</span>(buzzer, <span class="type">OUTPUT</span>);
-  <span class="fn">Serial</span>.<span class="fn">begin</span>(<span class="num">9600</span>);
+void setup() {
+  pinMode(trigPin, OUTPUT);
+  pinMode(echoPin, INPUT);
+  pinMode(buzzer, OUTPUT);
+  Serial.begin(9600);
 }
 
-<span class="kw">void</span> <span class="fn">loop</span>() {
-  <span class="cm">// Send ultrasonic pulse</span>
-  <span class="fn">digitalWrite</span>(trigPin, <span class="type">LOW</span>);
-  <span class="fn">delayMicroseconds</span>(<span class="num">2</span>);
-  <span class="fn">digitalWrite</span>(trigPin, <span class="type">HIGH</span>);
-  <span class="fn">delayMicroseconds</span>(<span class="num">10</span>);
-  <span class="fn">digitalWrite</span>(trigPin, <span class="type">LOW</span>);
+void loop() {
+  // Send ultrasonic pulse
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
 
-  <span class="cm">// Measure echo time</span>
-  <span class="kw">long</span> duration = <span class="fn">pulseIn</span>(echoPin, <span class="type">HIGH</span>);
-  <span class="kw">int</span> distance = duration * <span class="num">0.034</span> / <span class="num">2</span>; <span class="cm">// cm</span>
+  // Measure echo time
+  long duration = pulseIn(echoPin, HIGH);
+  int distance = duration * 0.034 / 2; // cm
 
-  <span class="fn">Serial</span>.<span class="fn">print</span>(<span class="str">"Distance: "</span>);
-  <span class="fn">Serial</span>.<span class="fn">print</span>(distance);
-  <span class="fn">Serial</span>.<span class="fn">println</span>(<span class="str">" cm"</span>);
+  Serial.print("Distance: ");
+  Serial.print(distance);
+  Serial.println(" cm");
 
-  <span class="cm">// Beep faster when closer</span>
-  <span class="kw">if</span>(distance < <span class="num">30</span>) {
-    <span class="kw">int</span> beepDelay = <span class="fn">map</span>(distance, <span class="num">0</span>, <span class="num">30</span>, <span class="num">50</span>, <span class="num">500</span>);
-    <span class="fn">tone</span>(buzzer, <span class="num">1000</span>, <span class="num">50</span>);
-    <span class="fn">delay</span>(beepDelay);
+  // Beep faster when closer
+  if(distance < 30) {
+    int beepDelay = map(distance, 0, 30, 50, 500);
+    tone(buzzer, 1000, 50);
+    delay(beepDelay);
   }
-  <span class="fn">delay</span>(<span class="num">50</span>);
+  delay(50);
 }`,
     challenge: "Add 3 LEDs (green, yellow, red) that light up based on distance: green for far, yellow for medium, red for close. Like a real parking sensor display!",
     science: "Bats use the same trick! They send out sound pulses and listen for echoes. By timing how long the echo takes, they know how far away things are. This is called echolocation."
@@ -315,37 +314,37 @@ const PROJECTS = [
       { from: "LCD SDA", to: "Arduino A4", note: "I2C data line" },
       { from: "LCD SCL", to: "Arduino A5", note: "I2C clock line" }
     ],
-    code: `<span class="cm">// Project 6: Thermometer</span>
-<span class="cm">// If using I2C LCD, install LiquidCrystal_I2C library</span>
-<span class="kw">#include</span> <span class="str">&lt;Wire.h&gt;</span>
-<span class="kw">#include</span> <span class="str">&lt;LiquidCrystal_I2C.h&gt;</span>
+    code: `// Project 6: Thermometer
+// If using I2C LCD, install LiquidCrystal_I2C library
+#include &lt;Wire.h&gt;
+#include &lt;LiquidCrystal_I2C.h&gt;
 
-<span class="type">LiquidCrystal_I2C</span> lcd(<span class="num">0x27</span>, <span class="num">16</span>, <span class="num">2</span>);
-<span class="kw">int</span> tempPin = <span class="type">A0</span>;
+LiquidCrystal_I2C lcd(0x27, 16, 2);
+int tempPin = A0;
 
-<span class="kw">void</span> <span class="fn">setup</span>() {
-  lcd.<span class="fn">init</span>();
-  lcd.<span class="fn">backlight</span>();
-  lcd.<span class="fn">print</span>(<span class="str">"Thermometer"</span>);
-  <span class="fn">delay</span>(<span class="num">2000</span>);
+void setup() {
+  lcd.init();
+  lcd.backlight();
+  lcd.print("Thermometer");
+  delay(2000);
 }
 
-<span class="kw">void</span> <span class="fn">loop</span>() {
-  <span class="kw">int</span> reading = <span class="fn">analogRead</span>(tempPin);
-  <span class="kw">float</span> voltage = reading * <span class="num">5.0</span> / <span class="num">1024.0</span>;
-  <span class="kw">float</span> tempC = (voltage - <span class="num">0.5</span>) * <span class="num">100.0</span>;
-  <span class="kw">float</span> tempF = tempC * <span class="num">9.0</span>/<span class="num">5.0</span> + <span class="num">32.0</span>;
+void loop() {
+  int reading = analogRead(tempPin);
+  float voltage = reading * 5.0 / 1024.0;
+  float tempC = (voltage - 0.5) * 100.0;
+  float tempF = tempC * 9.0/5.0 + 32.0;
 
-  lcd.<span class="fn">clear</span>();
-  lcd.<span class="fn">setCursor</span>(<span class="num">0</span>, <span class="num">0</span>);
-  lcd.<span class="fn">print</span>(<span class="str">"Temp: "</span>);
-  lcd.<span class="fn">print</span>(tempC, <span class="num">1</span>);
-  lcd.<span class="fn">print</span>(<span class="str">" C"</span>);
-  lcd.<span class="fn">setCursor</span>(<span class="num">0</span>, <span class="num">1</span>);
-  lcd.<span class="fn">print</span>(<span class="str">"      "</span>);
-  lcd.<span class="fn">print</span>(tempF, <span class="num">1</span>);
-  lcd.<span class="fn">print</span>(<span class="str">" F"</span>);
-  <span class="fn">delay</span>(<span class="num">1000</span>);
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("Temp: ");
+  lcd.print(tempC, 1);
+  lcd.print(" C");
+  lcd.setCursor(0, 1);
+  lcd.print("      ");
+  lcd.print(tempF, 1);
+  lcd.print(" F");
+  delay(1000);
 }`,
     challenge: "Add a warning buzzer that beeps when the temperature goes above a certain limit. You could also add colored LEDs: blue for cold, green for comfortable, red for hot!",
     science: "The TMP36 sensor uses a special property of semiconductors: as temperature changes, the voltage it outputs changes by exactly 10 millivolts per degree Celsius."
@@ -371,41 +370,41 @@ const PROJECTS = [
       { from: "IR Receiver GND", to: "GND", note: "" },
       { from: "LEDs", to: "Pins 2, 3, 4 with resistors", note: "Red, Green, Blue LEDs" }
     ],
-    code: `<span class="cm">// Project 7: IR Remote Control</span>
-<span class="cm">// Install IRremote library from Library Manager</span>
-<span class="kw">#include</span> <span class="str">&lt;IRremote.h&gt;</span>
+    code: `// Project 7: IR Remote Control
+// Install IRremote library from Library Manager
+#include &lt;IRremote.h&gt;
 
-<span class="kw">int</span> RECV_PIN = <span class="num">11</span>;
-<span class="kw">int</span> leds[] = {<span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>};
+int RECV_PIN = 11;
+int leds[] = {2, 3, 4};
 
-<span class="kw">void</span> <span class="fn">setup</span>() {
-  <span class="fn">Serial</span>.<span class="fn">begin</span>(<span class="num">9600</span>);
-  <span class="type">IrReceiver</span>.<span class="fn">begin</span>(RECV_PIN);
-  <span class="kw">for</span>(<span class="kw">int</span> i = <span class="num">0</span>; i < <span class="num">3</span>; i++)
-    <span class="fn">pinMode</span>(leds[i], <span class="type">OUTPUT</span>);
-  <span class="fn">Serial</span>.<span class="fn">println</span>(<span class="str">"Ready! Press remote buttons..."</span>);
+void setup() {
+  Serial.begin(9600);
+  IrReceiver.begin(RECV_PIN);
+  for(int i = 0; i < 3; i++)
+    pinMode(leds[i], OUTPUT);
+  Serial.println("Ready! Press remote buttons...");
 }
 
-<span class="kw">void</span> <span class="fn">loop</span>() {
-  <span class="kw">if</span>(<span class="type">IrReceiver</span>.<span class="fn">decode</span>()) {
-    <span class="kw">unsigned long</span> code = <span class="type">IrReceiver</span>.decodedIRData.decodedRawData;
-    <span class="fn">Serial</span>.<span class="fn">println</span>(code, <span class="type">HEX</span>);
+void loop() {
+  if(IrReceiver.decode()) {
+    unsigned long code = IrReceiver.decodedIRData.decodedRawData;
+    Serial.println(code, HEX);
 
-    <span class="cm">// Map your remote's button codes here!</span>
-    <span class="cm">// First: run this and press buttons to see codes</span>
-    <span class="cm">// Then: replace these example codes with yours</span>
-    <span class="kw">switch</span>(code) {
-      <span class="kw">case</span> <span class="num">0xFFA25D</span>:  <span class="cm">// Button 1</span>
-        <span class="fn">digitalWrite</span>(leds[<span class="num">0</span>], !<span class="fn">digitalRead</span>(leds[<span class="num">0</span>]));
-        <span class="kw">break</span>;
-      <span class="kw">case</span> <span class="num">0xFF629D</span>:  <span class="cm">// Button 2</span>
-        <span class="fn">digitalWrite</span>(leds[<span class="num">1</span>], !<span class="fn">digitalRead</span>(leds[<span class="num">1</span>]));
-        <span class="kw">break</span>;
-      <span class="kw">case</span> <span class="num">0xFFE21D</span>:  <span class="cm">// Button 3</span>
-        <span class="fn">digitalWrite</span>(leds[<span class="num">2</span>], !<span class="fn">digitalRead</span>(leds[<span class="num">2</span>]));
-        <span class="kw">break</span>;
+    // Map your remote's button codes here!
+    // First: run this and press buttons to see codes
+    // Then: replace these example codes with yours
+    switch(code) {
+      case 0xFFA25D:  // Button 1
+        digitalWrite(leds[0], !digitalRead(leds[0]));
+        break;
+      case 0xFF629D:  // Button 2
+        digitalWrite(leds[1], !digitalRead(leds[1]));
+        break;
+      case 0xFFE21D:  // Button 3
+        digitalWrite(leds[2], !digitalRead(leds[2]));
+        break;
     }
-    <span class="type">IrReceiver</span>.<span class="fn">resume</span>();
+    IrReceiver.resume();
   }
 }`,
     challenge: "Decode ALL the buttons on your remote and build a full LED light show controller. Add fade effects using analogWrite() for button presses!",
@@ -432,36 +431,36 @@ const PROJECTS = [
       { from: "RGB LED Blue pin", to: "Pin 11 through 220Ω resistor", note: "" },
       { from: "RGB LED longest pin (cathode)", to: "GND", note: "Common ground" }
     ],
-    code: `<span class="cm">// Project 8: Mood Lamp — Rainbow Fade</span>
-<span class="kw">int</span> redPin = <span class="num">9</span>;
-<span class="kw">int</span> greenPin = <span class="num">10</span>;
-<span class="kw">int</span> bluePin = <span class="num">11</span>;
+    code: `// Project 8: Mood Lamp — Rainbow Fade
+int redPin = 9;
+int greenPin = 10;
+int bluePin = 11;
 
-<span class="kw">void</span> <span class="fn">setup</span>() {
-  <span class="fn">pinMode</span>(redPin, <span class="type">OUTPUT</span>);
-  <span class="fn">pinMode</span>(greenPin, <span class="type">OUTPUT</span>);
-  <span class="fn">pinMode</span>(bluePin, <span class="type">OUTPUT</span>);
+void setup() {
+  pinMode(redPin, OUTPUT);
+  pinMode(greenPin, OUTPUT);
+  pinMode(bluePin, OUTPUT);
 }
 
-<span class="kw">void</span> <span class="fn">setColor</span>(<span class="kw">int</span> r, <span class="kw">int</span> g, <span class="kw">int</span> b) {
-  <span class="fn">analogWrite</span>(redPin, r);
-  <span class="fn">analogWrite</span>(greenPin, g);
-  <span class="fn">analogWrite</span>(bluePin, b);
+void setColor(int r, int g, int b) {
+  analogWrite(redPin, r);
+  analogWrite(greenPin, g);
+  analogWrite(bluePin, b);
 }
 
-<span class="kw">void</span> <span class="fn">loop</span>() {
-  <span class="cm">// Fade through rainbow colors</span>
-  <span class="kw">for</span>(<span class="kw">int</span> i = <span class="num">0</span>; i < <span class="num">256</span>; i++) {
-    <span class="fn">setColor</span>(<span class="num">255</span>-i, i, <span class="num">0</span>);  <span class="cm">// Red → Green</span>
-    <span class="fn">delay</span>(<span class="num">10</span>);
+void loop() {
+  // Fade through rainbow colors
+  for(int i = 0; i < 256; i++) {
+    setColor(255-i, i, 0);  // Red → Green
+    delay(10);
   }
-  <span class="kw">for</span>(<span class="kw">int</span> i = <span class="num">0</span>; i < <span class="num">256</span>; i++) {
-    <span class="fn">setColor</span>(<span class="num">0</span>, <span class="num">255</span>-i, i);  <span class="cm">// Green → Blue</span>
-    <span class="fn">delay</span>(<span class="num">10</span>);
+  for(int i = 0; i < 256; i++) {
+    setColor(0, 255-i, i);  // Green → Blue
+    delay(10);
   }
-  <span class="kw">for</span>(<span class="kw">int</span> i = <span class="num">0</span>; i < <span class="num">256</span>; i++) {
-    <span class="fn">setColor</span>(i, <span class="num">0</span>, <span class="num">255</span>-i);  <span class="cm">// Blue → Red</span>
-    <span class="fn">delay</span>(<span class="num">10</span>);
+  for(int i = 0; i < 256; i++) {
+    setColor(i, 0, 255-i);  // Blue → Red
+    delay(10);
   }
 }`,
     challenge: "Add a potentiometer to control the speed of the color change! Or add a button that freezes on your favorite color.",
@@ -488,26 +487,26 @@ const PROJECTS = [
       { from: "Servo Brown wire", to: "GND", note: "Ground" },
       { from: "Potentiometer", to: "5V, A0, GND", note: "Left→5V, Middle→A0, Right→GND" }
     ],
-    code: `<span class="cm">// Project 9: Servo Sweeper</span>
-<span class="kw">#include</span> <span class="str">&lt;Servo.h&gt;</span>
+    code: `// Project 9: Servo Sweeper
+#include &lt;Servo.h&gt;
 
-<span class="type">Servo</span> myServo;
-<span class="kw">int</span> potPin = <span class="type">A0</span>;
+Servo myServo;
+int potPin = A0;
 
-<span class="kw">void</span> <span class="fn">setup</span>() {
-  myServo.<span class="fn">attach</span>(<span class="num">9</span>);
-  <span class="fn">Serial</span>.<span class="fn">begin</span>(<span class="num">9600</span>);
+void setup() {
+  myServo.attach(9);
+  Serial.begin(9600);
 }
 
-<span class="kw">void</span> <span class="fn">loop</span>() {
-  <span class="kw">int</span> potValue = <span class="fn">analogRead</span>(potPin);
-  <span class="kw">int</span> angle = <span class="fn">map</span>(potValue, <span class="num">0</span>, <span class="num">1023</span>, <span class="num">0</span>, <span class="num">180</span>);
+void loop() {
+  int potValue = analogRead(potPin);
+  int angle = map(potValue, 0, 1023, 0, 180);
 
-  myServo.<span class="fn">write</span>(angle);
+  myServo.write(angle);
 
-  <span class="fn">Serial</span>.<span class="fn">print</span>(<span class="str">"Angle: "</span>);
-  <span class="fn">Serial</span>.<span class="fn">println</span>(angle);
-  <span class="fn">delay</span>(<span class="num">15</span>);
+  Serial.print("Angle: ");
+  Serial.println(angle);
+  delay(15);
 }`,
     challenge: "Build a mini radar! Mount the ultrasonic sensor on the servo, sweep it back and forth, and print distance readings for each angle. You've built a real radar scanner!",
     science: "Servo motors have a special feedback circuit inside that knows their exact position. Unlike regular motors that just spin, servos can hold a precise angle — that's why robots use them for joints!"
@@ -534,67 +533,67 @@ const PROJECTS = [
       { from: "Green LED", to: "Pin 3 with resistor", note: "Armed indicator" },
       { from: "Button", to: "Pin 2 with INPUT_PULLUP", note: "Arm/disarm toggle" }
     ],
-    code: `<span class="cm">// Project 10: Intruder Alarm</span>
-<span class="kw">int</span> trigPin = <span class="num">9</span>, echoPin = <span class="num">10</span>;
-<span class="kw">int</span> buzzer = <span class="num">8</span>, redLed = <span class="num">4</span>, greenLed = <span class="num">3</span>;
-<span class="kw">int</span> button = <span class="num">2</span>;
-<span class="kw">bool</span> armed = <span class="kw">false</span>, alarm = <span class="kw">false</span>;
-<span class="kw">int</span> baseDistance = <span class="num">0</span>;
+    code: `// Project 10: Intruder Alarm
+int trigPin = 9, echoPin = 10;
+int buzzer = 8, redLed = 4, greenLed = 3;
+int button = 2;
+bool armed = false, alarm = false;
+int baseDistance = 0;
 
-<span class="kw">int</span> <span class="fn">getDistance</span>() {
-  <span class="fn">digitalWrite</span>(trigPin, <span class="type">LOW</span>);
-  <span class="fn">delayMicroseconds</span>(<span class="num">2</span>);
-  <span class="fn">digitalWrite</span>(trigPin, <span class="type">HIGH</span>);
-  <span class="fn">delayMicroseconds</span>(<span class="num">10</span>);
-  <span class="fn">digitalWrite</span>(trigPin, <span class="type">LOW</span>);
-  <span class="kw">return</span> <span class="fn">pulseIn</span>(echoPin, <span class="type">HIGH</span>) * <span class="num">0.034</span> / <span class="num">2</span>;
+int getDistance() {
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+  return pulseIn(echoPin, HIGH) * 0.034 / 2;
 }
 
-<span class="kw">void</span> <span class="fn">setup</span>() {
-  <span class="fn">pinMode</span>(trigPin, <span class="type">OUTPUT</span>);
-  <span class="fn">pinMode</span>(echoPin, <span class="type">INPUT</span>);
-  <span class="fn">pinMode</span>(buzzer, <span class="type">OUTPUT</span>);
-  <span class="fn">pinMode</span>(redLed, <span class="type">OUTPUT</span>);
-  <span class="fn">pinMode</span>(greenLed, <span class="type">OUTPUT</span>);
-  <span class="fn">pinMode</span>(button, <span class="type">INPUT_PULLUP</span>);
-  <span class="fn">Serial</span>.<span class="fn">begin</span>(<span class="num">9600</span>);
+void setup() {
+  pinMode(trigPin, OUTPUT);
+  pinMode(echoPin, INPUT);
+  pinMode(buzzer, OUTPUT);
+  pinMode(redLed, OUTPUT);
+  pinMode(greenLed, OUTPUT);
+  pinMode(button, INPUT_PULLUP);
+  Serial.begin(9600);
 }
 
-<span class="kw">void</span> <span class="fn">loop</span>() {
-  <span class="cm">// Toggle armed state with button</span>
-  <span class="kw">if</span>(<span class="fn">digitalRead</span>(button) == <span class="type">LOW</span>) {
+void loop() {
+  // Toggle armed state with button
+  if(digitalRead(button) == LOW) {
     armed = !armed;
-    alarm = <span class="kw">false</span>;
-    <span class="kw">if</span>(armed) {
-      baseDistance = <span class="fn">getDistance</span>();
-      <span class="fn">Serial</span>.<span class="fn">println</span>(<span class="str">"ARMED!"</span>);
-      <span class="fn">tone</span>(buzzer, <span class="num">1000</span>, <span class="num">200</span>);
-    } <span class="kw">else</span> {
-      <span class="fn">Serial</span>.<span class="fn">println</span>(<span class="str">"Disarmed"</span>);
-      <span class="fn">noTone</span>(buzzer);
+    alarm = false;
+    if(armed) {
+      baseDistance = getDistance();
+      Serial.println("ARMED!");
+      tone(buzzer, 1000, 200);
+    } else {
+      Serial.println("Disarmed");
+      noTone(buzzer);
     }
-    <span class="fn">delay</span>(<span class="num">500</span>);
+    delay(500);
   }
 
-  <span class="fn">digitalWrite</span>(greenLed, armed);
+  digitalWrite(greenLed, armed);
 
-  <span class="kw">if</span>(armed && !alarm) {
-    <span class="kw">int</span> dist = <span class="fn">getDistance</span>();
-    <span class="kw">if</span>(<span class="fn">abs</span>(dist - baseDistance) > <span class="num">15</span>) {
-      alarm = <span class="kw">true</span>;
-      <span class="fn">Serial</span>.<span class="fn">println</span>(<span class="str">"*** INTRUDER! ***"</span>);
+  if(armed && !alarm) {
+    int dist = getDistance();
+    if(abs(dist - baseDistance) > 15) {
+      alarm = true;
+      Serial.println("*** INTRUDER! ***");
     }
   }
 
-  <span class="kw">if</span>(alarm) {
-    <span class="fn">digitalWrite</span>(redLed, <span class="type">HIGH</span>);
-    <span class="fn">tone</span>(buzzer, <span class="num">2000</span>, <span class="num">100</span>);
-    <span class="fn">delay</span>(<span class="num">100</span>);
-    <span class="fn">digitalWrite</span>(redLed, <span class="type">LOW</span>);
-    <span class="fn">tone</span>(buzzer, <span class="num">1500</span>, <span class="num">100</span>);
-    <span class="fn">delay</span>(<span class="num">100</span>);
+  if(alarm) {
+    digitalWrite(redLed, HIGH);
+    tone(buzzer, 2000, 100);
+    delay(100);
+    digitalWrite(redLed, LOW);
+    tone(buzzer, 1500, 100);
+    delay(100);
   }
-  <span class="fn">delay</span>(<span class="num">50</span>);
+  delay(50);
 }`,
     challenge: "Add a 10-second countdown when you arm it (like a real alarm system). Show the countdown on the Serial Monitor and beep each second!",
     science: "Real security systems use a combination of sensors: infrared motion detectors, magnetic door contacts, glass break sensors, and cameras — all connected to a central brain, just like your Arduino!"
@@ -619,47 +618,47 @@ const PROJECTS = [
       { from: "Photoresistor + 10kΩ", to: "A1 voltage divider", note: "Light level" },
       { from: "LCD I2C", to: "SDA→A4, SCL→A5", note: "Display" }
     ],
-    code: `<span class="cm">// Project 11: Weather Station</span>
-<span class="kw">#include</span> <span class="str">&lt;Wire.h&gt;</span>
-<span class="kw">#include</span> <span class="str">&lt;LiquidCrystal_I2C.h&gt;</span>
+    code: `// Project 11: Weather Station
+#include &lt;Wire.h&gt;
+#include &lt;LiquidCrystal_I2C.h&gt;
 
-<span class="type">LiquidCrystal_I2C</span> lcd(<span class="num">0x27</span>, <span class="num">16</span>, <span class="num">2</span>);
+LiquidCrystal_I2C lcd(0x27, 16, 2);
 
-<span class="kw">void</span> <span class="fn">setup</span>() {
-  lcd.<span class="fn">init</span>();
-  lcd.<span class="fn">backlight</span>();
-  <span class="fn">Serial</span>.<span class="fn">begin</span>(<span class="num">9600</span>);
-  lcd.<span class="fn">print</span>(<span class="str">"Weather Station"</span>);
-  <span class="fn">delay</span>(<span class="num">2000</span>);
+void setup() {
+  lcd.init();
+  lcd.backlight();
+  Serial.begin(9600);
+  lcd.print("Weather Station");
+  delay(2000);
 }
 
-<span class="kw">void</span> <span class="fn">loop</span>() {
-  <span class="cm">// Read temperature</span>
-  <span class="kw">float</span> voltage = <span class="fn">analogRead</span>(<span class="type">A0</span>) * <span class="num">5.0</span> / <span class="num">1024.0</span>;
-  <span class="kw">float</span> tempC = (voltage - <span class="num">0.5</span>) * <span class="num">100.0</span>;
+void loop() {
+  // Read temperature
+  float voltage = analogRead(A0) * 5.0 / 1024.0;
+  float tempC = (voltage - 0.5) * 100.0;
 
-  <span class="cm">// Read light level</span>
-  <span class="kw">int</span> light = <span class="fn">analogRead</span>(<span class="type">A1</span>);
-  <span class="type">String</span> brightness;
-  <span class="kw">if</span>(light > <span class="num">800</span>) brightness = <span class="str">"Sunny"</span>;
-  <span class="kw">else if</span>(light > <span class="num">400</span>) brightness = <span class="str">"Cloudy"</span>;
-  <span class="kw">else</span> brightness = <span class="str">"Dark"</span>;
+  // Read light level
+  int light = analogRead(A1);
+  String brightness;
+  if(light > 800) brightness = "Sunny";
+  else if(light > 400) brightness = "Cloudy";
+  else brightness = "Dark";
 
-  lcd.<span class="fn">clear</span>();
-  lcd.<span class="fn">setCursor</span>(<span class="num">0</span>, <span class="num">0</span>);
-  lcd.<span class="fn">print</span>(<span class="str">"Temp: "</span>);
-  lcd.<span class="fn">print</span>(tempC, <span class="num">1</span>);
-  lcd.<span class="fn">print</span>(<span class="str">"C"</span>);
-  lcd.<span class="fn">setCursor</span>(<span class="num">0</span>, <span class="num">1</span>);
-  lcd.<span class="fn">print</span>(<span class="str">"Light: "</span>);
-  lcd.<span class="fn">print</span>(brightness);
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("Temp: ");
+  lcd.print(tempC, 1);
+  lcd.print("C");
+  lcd.setCursor(0, 1);
+  lcd.print("Light: ");
+  lcd.print(brightness);
 
-  <span class="cm">// Also log to Serial for graphing</span>
-  <span class="fn">Serial</span>.<span class="fn">print</span>(tempC);
-  <span class="fn">Serial</span>.<span class="fn">print</span>(<span class="str">","</span>);
-  <span class="fn">Serial</span>.<span class="fn">println</span>(light);
+  // Also log to Serial for graphing
+  Serial.print(tempC);
+  Serial.print(",");
+  Serial.println(light);
 
-  <span class="fn">delay</span>(<span class="num">2000</span>);
+  delay(2000);
 }`,
     challenge: "Use the Serial Plotter in Arduino IDE to graph your temperature over time! Leave it running for an hour and see how temperature changes. Can you spot when someone opens a window?",
     science: "Real weather stations measure many things: temperature, humidity, air pressure, wind speed, rainfall, UV index, and more. Satellites orbiting Earth have weather stations that look down at the whole planet!"
@@ -686,57 +685,102 @@ const PROJECTS = [
       { from: "L298N 12V", to: "Battery pack +", note: "Motor power (separate!)" },
       { from: "HC-SR04", to: "Trig→7, Echo→8", note: "Front-facing distance sensor" }
     ],
-    code: `<span class="cm">// Project 12: Robot Car with Obstacle Avoidance</span>
-<span class="cm">// Motor pins</span>
-<span class="kw">int</span> IN1=<span class="num">5</span>, IN2=<span class="num">6</span>, IN3=<span class="num">9</span>, IN4=<span class="num">10</span>;
-<span class="kw">int</span> ENA=<span class="num">3</span>, ENB=<span class="num">11</span>;
-<span class="kw">int</span> trigPin=<span class="num">7</span>, echoPin=<span class="num">8</span>;
-<span class="kw">int</span> speed = <span class="num">150</span>; <span class="cm">// 0-255</span>
+    code: `// Project 12: Robot Car with Obstacle Avoidance
+// Motor pins
+int IN1=5, IN2=6, IN3=9, IN4=10;
+int ENA=3, ENB=11;
+int trigPin=7, echoPin=8;
+int speed = 150; // 0-255
 
-<span class="kw">int</span> <span class="fn">getDistance</span>() {
-  <span class="fn">digitalWrite</span>(trigPin, <span class="type">LOW</span>);
-  <span class="fn">delayMicroseconds</span>(<span class="num">2</span>);
-  <span class="fn">digitalWrite</span>(trigPin, <span class="type">HIGH</span>);
-  <span class="fn">delayMicroseconds</span>(<span class="num">10</span>);
-  <span class="fn">digitalWrite</span>(trigPin, <span class="type">LOW</span>);
-  <span class="kw">return</span> <span class="fn">pulseIn</span>(echoPin, <span class="type">HIGH</span>) * <span class="num">0.034</span> / <span class="num">2</span>;
+int getDistance() {
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+  return pulseIn(echoPin, HIGH) * 0.034 / 2;
 }
 
-<span class="kw">void</span> <span class="fn">forward</span>()  { <span class="fn">analogWrite</span>(ENA,speed); <span class="fn">analogWrite</span>(ENB,speed);
-  <span class="fn">digitalWrite</span>(IN1,<span class="type">HIGH</span>); <span class="fn">digitalWrite</span>(IN2,<span class="type">LOW</span>);
-  <span class="fn">digitalWrite</span>(IN3,<span class="type">HIGH</span>); <span class="fn">digitalWrite</span>(IN4,<span class="type">LOW</span>); }
+void forward()  { analogWrite(ENA,speed); analogWrite(ENB,speed);
+  digitalWrite(IN1,HIGH); digitalWrite(IN2,LOW);
+  digitalWrite(IN3,HIGH); digitalWrite(IN4,LOW); }
 
-<span class="kw">void</span> <span class="fn">turnRight</span>() { <span class="fn">analogWrite</span>(ENA,speed); <span class="fn">analogWrite</span>(ENB,speed);
-  <span class="fn">digitalWrite</span>(IN1,<span class="type">HIGH</span>); <span class="fn">digitalWrite</span>(IN2,<span class="type">LOW</span>);
-  <span class="fn">digitalWrite</span>(IN3,<span class="type">LOW</span>); <span class="fn">digitalWrite</span>(IN4,<span class="type">HIGH</span>); }
+void turnRight() { analogWrite(ENA,speed); analogWrite(ENB,speed);
+  digitalWrite(IN1,HIGH); digitalWrite(IN2,LOW);
+  digitalWrite(IN3,LOW); digitalWrite(IN4,HIGH); }
 
-<span class="kw">void</span> <span class="fn">stopCar</span>()  { <span class="fn">analogWrite</span>(ENA,<span class="num">0</span>); <span class="fn">analogWrite</span>(ENB,<span class="num">0</span>); }
+void stopCar()  { analogWrite(ENA,0); analogWrite(ENB,0); }
 
-<span class="kw">void</span> <span class="fn">setup</span>() {
-  <span class="kw">int</span> pins[] = {IN1,IN2,IN3,IN4,ENA,ENB,trigPin};
-  <span class="kw">for</span>(<span class="kw">int</span> p : pins) <span class="fn">pinMode</span>(p, <span class="type">OUTPUT</span>);
-  <span class="fn">pinMode</span>(echoPin, <span class="type">INPUT</span>);
-  <span class="fn">Serial</span>.<span class="fn">begin</span>(<span class="num">9600</span>);
+void setup() {
+  int pins[] = {IN1,IN2,IN3,IN4,ENA,ENB,trigPin};
+  for(int p : pins) pinMode(p, OUTPUT);
+  pinMode(echoPin, INPUT);
+  Serial.begin(9600);
 }
 
-<span class="kw">void</span> <span class="fn">loop</span>() {
-  <span class="kw">int</span> dist = <span class="fn">getDistance</span>();
-  <span class="fn">Serial</span>.<span class="fn">println</span>(dist);
+void loop() {
+  int dist = getDistance();
+  Serial.println(dist);
 
-  <span class="kw">if</span>(dist > <span class="num">20</span>) {
-    <span class="fn">forward</span>();
-  } <span class="kw">else</span> {
-    <span class="fn">stopCar</span>();
-    <span class="fn">delay</span>(<span class="num">300</span>);
-    <span class="fn">turnRight</span>();
-    <span class="fn">delay</span>(<span class="num">400</span>);
+  if(dist > 20) {
+    forward();
+  } else {
+    stopCar();
+    delay(300);
+    turnRight();
+    delay(400);
   }
-  <span class="fn">delay</span>(<span class="num">50</span>);
+  delay(50);
 }`,
     challenge: "Make the robot smarter! Add a servo to scan left and right before deciding which way to turn. Or add line-following sensors to make it follow a track made with black tape!",
     science: "Self-driving cars use the same basic idea but with much more powerful sensors: LIDAR (laser distance), cameras, GPS, and machine learning. Your robot is doing the same thing — just simpler!"
   }
 ];
+
+
+// ─── SYNTAX HIGHLIGHTER ────────────────────────────────────────
+function highlightArduinoCode(code) {
+  // Escape HTML first to prevent < > & from breaking the output
+  let html = code
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+
+  // Use a placeholder system to protect already-highlighted spans from being corrupted
+  const placeholders = {};
+  let placeholderCount = 0;
+
+  // Helper to create placeholders for spans
+  const createPlaceholder = (html) => {
+    const key = `__PLACEHOLDER_${placeholderCount}__`;
+    placeholders[key] = html;
+    placeholderCount++;
+    return key;
+  };
+
+  // Define patterns - must escape them since we're working with escaped HTML
+  const keywords = /\b(void|int|bool|long|float|double|char|byte|if|else|for|while|do|return|switch|case|default|true|false|const|volatile)\b/g;
+  const types = /\b(HIGH|LOW|INPUT|OUTPUT|INPUT_PULLUP|OUTPUT_OD)\b/g;
+  const functions = /\b(pinMode|digitalWrite|digitalRead|analogWrite|analogRead|delay|delayMicroseconds|millis|micros|Serial|tone|noTone|map|pulseIn|attachInterrupt|detachInterrupt)\b/g;
+  const comments = /\/\/[^\n]*/g;
+  const strings = /"[^"]*"|'[^']*'/g;
+  const numbers = /\b\d+\b/g;
+
+  // Apply highlighting in a single pass - do it smartly to avoid re-highlighting
+  html = html.replace(comments, match => createPlaceholder('<span class="cm">' + match + '</span>'));
+  html = html.replace(strings, match => createPlaceholder('<span class="str">' + match + '</span>'));
+  html = html.replace(keywords, match => createPlaceholder('<span class="kw">' + match + '</span>'));
+  html = html.replace(types, match => createPlaceholder('<span class="type">' + match + '</span>'));
+  html = html.replace(functions, match => createPlaceholder('<span class="fn">' + match + '</span>'));
+  html = html.replace(numbers, match => createPlaceholder('<span class="num">' + match + '</span>'));
+
+  // Replace all placeholders with actual spans
+  Object.keys(placeholders).forEach(key => {
+    html = html.replace(new RegExp(key, 'g'), placeholders[key]);
+  });
+
+  return html;
+}
 
 // ─── MINI-GAME FUNCTIONS ───────────────────────────────────
 function generateComponentMatchGame(questId) {
@@ -1295,7 +1339,7 @@ function QuestView({ quest, player, isCompleted, onToggleComplete, onBack, onSta
             }, "📋 Copy Code")
           ),
           React.createElement("pre", null,
-            React.createElement("code", { dangerouslySetInnerHTML: { __html: quest.code }})
+            React.createElement("code", { dangerouslySetInnerHTML: { __html: highlightArduinoCode(quest.code) }})
           )
         )
       ),
