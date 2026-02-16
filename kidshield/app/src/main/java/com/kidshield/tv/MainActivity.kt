@@ -7,6 +7,8 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.core.content.ContextCompat
 import androidx.navigation.compose.rememberNavController
+import com.kidshield.tv.data.local.preferences.PinManager
+import com.kidshield.tv.data.repository.SettingsRepository
 import com.kidshield.tv.service.AppMonitorService
 import com.kidshield.tv.service.LockTaskHelper
 import com.kidshield.tv.ui.navigation.KidShieldNavGraph
@@ -19,6 +21,12 @@ class MainActivity : ComponentActivity() {
 
     @Inject
     lateinit var lockTaskHelper: LockTaskHelper
+
+    @Inject
+    lateinit var settingsRepository: SettingsRepository
+
+    @Inject
+    lateinit var pinManager: PinManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,7 +57,9 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
                 KidShieldNavGraph(
                     navController = navController,
-                    lockTaskHelper = lockTaskHelper
+                    lockTaskHelper = lockTaskHelper,
+                    settingsRepository = settingsRepository,
+                    pinManager = pinManager
                 )
             }
         }

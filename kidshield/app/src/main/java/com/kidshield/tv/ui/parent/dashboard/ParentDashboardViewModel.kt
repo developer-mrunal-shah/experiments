@@ -53,7 +53,7 @@ class ParentDashboardViewModel @Inject constructor(
                         appName = app.displayName,
                         date = java.time.LocalDate.now().toString(),
                         minutesUsed = usage?.totalMinutesUsed ?: 0,
-                        limitMinutes = limit?.dailyLimitMinutes
+                        limitMinutes = limit?.dailyLimitMinutes ?: 60
                     )
                 }.sortedByDescending { it.minutesUsed }
 

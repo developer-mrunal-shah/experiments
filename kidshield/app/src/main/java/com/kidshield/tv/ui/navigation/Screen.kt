@@ -21,4 +21,5 @@ sealed class Screen(val route: String) {
     data object AppManagement : Screen("app_management")
     data object ContentSafety : Screen("content_safety")
     data object SetupWizard : Screen("setup_wizard")
+    data object ChangePin : Screen("change_pin")
 }
