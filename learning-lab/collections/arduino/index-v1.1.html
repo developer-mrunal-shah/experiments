@@ -1747,7 +1747,11 @@ function checkBadgeUnlocks(completed, bonusXp, gameHistory, badges) {
   const b = badges || {};
   
   const unlock = (id) => {
-    if (!b[id]) { b[id] = { unlocked: true, at: Date.now() }; newBadges.push(id); }
+    if (!b[id]) {
+      b[id] = { unlocked: true, at: Date.now() };
+      const badgeInfo = ACHIEVEMENT_BADGES.find(ab => ab.id === id);
+      newBadges.push(badgeInfo || { id, title: id, icon: "🏆" });
+    }
   };
   
   if (completedCount >= 1) unlock("first_quest");
@@ -2231,42 +2235,61 @@ function App() {
     }});
   }
 
+  // Modal overlays — rendered on top of any view
+  const modalOverlays = [
+    badgeToast && React.createElement(BadgeToast, { key: "badge-toast", badge: badgeToast, onDismiss: () => setBadgeToast(null) }),
+    showAchievements && React.createElement(AchievementModal, { key: "achievements", badges, onClose: () => setShowAchievements(false) }),
+    showParentDash && React.createElement(ParentDashboard, { key: "parent-dash", completed, bonusXp, badges, onClose: () => setShowParentDash(false) }),
+    showExplainer && React.createElement(ExplainerView, {
+      key: "explainer",
+      conceptId: showExplainer,
+      onClose: () => setShowExplainer(null),
+      onXpEarned: (xp) => { addXpPop(xp); setBonusXp(prev => prev + xp); }
+    })
+  ].filter(Boolean);
+
   if (view === "quest" && selectedQuest) {
-    return React.createElement(QuestView, {
-      quest: selectedQuest,
-      player,
-      isCompleted: completed[selectedQuest.id],
-      onToggleComplete: () => toggleComplete(selectedQuest.id),
-      onBack: () => setView("world"),
-      onStartMiniGame: (game) => setMiniGame(game),
-      onCompleteMiniGame: (bonusXpAmount) => {
-        addXpPop(bonusXpAmount);
-        setBonusXp(prev => prev + bonusXpAmount);
-        setMiniGame(null);
-      },
-      onShowExplainer: (conceptId) => setShowExplainer(conceptId)
-    });
+    return React.createElement(React.Fragment, null,
+      React.createElement(QuestView, {
+        quest: selectedQuest,
+        player,
+        isCompleted: completed[selectedQuest.id],
+        onToggleComplete: () => toggleComplete(selectedQuest.id),
+        onBack: () => setView("world"),
+        onStartMiniGame: (game) => setMiniGame(game),
+        onCompleteMiniGame: (bonusXpAmount) => {
+          addXpPop(bonusXpAmount);
+          setBonusXp(prev => prev + bonusXpAmount);
+          setMiniGame(null);
+        },
+        onShowExplainer: (conceptId) => setShowExplainer(conceptId)
+      }),
+      ...modalOverlays
+    );
   }
 
   if (miniGame) {
-    return React.createElement(MiniGameView, {
-      game: miniGame,
-      onClose: () => setMiniGame(null),
-      onComplete: (bonusXpAmount) => {
-        addXpPop(bonusXpAmount);
-        const newBonusXp = bonusXp + bonusXpAmount;
-        setBonusXp(newBonusXp);
-        setMiniGame(null);
-        // Check for badge unlocks after mini-game
-        const newHistory = { ...gameHistory, sessionCompletions: gameHistory.sessionCompletions + 1 };
-        setGameHistory(newHistory);
-        const result = checkBadgeUnlocks(completed, newBonusXp, newHistory, badges);
-        if (result.newBadges.length > 0) {
-          setBadges(result.badges);
-          setBadgeToast(result.newBadges[0]);
+    return React.createElement(React.Fragment, null,
+      React.createElement(MiniGameView, {
+        game: miniGame,
+        onClose: () => setMiniGame(null),
+        onComplete: (bonusXpAmount) => {
+          addXpPop(bonusXpAmount);
+          const newBonusXp = bonusXp + bonusXpAmount;
+          setBonusXp(newBonusXp);
+          setMiniGame(null);
+          // Check for badge unlocks after mini-game
+          const newHistory = { ...gameHistory, sessionCompletions: gameHistory.sessionCompletions + 1 };
+          setGameHistory(newHistory);
+          const result = checkBadgeUnlocks(completed, newBonusXp, newHistory, badges);
+          if (result.newBadges.length > 0) {
+            setBadges(result.badges);
+            setBadgeToast(result.newBadges[0]);
+          }
         }
-      }
-    });
+      }),
+      ...modalOverlays
+    );
   }
 
   const levelIcons = ["\u{1F331}","\u{1F4A1}","\u{1F527}","\u{1F4E1}","\u26A1","\u{1F50D}","\u{1F4BB}","\u2699\uFE0F","\u{1F3D7}\uFE0F","\u{1F916}","\u{1F9EA}","\u{1F6E1}\uFE0F","\u{1F3C6}"];
@@ -2434,21 +2457,8 @@ function App() {
     )
   ,
 
-    // Badge Toast
-    badgeToast && React.createElement(BadgeToast, { badge: badgeToast, onDismiss: () => setBadgeToast(null) }),
-
-    // Achievements Modal  
-    showAchievements && React.createElement(AchievementModal, { badges, onClose: () => setShowAchievements(false) }),
-
-    // Parent Dashboard
-    showParentDash && React.createElement(ParentDashboard, { completed, bonusXp, badges, onClose: () => setShowParentDash(false) }),
-
-    // Explainer
-    showExplainer && React.createElement(ExplainerView, {
-      conceptId: showExplainer,
-      onClose: () => setShowExplainer(null),
-      onXpEarned: (xp) => { addXpPop(xp); setBonusXp(prev => prev + xp); }
-    })
+    // Modal overlays (shared across all views)
+    ...modalOverlays
 
   );
 }
