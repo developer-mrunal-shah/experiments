@@ -5,6 +5,7 @@ import android.content.Intent
 import com.kidshield.tv.data.local.db.dao.TimeLimitDao
 import com.kidshield.tv.data.repository.AppRepository
 import com.kidshield.tv.data.repository.UsageRepository
+import com.kidshield.tv.service.LockTaskHelper
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.time.LocalTime
 import javax.inject.Inject
@@ -13,6 +14,7 @@ class LaunchAppUseCase @Inject constructor(
     private val appRepository: AppRepository,
     private val usageRepository: UsageRepository,
     private val timeLimitDao: TimeLimitDao,
+    private val lockTaskHelper: LockTaskHelper,
     @ApplicationContext private val context: Context
 ) {
     sealed class LaunchResult {
@@ -53,6 +55,10 @@ class LaunchAppUseCase @Inject constructor(
         if (todayUsage >= dailyLimit) {
             return LaunchResult.TimeLimitReached(app.displayName)
         }
+
+        // Unsuspend the app in case it was previously suspended by the monitor
+        // (e.g. time limit was reached yesterday, or limit was increased since)
+        lockTaskHelper.unsuspendPackage(packageName)
 
         // Launch the app — try leanback launcher first (TV), then standard launcher
         val launchIntent = context.packageManager.getLeanbackLaunchIntentForPackage(packageName)

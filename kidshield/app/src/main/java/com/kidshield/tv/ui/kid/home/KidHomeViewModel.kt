@@ -2,6 +2,7 @@ package com.kidshield.tv.ui.kid.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.kidshield.tv.data.local.db.dao.TimeLimitDao
 import com.kidshield.tv.data.repository.AppRepository
 import com.kidshield.tv.data.repository.UsageRepository
 import com.kidshield.tv.domain.model.AppCategory
@@ -13,6 +14,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.time.LocalTime
@@ -24,7 +26,8 @@ class KidHomeViewModel @Inject constructor(
     private val launchAppUseCase: LaunchAppUseCase,
     private val checkTimeLimitUseCase: CheckTimeLimitUseCase,
     private val usageRepository: UsageRepository,
-    private val appRepository: AppRepository
+    private val appRepository: AppRepository,
+    private val timeLimitDao: TimeLimitDao
 ) : ViewModel() {
 
     data class UiState(
@@ -48,16 +51,25 @@ class KidHomeViewModel @Inject constructor(
 
     private fun loadApps() {
         viewModelScope.launch {
-            getAllowedAppsUseCase().collect { apps ->
-                // Enrich with time limit data
-                val enrichedApps = apps.map { app ->
+            // Combine allowed apps, time limits AND usage logs so the home
+            // screen refreshes when any of them change. This ensures:
+            //  - App list changes → refresh
+            //  - Time limit config changes → refresh
+            //  - Usage recorded (monitor service) → refresh remaining time
+            combine(
+                getAllowedAppsUseCase(),
+                timeLimitDao.getAllTimeLimits(),
+                usageRepository.getTodayAllUsage()
+            ) { apps, _, _ ->
+                // Enrich with time limit data (re-read on every emission)
+                apps.map { app ->
                     val status = checkTimeLimitUseCase(app.packageName)
                     app.copy(
                         dailyMinutesRemaining = status.minutesRemaining,
                         dailyLimitMinutes = status.dailyLimitMinutes
                     )
                 }
-
+            }.collect { enrichedApps ->
                 val grouped = enrichedApps.groupBy { app ->
                     when (app.category) {
                         AppCategory.STREAMING -> "Streaming"

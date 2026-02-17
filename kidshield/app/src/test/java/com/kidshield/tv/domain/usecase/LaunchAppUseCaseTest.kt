@@ -10,7 +10,9 @@ import com.kidshield.tv.data.repository.UsageRepository
 import com.kidshield.tv.domain.model.AgeProfile
 import com.kidshield.tv.domain.model.AppCategory
 import com.kidshield.tv.domain.model.StreamingApp
+import com.kidshield.tv.service.LockTaskHelper
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
@@ -25,6 +27,7 @@ class LaunchAppUseCaseTest {
     private lateinit var appRepository: AppRepository
     private lateinit var usageRepository: UsageRepository
     private lateinit var timeLimitDao: TimeLimitDao
+    private lateinit var lockTaskHelper: LockTaskHelper
     private lateinit var context: Context
     private lateinit var packageManager: PackageManager
     private lateinit var useCase: LaunchAppUseCase
@@ -52,12 +55,13 @@ class LaunchAppUseCaseTest {
         appRepository = mockk()
         usageRepository = mockk()
         timeLimitDao = mockk()
+        lockTaskHelper = mockk(relaxed = true)
         context = mockk()
         packageManager = mockk()
 
         every { context.packageManager } returns packageManager
 
-        useCase = LaunchAppUseCase(appRepository, usageRepository, timeLimitDao, context)
+        useCase = LaunchAppUseCase(appRepository, usageRepository, timeLimitDao, lockTaskHelper, context)
     }
 
     // ── App not in database → AppNotInstalled ─────────────────────
@@ -275,5 +279,57 @@ class LaunchAppUseCaseTest {
         val result = useCase("com.test.app")
 
         assertTrue(result is LaunchAppUseCase.LaunchResult.Success)
+    }
+
+    // ── Unsuspend before launch (bug fix: suspended apps couldn't reopen) ──
+
+    @Test
+    fun `unsuspends package before launching`() = runTest {
+        val launchIntent = mockk<Intent>(relaxed = true)
+
+        coEvery { appRepository.getApp("com.test.app") } returns makeApp()
+        coEvery { timeLimitDao.getTimeLimitForAppOnce("com.test.app") } returns null
+        coEvery { usageRepository.getTodayUsage("com.test.app") } returns 0
+        every { packageManager.getLeanbackLaunchIntentForPackage("com.test.app") } returns launchIntent
+        every { context.startActivity(any()) } returns Unit
+
+        useCase("com.test.app")
+
+        verify { lockTaskHelper.unsuspendPackage("com.test.app") }
+    }
+
+    @Test
+    fun `does not unsuspend when app is not allowed`() = runTest {
+        coEvery { appRepository.getApp("com.blocked.app") } returns makeApp(
+            pkg = "com.blocked.app", allowed = false
+        )
+
+        useCase("com.blocked.app")
+
+        verify(exactly = 0) { lockTaskHelper.unsuspendPackage(any()) }
+    }
+
+    @Test
+    fun `does not unsuspend when time limit is reached`() = runTest {
+        coEvery { appRepository.getApp("com.test.app") } returns makeApp()
+        coEvery { timeLimitDao.getTimeLimitForAppOnce("com.test.app") } returns TimeLimitEntity(
+            packageName = "com.test.app",
+            dailyLimitMinutes = 30
+        )
+        coEvery { usageRepository.getTodayUsage("com.test.app") } returns 30
+
+        val result = useCase("com.test.app")
+
+        assertTrue(result is LaunchAppUseCase.LaunchResult.TimeLimitReached)
+        verify(exactly = 0) { lockTaskHelper.unsuspendPackage(any()) }
+    }
+
+    @Test
+    fun `does not unsuspend when app is not in repository`() = runTest {
+        coEvery { appRepository.getApp("com.unknown.app") } returns null
+
+        useCase("com.unknown.app")
+
+        verify(exactly = 0) { lockTaskHelper.unsuspendPackage(any()) }
     }
 }

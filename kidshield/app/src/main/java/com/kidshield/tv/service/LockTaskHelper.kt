@@ -1,6 +1,7 @@
 package com.kidshield.tv.service
 
 import android.app.Activity
+import android.app.AppOpsManager
 import android.app.admin.DevicePolicyManager
 import android.content.ComponentName
 import android.content.Context
@@ -8,6 +9,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.os.Build
+import android.os.Process
 import android.util.Log
 import com.kidshield.tv.MainActivity
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -113,6 +115,57 @@ class LockTaskHelper @Inject constructor(
         if (!isDeviceOwner) return
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             dpm.setPackagesSuspended(adminComponent, packages.toTypedArray(), false)
+        }
+    }
+
+    /**
+     * Ensure the PACKAGE_USAGE_STATS (Usage Access) permission is granted.
+     * As Device Owner, we can set this via AppOps. Without Device Owner,
+     * the user must manually grant it in Settings.
+     */
+    fun ensureUsageStatsPermission() {
+        val appOps = context.getSystemService(Context.APP_OPS_SERVICE) as AppOpsManager
+        val mode = appOps.unsafeCheckOpNoThrow(
+            AppOpsManager.OPSTR_GET_USAGE_STATS,
+            Process.myUid(),
+            context.packageName
+        )
+        if (mode != AppOpsManager.MODE_ALLOWED) {
+            if (isDeviceOwner) {
+                // Device Owner can grant via DPM
+                try {
+                    dpm.setPermissionGrantState(
+                        adminComponent,
+                        context.packageName,
+                        android.Manifest.permission.PACKAGE_USAGE_STATS,
+                        DevicePolicyManager.PERMISSION_GRANT_STATE_GRANTED
+                    )
+                    Log.d("KidShield", "Granted USAGE_STATS permission via DPM")
+                } catch (e: Exception) {
+                    Log.w("KidShield", "Could not grant USAGE_STATS via DPM, trying AppOps", e)
+                }
+            } else {
+                Log.w("KidShield", "USAGE_STATS permission not granted — " +
+                    "monitoring may not work. Grant via Settings → Apps → Special access → Usage access")
+            }
+        } else {
+            Log.d("KidShield", "USAGE_STATS permission already granted")
+        }
+    }
+
+    /**
+     * Set the device clock. Only works as Device Owner.
+     * Useful when the emulator has no network time sync.
+     */
+    fun setDeviceTime(epochMillis: Long) {
+        if (!isDeviceOwner) return
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                dpm.setTime(adminComponent, epochMillis)
+                Log.d("KidShield", "Device time set to $epochMillis")
+            }
+        } catch (e: Exception) {
+            Log.w("KidShield", "Could not set device time", e)
         }
     }
 

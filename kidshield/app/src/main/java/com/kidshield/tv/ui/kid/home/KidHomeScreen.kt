@@ -21,6 +21,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Shield
+import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -48,6 +49,9 @@ fun KidHomeScreen(
     onParentAccess: () -> Unit,
     onTimesUp: (String, String) -> Unit
 ) {
+    // Block back button on kid home screen — prevents kids from exiting
+    BackHandler { /* do nothing */ }
+
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     // Handle times up navigation
@@ -120,23 +124,35 @@ fun KidHomeScreen(
                         }
                     }
 
-                    // Parent access button (subtle)
-                    Surface(
-                        onClick = onParentAccess,
-                        shape = ClickableSurfaceDefaults.shape(shape = CircleShape),
-                        scale = ClickableSurfaceDefaults.scale(focusedScale = 1.05f),
-                        modifier = Modifier.size(48.dp),
-                        colors = ClickableSurfaceDefaults.colors(
-                            containerColor = Color.White.copy(alpha = 0.05f),
-                            focusedContainerColor = Color.White.copy(alpha = 0.15f)
-                        )
-                    ) {
-                        Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
-                            Icon(
-                                Icons.Default.Settings,
-                                contentDescription = "Parent Settings",
-                                tint = Color(0xFF888888)
+                    // Parent access button — extra padding so the
+                    // focus scale + border don't get clipped at the edge
+                    Box(modifier = Modifier.padding(8.dp)) {
+                        Surface(
+                            onClick = onParentAccess,
+                            shape = ClickableSurfaceDefaults.shape(shape = CircleShape),
+                            scale = ClickableSurfaceDefaults.scale(focusedScale = 1.15f),
+                            modifier = Modifier.size(52.dp),
+                            border = ClickableSurfaceDefaults.border(
+                                focusedBorder = androidx.tv.material3.Border(
+                                    border = androidx.compose.foundation.BorderStroke(
+                                        2.dp, KidShieldBlue
+                                    ),
+                                    shape = CircleShape
+                                )
+                            ),
+                            colors = ClickableSurfaceDefaults.colors(
+                                containerColor = Color.White.copy(alpha = 0.08f),
+                                focusedContainerColor = KidShieldBlue.copy(alpha = 0.25f)
                             )
+                        ) {
+                            Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
+                                Icon(
+                                    Icons.Default.Settings,
+                                    contentDescription = "Parent Settings",
+                                    modifier = Modifier.size(28.dp),
+                                    tint = Color(0xFFAAAAAA)
+                                )
+                            }
                         }
                     }
                 }

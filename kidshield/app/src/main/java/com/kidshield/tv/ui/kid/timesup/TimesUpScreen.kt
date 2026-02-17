@@ -1,5 +1,6 @@
 package com.kidshield.tv.ui.kid.timesup
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -33,6 +34,9 @@ fun TimesUpScreen(
     appName: String,
     onDismiss: () -> Unit
 ) {
+    // Block back button — kids must tap "Back to Home"
+    BackHandler { /* do nothing */ }
+
     Box(
         modifier = Modifier
             .fillMaxSize()

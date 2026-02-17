@@ -31,6 +31,9 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // Ensure usage stats permission (needed for foreground app detection)
+        lockTaskHelper.ensureUsageStatsPermission()
+
         // Start monitoring service
         try {
             val serviceIntent = Intent(this, AppMonitorService::class.java)
@@ -81,14 +84,13 @@ class MainActivity : ComponentActivity() {
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
-        // Called when Home button is pressed and we are the default launcher.
-        // The app is already in front — nothing to do.
-    }
 
-    @Deprecated("Use OnBackPressedDispatcher", ReplaceWith(""))
-    override fun onBackPressed() {
-        // Prevent back button from exiting the app
-        // Do nothing - kids can't exit
+        // Allow setting device time via adb for emulator testing:
+        //   adb shell am start -n com.kidshield.tv/.MainActivity --el set_time <epoch_millis>
+        val setTime = intent.getLongExtra("set_time", -1L)
+        if (setTime > 0) {
+            lockTaskHelper.setDeviceTime(setTime)
+        }
     }
 
     /**
