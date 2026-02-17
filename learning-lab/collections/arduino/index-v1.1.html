@@ -2235,7 +2235,8 @@ function App() {
         addXpPop(bonusXpAmount);
         setBonusXp(prev => prev + bonusXpAmount);
         setMiniGame(null);
-      }
+      },
+      onShowExplainer: (conceptId) => setShowExplainer(conceptId)
     });
   }
 
@@ -2352,6 +2353,20 @@ function App() {
             onMouseEnter: (e) => { e.currentTarget.style.color = "#94a3b8"; e.currentTarget.style.borderColor = "#64748b"; },
             onMouseLeave: (e) => { e.currentTarget.style.color = "#64748b"; e.currentTarget.style.borderColor = "#475569"; }
           }, "⚙ Reset"),
+          // Achievements button
+          React.createElement("button", {
+            onClick: () => setShowAchievements(true),
+            style: { background: "none", border: "1px solid #475569", borderRadius: 6, padding: "6px 12px", color: "#d4a853", fontSize: 12, cursor: "pointer", fontFamily: "Nunito", transition: "all 0.2s" },
+            onMouseEnter: (e) => { e.currentTarget.style.background = "rgba(212,168,83,0.1)"; e.currentTarget.style.borderColor = "#d4a853"; },
+            onMouseLeave: (e) => { e.currentTarget.style.background = "none"; e.currentTarget.style.borderColor = "#475569"; }
+          }, "🏆 Badges"),
+          // Parent Dashboard button
+          React.createElement("button", {
+            onClick: () => setShowParentDash(true),
+            style: { background: "none", border: "1px solid #475569", borderRadius: 6, padding: "6px 12px", color: "#64748b", fontSize: 12, cursor: "pointer", fontFamily: "Nunito", transition: "all 0.2s" },
+            onMouseEnter: (e) => { e.currentTarget.style.color = "#94a3b8"; e.currentTarget.style.borderColor = "#64748b"; },
+            onMouseLeave: (e) => { e.currentTarget.style.color = "#64748b"; e.currentTarget.style.borderColor = "#475569"; }
+          }, "👨‍👩‍👧 Parent"),
           // Clickable level badge
           React.createElement("div", {
             onClick: () => setShowLevels(true),
@@ -2534,7 +2549,7 @@ function WorldMap({ projects, completed, onSelectQuest }) {
 }
 
 // ─── QUEST VIEW ────────────────────────────────────────────────
-function QuestView({ quest, player, isCompleted, onToggleComplete, onBack, onStartMiniGame, onCompleteMiniGame }) {
+function QuestView({ quest, player, isCompleted, onToggleComplete, onBack, onStartMiniGame, onCompleteMiniGame, onShowExplainer }) {
   const [currentStep, setCurrentStep] = useState(0);
   const [visitedSteps, setVisitedSteps] = useState({0: true});
   const contentRef = useRef(null);
@@ -2567,6 +2582,8 @@ function QuestView({ quest, player, isCompleted, onToggleComplete, onBack, onSta
         let game;
         if (gameType === "match") game = generateComponentMatchGame(quest.id);
         else if (gameType === "debug") game = generateDebugCodeGame(quest.id);
+        else if (gameType === "wiring") game = generateWiringGame(quest.id);
+        else if (gameType === "codecomplete") game = generateCodeCompletionGame(quest.id);
         else game = generateQuizGame(quest.id);
         onBack();
         setTimeout(() => onStartMiniGame(game), 100);
@@ -2662,7 +2679,19 @@ function QuestView({ quest, player, isCompleted, onToggleComplete, onBack, onSta
 
         React.createElement("div", { style: { background: "rgba(26,35,53,0.85)", borderRadius: 16, padding: 20, border: "1px solid #1e293b" }},
           React.createElement("h4", { style: { color: "#d4a853", marginBottom: 8, fontSize: 13, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}, "🔬 Science Corner"),
-          React.createElement("p", { style: { color: "#b0bec5", lineHeight: 1.7, fontSize: 15 }}, quest.science)
+          React.createElement("p", { style: { color: "#b0bec5", lineHeight: 1.7, fontSize: 15, marginBottom: 16 }}, quest.science),
+          EXPLAINER_CONCEPTS.filter(c => c.projectIds && c.projectIds.includes(quest.id)).length > 0 &&
+            React.createElement("div", { style: { display: "flex", flexWrap: "wrap", gap: 8, marginTop: 8 }},
+              EXPLAINER_CONCEPTS.filter(c => c.projectIds && c.projectIds.includes(quest.id)).map(c =>
+                React.createElement("button", {
+                  key: c.id,
+                  onClick: () => onShowExplainer(c.id),
+                  style: { background: "linear-gradient(135deg, #d4a85320, #d4a85310)", border: "1px solid #d4a85340", borderRadius: 8, padding: "8px 14px", color: "#d4a853", fontSize: 13, cursor: "pointer", fontFamily: "Nunito", transition: "all 0.2s" },
+                  onMouseEnter: (e) => { e.currentTarget.style.background = "linear-gradient(135deg, #d4a85340, #d4a85320)"; },
+                  onMouseLeave: (e) => { e.currentTarget.style.background = "linear-gradient(135deg, #d4a85320, #d4a85310)"; }
+                }, "📖 " + c.title)
+              )
+            )
         )
       ),
 
