@@ -90,9 +90,7 @@ void loop() {
   delay(1000);               // Wait 1 second
 }`,
     challenge: "Can you make the LED blink faster? Try changing 1000 to 200. What about making it blink in a pattern — like SOS in Morse code (3 short, 3 long, 3 short)?",
-    science: "When electricity flows through an LED, it produces light. The resistor limits the current so the LED doesn't burn out — think of it like a speed bump for electrons!",
-    diagram:{width:600,height:300,components:[{type:"arduino",x:50,y:50},{type:"resistor",x:320,y:80,label:"220Ω"},{type:"led",x:420,y:80,color:"#22c55e",label:"LED"}],wires:[{from:[180,80],to:[320,80],color:"#ef4444",label:"Pin 13"},{from:[380,80],to:[420,80],color:"#f97316"},{from:[460,80],to:[460,200],color:"#333"},{from:[460,200],to:[180,200],color:"#333",label:"GND"}]},
-    wokwiUrl: "https://wokwi.com/projects/new/arduino-uno"
+    science: "When electricity flows through an LED, it produces light. The resistor limits the current so the LED doesn't burn out — think of it like a speed bump for electrons!"
   },
   {
     id: 2,
@@ -142,9 +140,7 @@ void loop() {
   digitalWrite(red, LOW);
 }`,
     challenge: "Add a pedestrian button! Connect a push button and make the light turn red when someone presses it. Hint: you'll need digitalRead().",
-    science: "Traffic lights use timers and sensors to manage the flow of cars. Some smart traffic lights use cameras and AI to detect how many cars are waiting!",
-    diagram:{width:600,height:300,components:[{type:"arduino",x:50,y:50},{type:"led",x:350,y:40,color:"#ef4444",label:"Red"},{type:"led",x:350,y:120,color:"#eab308",label:"Yellow"},{type:"led",x:350,y:200,color:"#22c55e",label:"Green"},{type:"resistor",x:280,y:40,label:"220Ω"},{type:"resistor",x:280,y:120,label:"220Ω"},{type:"resistor",x:280,y:200,label:"220Ω"}],wires:[{from:[180,70],to:[280,40],color:"#ef4444",label:"Pin 4"},{from:[180,90],to:[280,120],color:"#eab308",label:"Pin 3"},{from:[180,110],to:[280,200],color:"#22c55e",label:"Pin 2"},{from:[390,40],to:[450,40],color:"#333"},{from:[390,120],to:[450,120],color:"#333"},{from:[390,200],to:[450,200],color:"#333"},{from:[450,40],to:[450,250],color:"#333",label:"GND"}]},
-    wokwiUrl: "https://wokwi.com/projects/new/arduino-uno"
+    science: "Traffic lights use timers and sensors to manage the flow of cars. Some smart traffic lights use cameras and AI to detect how many cars are waiting!"
   },
   {
     id: 3,
@@ -188,9 +184,7 @@ void loop() {
   if(!played) noTone(buzzer);
 }`,
     challenge: "Can you play a song? Try making the Arduino play \"Twinkle Twinkle Little Star\" automatically using tone() and delay(). The notes are: C C G G A A G, F F E E D D C.",
-    science: "Sound is made by vibrations. The buzzer vibrates the air at different speeds (frequencies) to make different pitches. Middle C vibrates 262 times per second!",
-    diagram:{width:600,height:300,components:[{type:"arduino",x:50,y:50},{type:"buzzer",x:400,y:50,label:"Buzzer"},{type:"button",x:300,y:140,label:"Btn 1"},{type:"button",x:370,y:140,label:"Btn 2"},{type:"button",x:440,y:140,label:"Btn 3"},{type:"button",x:510,y:140,label:"Btn 4"}],wires:[{from:[180,80],to:[400,50],color:"#a855f7",label:"Pin 8"},{from:[180,90],to:[300,140],color:"#3b82f6",label:"Pin 2"},{from:[180,100],to:[370,140],color:"#22c55e",label:"Pin 3"},{from:[180,110],to:[440,140],color:"#eab308",label:"Pin 4"},{from:[180,120],to:[510,140],color:"#f97316",label:"Pin 5"}]},
-    wokwiUrl: "https://wokwi.com/projects/new/arduino-uno"
+    science: "Sound is made by vibrations. The buzzer vibrates the air at different speeds (frequencies) to make different pitches. Middle C vibrates 262 times per second!"
   },
   {
     id: 4,
@@ -235,9 +229,7 @@ void loop() {
   delay(100);
 }`,
     challenge: "Instead of just ON/OFF, can you make the LED gradually get brighter as it gets darker? Hint: use analogWrite() and the map() function!",
-    science: "A photoresistor changes its resistance based on light. In the dark, its resistance is high (millions of ohms). In bright light, it drops to just hundreds of ohms!",
-    diagram:{width:600,height:300,components:[{type:"arduino",x:50,y:50},{type:"sensor",x:350,y:60,label:"LDR"},{type:"resistor",x:350,y:130,label:"10kΩ"},{type:"led",x:450,y:200,color:"#eab308",label:"LED"},{type:"resistor",x:380,y:200,label:"220Ω"}],wires:[{from:[180,160],to:[350,60],color:"#06b6d4",label:"A0"},{from:[350,100],to:[350,130],color:"#06b6d4"},{from:[180,100],to:[380,200],color:"#f97316",label:"Pin 9"},{from:[420,200],to:[450,200],color:"#f97316"},{from:[490,200],to:[490,260],color:"#333",label:"GND"}]},
-    wokwiUrl: "https://wokwi.com/projects/new/arduino-uno"
+    science: "A photoresistor changes its resistance based on light. In the dark, its resistance is high (millions of ohms). In bright light, it drops to just hundreds of ohms!"
   },
   {
     id: 5,
@@ -298,9 +290,7 @@ void loop() {
   delay(50);
 }`,
     challenge: "Add 3 LEDs (green, yellow, red) that light up based on distance: green for far, yellow for medium, red for close. Like a real parking sensor display!",
-    science: "Bats use the same trick! They send out sound pulses and listen for echoes. By timing how long the echo takes, they know how far away things are. This is called echolocation.",
-    diagram:{width:600,height:300,components:[{type:"arduino",x:50,y:50},{type:"sensor",x:350,y:50,label:"HC-SR04"},{type:"buzzer",x:450,y:180,label:"Buzzer"}],wires:[{from:[180,80],to:[350,50],color:"#ef4444",label:"Trig→9"},{from:[180,90],to:[350,80],color:"#3b82f6",label:"Echo→10"},{from:[180,100],to:[450,180],color:"#a855f7",label:"Pin 8"},{from:[350,110],to:[350,260],color:"#333",label:"GND"},{from:[350,40],to:[350,20],color:"#ef4444",label:"5V"}]},
-    wokwiUrl: "https://wokwi.com/projects/new/arduino-uno"
+    science: "Bats use the same trick! They send out sound pulses and listen for echoes. By timing how long the echo takes, they know how far away things are. This is called echolocation."
   },
   {
     id: 6,
@@ -357,9 +347,7 @@ void loop() {
   delay(1000);
 }`,
     challenge: "Add a warning buzzer that beeps when the temperature goes above a certain limit. You could also add colored LEDs: blue for cold, green for comfortable, red for hot!",
-    science: "The TMP36 sensor uses a special property of semiconductors: as temperature changes, the voltage it outputs changes by exactly 10 millivolts per degree Celsius.",
-    diagram:{width:600,height:300,components:[{type:"arduino",x:50,y:50},{type:"sensor",x:320,y:50,label:"TMP36"},{type:"sensor",x:400,y:170,label:"LCD I2C"}],wires:[{from:[180,160],to:[320,50],color:"#06b6d4",label:"A0"},{from:[180,170],to:[400,170],color:"#22c55e",label:"SDA→A4"},{from:[180,180],to:[400,200],color:"#3b82f6",label:"SCL→A5"},{from:[320,80],to:[320,260],color:"#333",label:"GND"},{from:[320,40],to:[320,20],color:"#ef4444",label:"5V"}]},
-    wokwiUrl: "https://wokwi.com/projects/new/arduino-uno"
+    science: "The TMP36 sensor uses a special property of semiconductors: as temperature changes, the voltage it outputs changes by exactly 10 millivolts per degree Celsius."
   },
   {
     id: 7,
@@ -420,9 +408,7 @@ void loop() {
   }
 }`,
     challenge: "Decode ALL the buttons on your remote and build a full LED light show controller. Add fade effects using analogWrite() for button presses!",
-    science: "Infrared light is invisible to our eyes but not to electronics! Your TV remote sends pulses of IR light in specific patterns. Each button has a unique code, like a secret handshake.",
-    diagram:{width:600,height:300,components:[{type:"arduino",x:50,y:50},{type:"sensor",x:350,y:50,label:"IR Recv"},{type:"led",x:400,y:150,color:"#ef4444",label:"Red"},{type:"led",x:450,y:150,color:"#22c55e",label:"Green"},{type:"led",x:500,y:150,color:"#3b82f6",label:"Blue"}],wires:[{from:[180,100],to:[350,50],color:"#ec4899",label:"Pin 11"},{from:[180,90],to:[400,150],color:"#ef4444",label:"Pin 2"},{from:[180,100],to:[450,150],color:"#22c55e",label:"Pin 3"},{from:[180,110],to:[500,150],color:"#3b82f6",label:"Pin 4"}]},
-    wokwiUrl: "https://wokwi.com/projects/new/arduino-uno"
+    science: "Infrared light is invisible to our eyes but not to electronics! Your TV remote sends pulses of IR light in specific patterns. Each button has a unique code, like a secret handshake."
   },
   {
     id: 8,
@@ -478,9 +464,7 @@ void loop() {
   }
 }`,
     challenge: "Add a potentiometer to control the speed of the color change! Or add a button that freezes on your favorite color.",
-    science: "Your eyes have 3 types of color receptors: red, green, and blue. By mixing these 3 colors of light at different brightnesses, we can trick your eyes into seeing any color!",
-    diagram:{width:600,height:300,components:[{type:"arduino",x:50,y:50},{type:"led",x:400,y:100,color:"linear-gradient(#ef4444,#22c55e,#3b82f6)",label:"RGB LED"},{type:"resistor",x:300,y:70,label:"220Ω"},{type:"resistor",x:300,y:110,label:"220Ω"},{type:"resistor",x:300,y:150,label:"220Ω"}],wires:[{from:[180,90],to:[300,70],color:"#ef4444",label:"Pin 9 (R)"},{from:[180,100],to:[300,110],color:"#22c55e",label:"Pin 10 (G)"},{from:[180,110],to:[300,150],color:"#3b82f6",label:"Pin 11 (B)"},{from:[440,130],to:[440,260],color:"#333",label:"GND"}]},
-    wokwiUrl: "https://wokwi.com/projects/new/arduino-uno"
+    science: "Your eyes have 3 types of color receptors: red, green, and blue. By mixing these 3 colors of light at different brightnesses, we can trick your eyes into seeing any color!"
   },
   {
     id: 9,
@@ -525,9 +509,7 @@ void loop() {
   delay(15);
 }`,
     challenge: "Build a mini radar! Mount the ultrasonic sensor on the servo, sweep it back and forth, and print distance readings for each angle. You've built a real radar scanner!",
-    science: "Servo motors have a special feedback circuit inside that knows their exact position. Unlike regular motors that just spin, servos can hold a precise angle — that's why robots use them for joints!",
-    diagram:{width:600,height:300,components:[{type:"arduino",x:50,y:50},{type:"sensor",x:350,y:50,label:"Servo SG90"},{type:"sensor",x:350,y:180,label:"Potentiometer"}],wires:[{from:[180,90],to:[350,50],color:"#f97316",label:"Pin 9"},{from:[350,80],to:[350,100],color:"#ef4444",label:"5V"},{from:[350,100],to:[350,120],color:"#333",label:"GND"},{from:[180,160],to:[350,180],color:"#06b6d4",label:"A0"}]},
-    wokwiUrl: "https://wokwi.com/projects/new/arduino-uno"
+    science: "Servo motors have a special feedback circuit inside that knows their exact position. Unlike regular motors that just spin, servos can hold a precise angle — that's why robots use them for joints!"
   },
   {
     id: 10,
@@ -614,9 +596,7 @@ void loop() {
   delay(50);
 }`,
     challenge: "Add a 10-second countdown when you arm it (like a real alarm system). Show the countdown on the Serial Monitor and beep each second!",
-    science: "Real security systems use a combination of sensors: infrared motion detectors, magnetic door contacts, glass break sensors, and cameras — all connected to a central brain, just like your Arduino!",
-    diagram:{width:600,height:300,components:[{type:"arduino",x:50,y:50},{type:"sensor",x:330,y:40,label:"HC-SR04"},{type:"buzzer",x:430,y:40,label:"Buzzer"},{type:"led",x:330,y:140,color:"#ef4444",label:"Red LED"},{type:"led",x:430,y:140,color:"#22c55e",label:"Green LED"},{type:"button",x:330,y:220,label:"Arm Btn"}],wires:[{from:[180,80],to:[330,40],color:"#ef4444",label:"Trig→9"},{from:[180,90],to:[330,60],color:"#3b82f6",label:"Echo→10"},{from:[180,100],to:[430,40],color:"#a855f7",label:"Pin 8"},{from:[180,110],to:[330,140],color:"#ef4444",label:"Pin 4"},{from:[180,120],to:[430,140],color:"#22c55e",label:"Pin 3"},{from:[180,130],to:[330,220],color:"#eab308",label:"Pin 2"}]},
-    wokwiUrl: "https://wokwi.com/projects/new/arduino-uno"
+    science: "Real security systems use a combination of sensors: infrared motion detectors, magnetic door contacts, glass break sensors, and cameras — all connected to a central brain, just like your Arduino!"
   },
   {
     id: 11,
@@ -681,9 +661,7 @@ void loop() {
   delay(2000);
 }`,
     challenge: "Use the Serial Plotter in Arduino IDE to graph your temperature over time! Leave it running for an hour and see how temperature changes. Can you spot when someone opens a window?",
-    science: "Real weather stations measure many things: temperature, humidity, air pressure, wind speed, rainfall, UV index, and more. Satellites orbiting Earth have weather stations that look down at the whole planet!",
-    diagram:{width:600,height:300,components:[{type:"arduino",x:50,y:50},{type:"sensor",x:320,y:40,label:"TMP36"},{type:"sensor",x:420,y:40,label:"LDR"},{type:"sensor",x:370,y:170,label:"LCD I2C"}],wires:[{from:[180,160],to:[320,40],color:"#06b6d4",label:"A0"},{from:[180,165],to:[420,40],color:"#22c55e",label:"A1"},{from:[180,170],to:[370,170],color:"#eab308",label:"SDA→A4"},{from:[180,180],to:[370,200],color:"#f97316",label:"SCL→A5"}]},
-    wokwiUrl: "https://wokwi.com/projects/new/arduino-uno"
+    science: "Real weather stations measure many things: temperature, humidity, air pressure, wind speed, rainfall, UV index, and more. Satellites orbiting Earth have weather stations that look down at the whole planet!"
   },
   {
     id: 12,
@@ -755,873 +733,9 @@ void loop() {
   delay(50);
 }`,
     challenge: "Make the robot smarter! Add a servo to scan left and right before deciding which way to turn. Or add line-following sensors to make it follow a track made with black tape!",
-    science: "Self-driving cars use the same basic idea but with much more powerful sensors: LIDAR (laser distance), cameras, GPS, and machine learning. Your robot is doing the same thing — just simpler!",
-    diagram:{width:600,height:300,components:[{type:"arduino",x:50,y:50},{type:"sensor",x:350,y:30,label:"L298N Driver"},{type:"sensor",x:250,y:200,label:"Left Motor"},{type:"sensor",x:450,y:200,label:"Right Motor"},{type:"sensor",x:350,y:130,label:"HC-SR04"}],wires:[{from:[180,80],to:[350,30],color:"#ef4444",label:"IN1→5,IN2→6"},{from:[180,90],to:[350,50],color:"#3b82f6",label:"IN3→9,IN4→10"},{from:[180,100],to:[350,130],color:"#22c55e",label:"Trig→7,Echo→8"},{from:[350,60],to:[250,200],color:"#a855f7",label:"Motor A"},{from:[350,70],to:[450,200],color:"#f97316",label:"Motor B"}]},
-    wokwiUrl: "https://wokwi.com/projects/new/arduino-uno"
+    science: "Self-driving cars use the same basic idea but with much more powerful sensors: LIDAR (laser distance), cameras, GPS, and machine learning. Your robot is doing the same thing — just simpler!"
   }
 ];
-
-// ─── DATA POOLS (Expanded) ────────────────────────────────────────
-const QUIZ_QUESTIONS = [
-  // Original 15 questions
-  { q: "What does LED stand for?", a: "Light Emitting Diode", wrong: ["Long Electronic Device", "Light Enabled Display", "Logical Electronic Device"] },
-  { q: "Which pin types can read analog values on Arduino?", a: "A0-A5 pins", wrong: ["D0-D13 pins", "Digital pins only", "GND and 5V"] },
-  { q: "What voltage does an Arduino Uno output?", a: "5V", wrong: ["3.3V", "12V", "9V"] },
-  { q: "What does PWM stand for?", a: "Pulse Width Modulation", wrong: ["Power Wave Mode", "Pulse Width Monitor", "Programming With Modules"] },
-  { q: "How many digital pins does Arduino Uno have?", a: "14", wrong: ["6", "8", "20"] },
-  { q: "Which function sets a pin as input or output?", a: "pinMode()", wrong: ["setPin()", "pinMode()", "digitalMode()"] },
-  { q: "What does a 10k ohm resistor look like?", a: "Brown-Black-Orange bands", wrong: ["Brown-Black-Red bands", "Red-Red-Red bands", "Orange-Orange-Orange bands"] },
-  { q: "Which statement reads a digital pin?", a: "digitalRead()", wrong: ["readDigital()", "pinRead()", "getDigital()"] },
-  { q: "How do you make an LED brighter with PWM?", a: "Increase the duty cycle (0-255)", wrong: ["Use a bigger resistor", "Add more LEDs", "Increase voltage to 12V"] },
-  { q: "What is the purpose of a pull-up resistor?", a: "Keep a pin at HIGH when not pressed", wrong: ["Make LEDs brighter", "Protect from static electricity", "Reduce power consumption"] },
-  { q: "What does Serial.begin(9600) do?", a: "Starts serial communication at 9600 baud", wrong: ["Begins a new serial device", "Sets the baud rate to 9600 Hz", "Initializes 9600 pins"] },
-  { q: "Which pin should a button connect to?", a: "A digital pin with a pull-up resistor", wrong: ["Only analog pins", "5V directly", "GND directly"] },
-  { q: "What is the delay() function used for?", a: "Pausing the program for milliseconds", wrong: ["Slowing down the computer", "Delaying serial output", "Creating loops"] },
-  { q: "How many analog input pins does Arduino Uno have?", a: "6", wrong: ["4", "8", "12"] },
-  { q: "What does digitalWrite(13, HIGH) do?", a: "Sends 5V to pin 13", wrong: ["Turns off pin 13", "Reads pin 13", "Sets pin 13 to input mode"] },
-
-  // New 30 questions (difficulty balanced)
-  { q: "What type of sensor measures temperature?", a: "Thermistor or DHT sensor", wrong: ["Light sensor", "Distance sensor", "Motion sensor"] },
-  { q: "Which operator is used to check if two values are equal?", a: "==", wrong: ["=", "===", "!="] },
-  { q: "What does analogRead() return?", a: "A value between 0-1023", wrong: ["0 or 1", "0-5 volts", "0-255"] },
-  { q: "How do you turn an LED on completely with PWM?", a: "analogWrite(pin, 255)", wrong: ["analogWrite(pin, 0)", "digitalWrite(pin, 255)", "analogWrite(pin, 5)"] },
-  { q: "What is a servo motor used for?", a: "Precise angle positioning (0-180 degrees)", wrong: ["Continuous spinning", "Linear motion", "Lifting heavy objects"] },
-  { q: "How do you read a digital button press?", a: "digitalRead(buttonPin)", wrong: ["analogRead(buttonPin)", "readButton()", "getButton()"] },
-  { q: "What does the setup() function do?", a: "Runs once when Arduino powers on", wrong: ["Runs continuously", "Sets up the internet", "Initializes sensors only"] },
-  { q: "Which loop runs forever on Arduino?", a: "void loop()", wrong: ["void forever()", "void continuous()", "void repeat()"] },
-  { q: "What is a breadboard used for?", a: "Prototyping circuits without soldering", wrong: ["Baking electronics", "Storing components", "Testing voltage"] },
-  { q: "How do you write to Serial Monitor?", a: "Serial.println(value)", wrong: ["print(value)", "output(value)", "Serial.write()"] },
-  { q: "What does a photoresistor (LDR) do?", a: "Changes resistance based on light", wrong: ["Detects motion", "Measures temperature", "Produces light"] },
-  { q: "Which loop runs code a specific number of times?", a: "for loop", wrong: ["if loop", "when loop", "while loop"] },
-  { q: "What is the range of analogWrite() values?", a: "0-255", wrong: ["0-1023", "0-5", "0-100"] },
-  { q: "How do you connect an LED to Arduino safely?", a: "Through a current-limiting resistor", wrong: ["Directly to 5V", "Directly to power", "Without a resistor"] },
-  { q: "What does an ultrasonic sensor measure?", a: "Distance using sound waves", wrong: ["Light intensity", "Temperature", "Humidity"] },
-  { q: "What is the purpose of digitalWrite()?", a: "Send HIGH or LOW to a digital pin", wrong: ["Read a pin value", "Set analog values", "Configure pin modes"] },
-  { q: "How do you create a comment in Arduino code?", a: "// or /* */", wrong: ["// only", "-- ", "# "] },
-  { q: "What is a variable used for?", a: "Storing values that can change", wrong: ["Making circuits", "Controlling LEDs only", "Reading sensors only"] },
-  { q: "Which statement repeats code while a condition is true?", a: "while loop", wrong: ["if statement", "for loop", "switch statement"] },
-  { q: "What does map() function do?", a: "Converts values from one range to another", wrong: ["Creates a roadmap", "Displays a physical map", "Stores location data"] },
-  { q: "How do you read an analog sensor value?", a: "analogRead(A0)", wrong: ["digitalRead(A0)", "readAnalog(A0)", "readValue(A0)"] },
-  { q: "What is the purpose of the millis() function?", a: "Returns milliseconds since Arduino started", wrong: ["Returns current time of day", "Sets a timer", "Converts to milliseconds"] },
-  { q: "How do you slow down a program?", a: "Use delay(milliseconds)", wrong: ["Use slow()", "Add more resistors", "Remove code"] },
-  { q: "What type of motor can rotate continuously?", a: "DC motor", wrong: ["Servo motor", "Stepper motor", "Linear motor"] },
-  { q: "Which sensor detects motion using infrared?", a: "PIR sensor", wrong: ["IR receiver", "Motion switch", "Pressure sensor"] },
-  { q: "How do you initialize PWM on a pin?", a: "Use analogWrite(pin, value)", wrong: ["Use digitalWrite()", "Use pinMode() only", "No initialization needed"] },
-  { q: "What does a relay do?", a: "Switches high-power devices using low-power signals", wrong: ["Reduces power consumption", "Amplifies signals", "Stores electrical charge"] },
-  { q: "What is an interrupt used for?", a: "Respond immediately to events without polling", wrong: ["Stopping all code", "Creating delays", "Reading sensors"] },
-  { q: "How do you make an Arduino project wireless?", a: "Add a WiFi or Bluetooth module", wrong: ["Use longer wires", "Add more batteries", "Change the code only"] },
-  { q: "What does I2C communication do?", a: "Allows multiple devices to communicate using 2 wires", wrong: ["Uses 4 wires always", "Only for wireless", "Requires internet"] }
-];
-
-const DEBUG_CODE_SNIPPETS = [
-  // Original 12 snippets
-  {
-    code: "void setup() {\n  pinMode(13, OUTPUT)\n  Serial.begin(9600)\n}",
-    bugLine: 1,
-    hint: "Check the end of each statement",
-    answers: ["Line 1", "Line 2", "Line 3", "Line 4"]
-  },
-  {
-    code: "int brightness = 100\nanalogWrite(13, brightness)\ndelay(1000)",
-    bugLine: 0,
-    hint: "Declarations need punctuation",
-    answers: ["Line 1", "Line 2", "Line 3"]
-  },
-  {
-    code: "void loop() {\n  if (buttonPin == HIGH) {\n    digitalWrite(ledPin, low)\n  }\n}",
-    bugLine: 2,
-    hint: "Look at the case of the keyword",
-    answers: ["Line 1", "Line 2", "Line 3", "Line 4", "Line 5"]
-  },
-  {
-    code: "for (int i = 0, i < 10, i++) {\n  Serial.println(i)\n}",
-    bugLine: 0,
-    hint: "Semicolons separate loop parts",
-    answers: ["Line 1", "Line 2", "Line 3"]
-  },
-  {
-    code: "int sensorValue = analogRead(A0)\nif (sensorValue > 512) {\n  digitalWrite(13, HIGH)\n}",
-    bugLine: 0,
-    hint: "Variable declarations need ending punctuation",
-    answers: ["Line 1", "Line 2", "Line 3", "Line 4"]
-  },
-  {
-    code: "pinMode(13, OUTPUT);\ndigitalWrite(13, HIGH)\nSerial.println(\"ON\");",
-    bugLine: 1,
-    hint: "Some lines are missing punctuation",
-    answers: ["Line 1", "Line 2", "Line 3"]
-  },
-  {
-    code: "int button = digitalRead(2)\nif (button = HIGH) {\n  digitalWrite(13, HIGH)\n}",
-    bugLine: 1,
-    hint: "Assignment vs comparison - what operator are we using?",
-    answers: ["Line 1", "Line 2", "Line 3", "Line 4"]
-  },
-  {
-    code: "int values[] = {10 20, 30, 40}\nfor (int i = 0; i < 4; i++) {\n  Serial.println(values[i])\n}",
-    bugLine: 0,
-    hint: "Array elements need separators",
-    answers: ["Line 1", "Line 2", "Line 3", "Line 4"]
-  },
-  {
-    code: "void setup() {\n  pinMode(13, INPUT);\n  digitalWrite(13, HIGH);\n}",
-    bugLine: 1,
-    hint: "What pin mode should this be?",
-    answers: ["Line 1", "Line 2", "Line 3", "Line 4"]
-  },
-  {
-    code: "delay(1000)\nSerial.println(\"1 second passed\");\ndigitalWrite(13, HIGH);",
-    bugLine: 0,
-    hint: "Function calls need ending punctuation",
-    answers: ["Line 1", "Line 2"]
-  },
-  {
-    code: "for (int i = 0; i < 5; i++)\n  Serial.println(i)\n  digitalWrite(13, HIGH);",
-    bugLine: 1,
-    hint: "Missing punctuation on this line",
-    answers: ["Line 1", "Line 2", "Line 3"]
-  },
-  {
-    code: "int x = 5\nint y = 10\nint sum = x + y\nSerial.println(sum);",
-    bugLine: 0,
-    hint: "Multiple lines missing ending marks",
-    answers: ["Line 1", "Line 2", "Line 3", "Line 4"]
-  },
-
-  // New 24 snippets
-  {
-    code: "void loop() {\n  int sensor = analogRead(A0)\n  Serial.println(sensor);\n}",
-    bugLine: 1,
-    hint: "All variable declarations need semicolons",
-    answers: ["Line 1", "Line 2", "Line 3", "Line 4"]
-  },
-  {
-    code: "if (digitalRead(2) == high) {\n  digitalWrite(13, HIGH);\n}",
-    bugLine: 0,
-    hint: "Keywords need proper capitalization",
-    answers: ["Line 1", "Line 2", "Line 3"]
-  },
-  {
-    code: "int brightness[]\n  {0, 50, 100, 150, 200, 255}\nanalogWrite(13, brightness[3]);",
-    bugLine: 0,
-    hint: "Array declaration incomplete",
-    answers: ["Line 1", "Line 2", "Line 3"]
-  },
-  {
-    code: "void setup() {\n  Serial.begin(9600)\n  pinMode(13 OUTPUT);\n}",
-    bugLine: 2,
-    hint: "Function arguments need separators",
-    answers: ["Line 1", "Line 2", "Line 3", "Line 4"]
-  },
-  {
-    code: "int result = map(value, 0, 1023 0, 255);\nSerial.println(result);",
-    bugLine: 0,
-    hint: "Function has missing separator",
-    answers: ["Line 1", "Line 2"]
-  },
-  {
-    code: "while(true) {\n  Serial.println(\"loop\")\n  delay(1000);\n}",
-    bugLine: 1,
-    hint: "Statement missing punctuation",
-    answers: ["Line 1", "Line 2"]
-  },
-  {
-    code: "int ledPin = 13\ndouble voltage = 5.0;\ndigitalWrite(ledPin high);",
-    bugLine: 2,
-    hint: "Argument missing a separator",
-    answers: ["Line 1", "Line 2", "Line 3"]
-  },
-  {
-    code: "for (int x = 0; x <= 5 x++) {\n  Serial.println(x);\n}",
-    bugLine: 0,
-    hint: "Increment operator missing",
-    answers: ["Line 1", "Line 2", "Line 3"]
-  },
-  {
-    code: "int sensor = analogRead(A5)\nif (sensor > 500 {\n  digitalWrite(13, HIGH);\n}",
-    bugLine: 1,
-    hint: "Missing closing parenthesis",
-    answers: ["Line 1", "Line 2", "Line 3", "Line 4"]
-  },
-  {
-    code: "void setup() {\n  pinMode(13 OUTPUT);\n  Serial.begin(9600);\n}",
-    bugLine: 1,
-    hint: "Arguments need separators",
-    answers: ["Line 1", "Line 2", "Line 3", "Line 4"]
-  },
-  {
-    code: "int count = 0\ncount + 1;\nSerial.println(count);",
-    bugLine: 0,
-    hint: "Variable declaration incomplete",
-    answers: ["Line 1", "Line 2", "Line 3"]
-  },
-  {
-    code: "if (x == 5) {\n  ledState = high;\n} else {\n  ledState = LOW;\n}",
-    bugLine: 1,
-    hint: "Keyword capitalization",
-    answers: ["Line 1", "Line 2", "Line 3", "Line 4", "Line 5"]
-  },
-  {
-    code: "void loop() {\n  analogWrite(13 128);\n  delay(500);\n}",
-    bugLine: 1,
-    hint: "Missing argument separator",
-    answers: ["Line 1", "Line 2", "Line 3", "Line 4"]
-  },
-  {
-    code: "int values = {1, 2, 3, 4, 5};\nfor (int i = 0; i < 5; i++)\n  Serial.println(values[i])\n}",
-    bugLine: 0,
-    hint: "Array needs size declaration",
-    answers: ["Line 1", "Line 2", "Line 3", "Line 4"]
-  },
-  {
-    code: "Serial.println(\"Value: \" + value)\ndelay(1000);",
-    bugLine: 0,
-    hint: "Missing ending punctuation",
-    answers: ["Line 1"]
-  },
-  {
-    code: "int buttonPin = 2\nif (digitalRead(buttonPin) = HIGH) {\n  digitalWrite(13, HIGH);\n}",
-    bugLine: 1,
-    hint: "Assignment vs comparison",
-    answers: ["Line 1", "Line 2", "Line 3", "Line 4"]
-  },
-  {
-    code: "digitalWrite(ledPin HIGH);\nSerial.println(\"LED on\");",
-    bugLine: 0,
-    hint: "Arguments need a separator",
-    answers: ["Line 1", "Line 2"]
-  },
-  {
-    code: "void setup() {\n  Serial.begin(9600)\n  pinMode(13, OUTPUT);\n}",
-    bugLine: 1,
-    hint: "Missing punctuation at end",
-    answers: ["Line 1", "Line 2", "Line 3", "Line 4"]
-  },
-  {
-    code: "int x = 10, int y = 20;\nint sum = x + y\nSerial.println(sum);",
-    bugLine: 1,
-    hint: "Each statement needs punctuation",
-    answers: ["Line 1", "Line 2", "Line 3"]
-  },
-  {
-    code: "for(int i=0 i<10; i++) {\n  Serial.println(i);\n}",
-    bugLine: 0,
-    hint: "Loop parts separated by what?",
-    answers: ["Line 1", "Line 2", "Line 3"]
-  },
-  {
-    code: "if(condition1 condition2) {\n  doSomething();\n}",
-    bugLine: 0,
-    hint: "Logical operator missing",
-    answers: ["Line 1", "Line 2", "Line 3"]
-  },
-  {
-    code: "int led[] = {2, 3, 4, 5}\nfor (int i = 0; i < 4; i++)\n  digitalWrite(led[i], high);\n}",
-    bugLine: 2,
-    hint: "Keyword needs capitalization",
-    answers: ["Line 1", "Line 2", "Line 3", "Line 4"]
-  },
-  {
-    code: "switch (state) {\n  case 1\n    Serial.println(\"One\");\n    break;\n}",
-    bugLine: 1,
-    hint: "Case label incomplete",
-    answers: ["Line 1", "Line 2", "Line 3"]
-  }
-];
-
-const COMPONENT_PAIRS = [
-  // Original 10
-  { img: "💡", label: "LED" },
-  { img: "🔌", label: "Resistor" },
-  { img: "🔘", label: "Button" },
-  { img: "🎛️", label: "Potentiometer" },
-  { img: "📡", label: "Buzzer" },
-  { img: "🌡️", label: "Temperature Sensor" },
-  { img: "🌞", label: "Light Sensor" },
-  { img: "⚙️", label: "Servo Motor" },
-  { img: "🔋", label: "Battery" },
-  { img: "🎮", label: "Arduino Board" },
-
-  // New 10
-  { img: "📏", label: "Ultrasonic Sensor" },
-  { img: "🔐", label: "Relay" },
-  { img: "📶", label: "WiFi Module" },
-  { img: "🔵", label: "Bluetooth Module" },
-  { img: "🌊", label: "Water Sensor" },
-  { img: "💨", label: "Motion Sensor (PIR)" },
-  { img: "⏱️", label: "Real Time Clock" },
-  { img: "💾", label: "SD Card Module" },
-  { img: "🔦", label: "Infrared Receiver" },
-  { img: "⚡", label: "Stepper Motor" }
-];
-
-const ACHIEVEMENT_BADGES = [
-  {
-    id: "first_quest",
-    title: "First Steps",
-    description: "Complete your first quest",
-    icon: "👣",
-    category: "milestone"
-  },
-  {
-    id: "basics_complete",
-    title: "Basics Master",
-    description: "Complete all difficulty 1 quests",
-    icon: "📚",
-    category: "milestone"
-  },
-  {
-    id: "halfway",
-    title: "Halfway There",
-    description: "Complete 6 quests",
-    icon: "🏃",
-    category: "milestone"
-  },
-  {
-    id: "all_quests_complete",
-    title: "Quest Master",
-    description: "Complete all quests",
-    icon: "🏆",
-    category: "milestone"
-  },
-  {
-    id: "perfect_quiz",
-    title: "Quiz Ace",
-    description: "Get a perfect score (5/5) on a quiz",
-    icon: "⭐",
-    category: "skill"
-  },
-  {
-    id: "speed_demon",
-    title: "Speed Demon",
-    description: "Complete a quest in under 2 minutes",
-    icon: "⚡",
-    category: "skill"
-  },
-  {
-    id: "bug_hunter",
-    title: "Bug Hunter",
-    description: "Fix all 3 debug challenges perfectly",
-    icon: "🐛",
-    category: "skill"
-  },
-  {
-    id: "mini_game_master",
-    title: "Game Master",
-    description: "Play all game types in mini-games",
-    icon: "🎮",
-    category: "skill"
-  },
-  {
-    id: "streak_3",
-    title: "On Fire",
-    description: "Complete 3 quests in one session",
-    icon: "🔥",
-    category: "skill"
-  },
-  {
-    id: "no_hints",
-    title: "No Training Wheels",
-    description: "Complete a quest without using any hints",
-    icon: "🚴",
-    category: "skill"
-  },
-  {
-    id: "explorer",
-    title: "Explorer",
-    description: "Visit all steps in a single project",
-    icon: "🗺️",
-    category: "special"
-  },
-  {
-    id: "collector",
-    title: "Badge Collector",
-    description: "Unlock 11 out of 15 badges",
-    icon: "🎖️",
-    category: "special"
-  },
-  {
-    id: "city_hero",
-    title: "Arduino Hero",
-    description: "Complete everything the lab has to offer",
-    icon: "🦸",
-    category: "special"
-  },
-  {
-    id: "comeback_kid",
-    title: "Comeback Kid",
-    description: "Return to the lab after a week away",
-    icon: "📅",
-    category: "special"
-  },
-  {
-    id: "mentor",
-    title: "Mentor",
-    description: "Help 5 other students learn Arduino",
-    icon: "🤝",
-    category: "special"
-  }
-];
-
-const EXPLAINER_CONCEPTS = [
-  {
-    id: "circuits_101",
-    title: "Circuits 101: Voltage, Current & Resistance",
-    projectIds: [1, 2, 3],
-    steps: [
-      {
-        text: "Voltage (V) is like the push of electricity - measured in volts. It tells you how much energy each electron has.",
-        visual: "diagram"
-      },
-      {
-        text: "Current (I) is the flow of electricity - measured in amps. It tells you how many electrons are moving through the wire.",
-        visual: "animation"
-      },
-      {
-        text: "Resistance (R) is how much something blocks electricity - measured in ohms (Ω). More resistance = less current flows.",
-        visual: "diagram"
-      },
-      {
-        text: "In Arduino projects: 5V is safe, 20mA per pin is the limit, and resistors protect your components!",
-        visual: "interactive"
-      }
-    ],
-    miniQuiz: {
-      q: "If you increase voltage with the same resistor, what happens to current?",
-      a: "Current increases",
-      wrong: ["Current decreases", "Current stays the same", "Current becomes zero"]
-    }
-  },
-  {
-    id: "ohms_law",
-    title: "Ohm's Law: V = I × R",
-    projectIds: [2, 3, 4],
-    steps: [
-      {
-        text: "Ohm's Law tells us how voltage, current, and resistance are related: V = I × R",
-        visual: "formula"
-      },
-      {
-        text: "Example: If you have 5V and 1000Ω resistor, current = 5V ÷ 1000Ω = 0.005A = 5mA",
-        visual: "calculation"
-      },
-      {
-        text: "This helps us pick the right resistors to protect LEDs and other components from too much current.",
-        visual: "diagram"
-      },
-      {
-        text: "For an Arduino LED: Use 5V, need < 20mA, so resistor should be at least 5V ÷ 20mA = 250Ω (use 330Ω)",
-        visual: "interactive"
-      }
-    ],
-    miniQuiz: {
-      q: "Using Ohm's Law: What resistor do you need for 5V and 10mA?",
-      a: "500Ω",
-      wrong: ["50Ω", "1000Ω", "100Ω"]
-    }
-  },
-  {
-    id: "digital_vs_analog",
-    title: "Digital vs Analog Signals",
-    projectIds: [1, 5, 6],
-    steps: [
-      {
-        text: "Digital signals: On or Off, HIGH or LOW, 1 or 0. Like a light switch - either on or off!",
-        visual: "animation"
-      },
-      {
-        text: "Analog signals: Any value between min and max, like a dimmer switch. Arduino reads 0-1023.",
-        visual: "graph"
-      },
-      {
-        text: "Arduino digital pins: digitalWrite() sends HIGH/LOW, digitalRead() reads HIGH/LOW",
-        visual: "diagram"
-      },
-      {
-        text: "Arduino analog pins: analogWrite() sends 0-255 using PWM, analogRead() reads 0-1023",
-        visual: "diagram"
-      }
-    ],
-    miniQuiz: {
-      q: "A button press is which type of signal?",
-      a: "Digital",
-      wrong: ["Analog", "Both equally", "Neither"]
-    }
-  },
-  {
-    id: "pwm",
-    title: "PWM: Making Analog from Digital",
-    projectIds: [2, 4, 7],
-    steps: [
-      {
-        text: "PWM = Pulse Width Modulation. It sends digital signals really fast ON-OFF-ON-OFF",
-        visual: "animation"
-      },
-      {
-        text: "The longer it stays ON, the brighter the LED. The longer it stays OFF, the dimmer it is.",
-        visual: "graph"
-      },
-      {
-        text: "analogWrite(pin, 0) = always OFF (dark). analogWrite(pin, 128) = half ON (medium brightness). analogWrite(pin, 255) = always ON (bright)",
-        visual: "interactive"
-      },
-      {
-        text: "Arduino Uno has PWM on pins: 3, 5, 6, 9, 10, 11. These pins have a tilde (~) symbol!",
-        visual: "diagram"
-      }
-    ],
-    miniQuiz: {
-      q: "To make an LED half brightness with PWM, use analogWrite(pin, ?)",
-      a: "128",
-      wrong: ["255", "64", "180"]
-    }
-  },
-  {
-    id: "serial_communication",
-    title: "Serial Communication: Arduino Talking to You",
-    projectIds: [3, 5, 8],
-    steps: [
-      {
-        text: "Serial lets Arduino send messages to your computer through the USB cable!",
-        visual: "diagram"
-      },
-      {
-        text: "Serial.begin(9600) starts the communication at 9600 baud (bits per second). It's like picking a speed to talk.",
-        visual: "interactive"
-      },
-      {
-        text: "Serial.print(value) sends text/numbers. Serial.println(value) sends text/numbers AND starts a new line.",
-        visual: "code"
-      },
-      {
-        text: "Open Serial Monitor in Arduino IDE (top right corner) to see messages from your Arduino!",
-        visual: "screenshot"
-      }
-    ],
-    miniQuiz: {
-      q: "What does Serial.println() do differently from Serial.print()?",
-      a: "Adds a new line after the message",
-      wrong: ["Prints faster", "Prints to the LCD", "Sends to WiFi"]
-    }
-  },
-  {
-    id: "sensors_101",
-    title: "Sensors: Detecting the World",
-    projectIds: [1, 5, 6, 7],
-    steps: [
-      {
-        text: "Sensors detect things in the world: light, temperature, distance, motion, moisture, sound, etc.",
-        visual: "gallery"
-      },
-      {
-        text: "Digital sensors output HIGH or LOW: buttons, PIR motion sensors, limit switches",
-        visual: "diagram"
-      },
-      {
-        text: "Analog sensors output a range of values: temperature sensors, light sensors, distance sensors, potentiometers",
-        visual: "diagram"
-      },
-      {
-        text: "Always check sensor specs: voltage needed, output type, and how to convert raw values to real measurements!",
-        visual: "interactive"
-      }
-    ],
-    miniQuiz: {
-      q: "Which sensor detects motion using infrared?",
-      a: "PIR sensor",
-      wrong: ["Ultrasonic sensor", "Temperature sensor", "Light sensor"]
-    }
-  },
-  {
-    id: "motors_and_servos",
-    title: "Motors and Servos: Making Things Move",
-    projectIds: [2, 4, 7],
-    steps: [
-      {
-        text: "DC Motors: Spin continuously. Use more voltage/current = faster spin. Need a motor driver for Arduino.",
-        visual: "animation"
-      },
-      {
-        text: "Servo Motors: Rotate to precise angles (usually 0-180°). Control with PWM signal. No driver needed from Arduino!",
-        visual: "animation"
-      },
-      {
-        text: "Stepper Motors: Move in exact steps. Great for 3D printers and precise positioning. Need a motor driver.",
-        visual: "diagram"
-      },
-      {
-        text: "Arduino Servo library makes it easy: Servo.attach(pin); then Servo.write(angle);",
-        visual: "code"
-      }
-    ],
-    miniQuiz: {
-      q: "What type of motor can move to a specific angle?",
-      a: "Servo motor",
-      wrong: ["DC motor", "Stepper motor", "Linear motor"]
-    }
-  },
-  {
-    id: "ir_communication",
-    title: "Infrared Communication: Wireless Signals",
-    projectIds: [6, 8],
-    steps: [
-      {
-        text: "Infrared (IR) is invisible light! TV remotes use IR to talk to TVs without wires.",
-        visual: "animation"
-      },
-      {
-        text: "Arduino can use IR receivers to decode remote signals and IR transmitters to send commands.",
-        visual: "diagram"
-      },
-      {
-        text: "IR remotes send codes using a special protocol. The Arduino IRremote library decodes these codes for you!",
-        visual: "code"
-      },
-      {
-        text: "Great for: wireless robot control, remote-controlled projects, learning about wireless communication!",
-        visual: "gallery"
-      }
-    ],
-    miniQuiz: {
-      q: "What type of light do IR remote controls use?",
-      a: "Infrared (invisible light)",
-      wrong: ["Visible light", "Ultraviolet light", "Radio waves"]
-    }
-  }
-];
-
-const CODE_COMPLETION_SNIPPETS = [
-  {
-    code: "void setup() {\n  ___BLANK_____(13, OUTPUT);\n  Serial.begin(9600);\n}",
-    blanks: [
-      {
-        answer: "pinMode",
-        options: ["digitalWrite", "pinMode", "digitalRead", "analogRead"]
-      }
-    ],
-    hint: "This function sets a pin as input or output"
-  },
-  {
-    code: "int sensor = ___BLANK_____(A0);\nSerial.println(sensor);",
-    blanks: [
-      {
-        answer: "analogRead",
-        options: ["digitalWrite", "analogRead", "digitalRead", "pinMode"]
-      }
-    ],
-    hint: "This function reads analog values from 0-1023"
-  },
-  {
-    code: "___BLANK___(13, HIGH);\ndelay(1000);\n___BLANK___(13, LOW);",
-    blanks: [
-      {
-        answer: "digitalWrite",
-        options: ["digitalWrite", "analogWrite", "digitalRead", "analogRead"]
-      },
-      {
-        answer: "digitalWrite",
-        options: ["digitalWrite", "analogWrite", "digitalRead", "analogRead"]
-      }
-    ],
-    hint: "This function sends HIGH or LOW to a digital pin"
-  },
-  {
-    code: "analogWrite(___BLANK___, 128);\nfor (int i = 0; i < ___BLANK___; i++) {\n  Serial.println(i);\n}",
-    blanks: [
-      {
-        answer: "3",
-        options: ["2", "3", "13", "A0"]
-      },
-      {
-        answer: "10",
-        options: ["5", "10", "20", "255"]
-      }
-    ],
-    hint: "First blank is a PWM pin, second is a loop count"
-  },
-  {
-    code: "if (sensor ___BLANK___ 500) {\n  digitalWrite(ledPin, HIGH);\n}",
-    blanks: [
-      {
-        answer: ">",
-        options: ["==", ">", "<", ">="]
-      }
-    ],
-    hint: "This comparison checks if sensor value is greater"
-  },
-  {
-    code: "int values[] = {10, 20, ___BLANK___, 40};\nSerial.println(values[2]);",
-    blanks: [
-      {
-        answer: "30",
-        options: ["25", "30", "35", "40"]
-      }
-    ],
-    hint: "Array elements should increase by 10"
-  },
-  {
-    code: "while (true) {\n  Serial.println(\"Loop\");\n  ___BLANK___(500);\n}",
-    blanks: [
-      {
-        answer: "delay",
-        options: ["wait", "pause", "delay", "sleep"]
-      }
-    ],
-    hint: "This function pauses in milliseconds"
-  },
-  {
-    code: "int buttonPin = ___BLANK___;\nif (digitalRead(buttonPin) ___BLANK___ HIGH) {\n  doSomething();\n}",
-    blanks: [
-      {
-        answer: "2",
-        options: ["0", "2", "A0", "13"]
-      },
-      {
-        answer: "==",
-        options: ["=", "==", "!=", "==="]
-      }
-    ],
-    hint: "First is a digital pin, second compares values"
-  },
-  {
-    code: "Serial.___BLANK___(\"Temperature: \");\nSerial.___BLANK___(temp);",
-    blanks: [
-      {
-        answer: "print",
-        options: ["write", "print", "println", "send"]
-      },
-      {
-        answer: "println",
-        options: ["write", "print", "println", "send"]
-      }
-    ],
-    hint: "First prints text, second prints number and newline"
-  },
-  {
-    code: "for (int i = 0; i ___BLANK___ 5; i++) {\n  digitalWrite(ledPin, ___BLANK___);\n}",
-    blanks: [
-      {
-        answer: "<",
-        options: ["<", ">", "<=", ">="]
-      },
-      {
-        answer: "HIGH",
-        options: ["HIGH", "LOW", "TRUE", "1"]
-      }
-    ],
-    hint: "First is a comparison, second is a pin state"
-  },
-  {
-    code: "int brightness = ___BLANK___;\nanalogWrite(ledPin, brightness);",
-    blanks: [
-      {
-        answer: "200",
-        options: ["1000", "200", "5", "10"]
-      }
-    ],
-    hint: "PWM values range from 0-255, pick something in middle"
-  },
-  {
-    code: "int sensorPin = A___BLANK___;\nint reading = analogRead(sensorPin);",
-    blanks: [
-      {
-        answer: "0",
-        options: ["13", "0", "5", "10"]
-      }
-    ],
-    hint: "Arduino Uno has A0-A5 analog pins"
-  },
-  {
-    code: "if (x ___BLANK___ 10 ___BLANK___ y < 5) {\n  Serial.println(\"Condition met\");\n}",
-    blanks: [
-      {
-        answer: ">",
-        options: ["==", ">", "<", "!="]
-      },
-      {
-        answer: "&&",
-        options: ["||", "&&", "==", "!="]
-      }
-    ],
-    hint: "First checks if x is greater, second combines conditions"
-  },
-  {
-    code: "switch (button) {\n  case ___BLANK___:\n    digitalWrite(ledPin, HIGH);\n    break;\n}",
-    blanks: [
-      {
-        answer: "1",
-        options: ["0", "1", "HIGH", "true"]
-      }
-    ],
-    hint: "Switch statement case value"
-  },
-  {
-    code: "long timer = ___BLANK___();\nif (millis() - timer > 1000) {\n  Serial.println(\"1 second passed\");\n}",
-    blanks: [
-      {
-        answer: "millis",
-        options: ["time", "millis", "milliSeconds", "timer"]
-      }
-    ],
-    hint: "This function returns milliseconds since startup"
-  },
-  {
-    code: "int value = ___BLANK___(sensorPin, 0, 1023, 0, 255);\nanalogWrite(ledPin, value);",
-    blanks: [
-      {
-        answer: "map",
-        options: ["convert", "map", "scale", "transform"]
-      }
-    ],
-    hint: "This function converts from one range to another"
-  },
-  {
-    code: "Servo myServo;\nvoid setup() {\n  myServo.___BLANK___(___BLANK___);\n}",
-    blanks: [
-      {
-        answer: "attach",
-        options: ["connect", "attach", "begin", "init"]
-      },
-      {
-        answer: "9",
-        options: ["3", "9", "13", "A0"]
-      }
-    ],
-    hint: "First attaches servo to pin, second is pin number"
-  },
-  {
-    code: "unsigned long lastTime = 0;\nvoid loop() {\n  if (millis() - lastTime ___BLANK___ 500) {\n    lastTime = millis();\n    doSomething();\n  }\n}",
-    blanks: [
-      {
-        answer: ">=",
-        options: ["==", ">", ">=", "<"]
-      }
-    ],
-    hint: "Check if enough time has passed"
-  },
-  {
-    code: "String message = \"Hello \" + ___BLANK___;\nSerial.println(message);",
-    blanks: [
-      {
-        answer: "\"Arduino\"",
-        options: ["\"Arduino\"", "Arduino", "\"LCD\"", "\"World\""]
-      }
-    ],
-    hint: "String concatenation with quotes"
-  },
-  {
-    code: "float temperature = analogRead(A0) * ___BLANK___ / 1024.0;\nSerial.println(temperature);",
-    blanks: [
-      {
-        answer: "5.0",
-        options: ["1.0", "3.3", "5.0", "12.0"]
-      }
-    ],
-    hint: "Convert 0-1023 reading to 0-5V range"
-  }
-];
-
-
 
 
 // ─── SYNTAX HIGHLIGHTER ────────────────────────────────────────
@@ -1668,480 +782,78 @@ function highlightArduinoCode(code) {
   return html;
 }
 
-// ─── SVG WIRING DIAGRAM RENDERER ────────────────────────────
-function WiringDiagram({ diagram, color }) {
-  if (!diagram) return null;
-  const w = diagram.width || 600, h = diagram.height || 300;
-  
-  const drawComponent = (c, i) => {
-    const types = {
-      arduino: () => React.createElement("g", {key:i},
-        React.createElement("rect", {x:c.x,y:c.y,width:120,height:160,rx:8,fill:"#1e40af",stroke:"#3b82f6",strokeWidth:2}),
-        React.createElement("text", {x:c.x+60,y:c.y+85,textAnchor:"middle",fill:"#fff",fontSize:11,fontWeight:700}, "Arduino"),
-        React.createElement("text", {x:c.x+60,y:c.y+100,textAnchor:"middle",fill:"#93c5fd",fontSize:9}, "Uno"),
-        ...[13,12,11,10,9,8,7,6,5,4,3,2].map((pin,j) =>
-          React.createElement("text", {key:"p"+j,x:c.x+125,y:c.y+20+j*11,fill:"#93c5fd",fontSize:7}, pin)
-        ),
-        ...["A0","A1","A2","A3","A4","A5"].map((pin,j) =>
-          React.createElement("text", {key:"a"+j,x:c.x+10+j*18,y:c.y+155,fill:"#93c5fd",fontSize:7}, pin)
-        ),
-        React.createElement("text", {x:c.x+5,y:c.y+20,fill:"#ef4444",fontSize:7}, "5V"),
-        React.createElement("text", {x:c.x+5,y:c.y+35,fill:"#666",fontSize:7}, "GND")
-      ),
-      led: () => React.createElement("g", {key:i},
-        React.createElement("circle", {cx:c.x+15,cy:c.y+15,r:12,fill:c.color||"#22c55e",opacity:0.8,stroke:c.color||"#22c55e",strokeWidth:2}),
-        React.createElement("circle", {cx:c.x+15,cy:c.y+15,r:6,fill:"#fff",opacity:0.4}),
-        c.label && React.createElement("text", {x:c.x+15,y:c.y+38,textAnchor:"middle",fill:"#94a3b8",fontSize:9}, c.label)
-      ),
-      resistor: () => React.createElement("g", {key:i},
-        React.createElement("rect", {x:c.x,y:c.y,width:50,height:16,rx:3,fill:"#78716c",stroke:"#a8a29e",strokeWidth:1}),
-        React.createElement("line", {x1:c.x+10,y1:c.y+4,x2:c.x+10,y2:c.y+12,stroke:"#dc2626",strokeWidth:2}),
-        React.createElement("line", {x1:c.x+20,y1:c.y+4,x2:c.x+20,y2:c.y+12,stroke:"#000",strokeWidth:2}),
-        React.createElement("line", {x1:c.x+30,y1:c.y+4,x2:c.x+30,y2:c.y+12,stroke:"#f97316",strokeWidth:2}),
-        c.label && React.createElement("text", {x:c.x+25,y:c.y+30,textAnchor:"middle",fill:"#94a3b8",fontSize:8}, c.label)
-      ),
-      buzzer: () => React.createElement("g", {key:i},
-        React.createElement("circle", {cx:c.x+15,cy:c.y+15,r:15,fill:"#1e293b",stroke:"#64748b",strokeWidth:2}),
-        React.createElement("text", {x:c.x+15,y:c.y+19,textAnchor:"middle",fill:"#94a3b8",fontSize:10}, "♪"),
-        c.label && React.createElement("text", {x:c.x+15,y:c.y+40,textAnchor:"middle",fill:"#94a3b8",fontSize:9}, c.label)
-      ),
-      button: () => React.createElement("g", {key:i},
-        React.createElement("rect", {x:c.x,y:c.y,width:30,height:30,rx:4,fill:"#334155",stroke:"#64748b",strokeWidth:2}),
-        React.createElement("circle", {cx:c.x+15,cy:c.y+15,r:8,fill:"#475569",stroke:"#94a3b8",strokeWidth:1}),
-        c.label && React.createElement("text", {x:c.x+15,y:c.y+48,textAnchor:"middle",fill:"#94a3b8",fontSize:8}, c.label)
-      ),
-      sensor: () => React.createElement("g", {key:i},
-        React.createElement("rect", {x:c.x,y:c.y,width:70,height:35,rx:4,fill:"#0f172a",stroke:"#06b6d4",strokeWidth:2}),
-        React.createElement("text", {x:c.x+35,y:c.y+21,textAnchor:"middle",fill:"#06b6d4",fontSize:9,fontWeight:600}, c.label||"Sensor")
-      )
-    };
-    return (types[c.type] || types.sensor)();
-  };
-
-  const drawWire = (w, i) => React.createElement("g", {key:"w"+i},
-    React.createElement("line", {x1:w.from[0],y1:w.from[1],x2:w.to[0],y2:w.to[1],stroke:w.color||"#ef4444",strokeWidth:2,strokeLinecap:"round"}),
-    w.label && React.createElement("text", {
-      x:(w.from[0]+w.to[0])/2, y:(w.from[1]+w.to[1])/2 - 6,
-      textAnchor:"middle", fill:w.color||"#ef4444", fontSize:8, fontWeight:600
-    }, w.label)
-  );
-
-  return React.createElement("div", {style:{background:"#0f172a",borderRadius:12,padding:16,border:"1px solid #1e293b",marginBottom:20}},
-    React.createElement("svg", {viewBox:"0 0 "+w+" "+h,width:"100%",style:{maxHeight:320}},
-      React.createElement("defs", null,
-        React.createElement("pattern", {id:"grid",width:20,height:20,patternUnits:"userSpaceOnUse"},
-          React.createElement("circle", {cx:2,cy:2,r:0.5,fill:"#1e293b"})
-        )
-      ),
-      React.createElement("rect", {width:w,height:h,fill:"url(#grid)"}),
-      diagram.wires && diagram.wires.map(drawWire),
-      diagram.components && diagram.components.map(drawComponent)
-    )
-  );
-}
-
-// ─── BADGE SYSTEM ────────────────────────────────────────────
-function checkBadgeUnlocks(completed, bonusXp, gameHistory, badges) {
-  const completedCount = Object.keys(completed).filter(k => completed[k]).length;
-  const newBadges = [];
-  const b = badges || {};
-  
-  const unlock = (id) => {
-    if (!b[id]) { b[id] = { unlocked: true, at: Date.now() }; newBadges.push(id); }
-  };
-  
-  if (completedCount >= 1) unlock("first_quest");
-  if ([1,2].every(id => completed[id])) unlock("basics_complete");
-  if (completedCount >= 6) unlock("halfway");
-  if (completedCount >= 12) unlock("all_quests_complete");
-  if (gameHistory && gameHistory.perfectQuiz) unlock("perfect_quiz");
-  if (gameHistory && gameHistory.perfectDebug) unlock("bug_hunter");
-  if (gameHistory && gameHistory.gameTypes && gameHistory.gameTypes.size >= 5) unlock("mini_game_master");
-  if (gameHistory && gameHistory.sessionCompletions >= 3) unlock("streak_3");
-  if (Object.keys(b).filter(k => b[k] && b[k].unlocked).length >= 11) unlock("collector");
-  if (completedCount >= 12 && Object.keys(b).filter(k => b[k] && b[k].unlocked).length >= 12) unlock("city_hero");
-  
-  return { badges: b, newBadges };
-}
-
 // ─── MINI-GAME FUNCTIONS ───────────────────────────────────
 function generateComponentMatchGame(questId) {
-  const shuffled = [...COMPONENT_PAIRS].sort(() => Math.random() - 0.5).slice(0, 4);
+  const pairsPool = [
+    { img: "💡", label: "LED" },
+    { img: "🟫", label: "Resistor" },
+    { img: "🎚️", label: "Potentiometer" },
+    { img: "⚙️", label: "Motor" },
+    { img: "🔊", label: "Buzzer" },
+    { img: "🖥️", label: "LCD Display" },
+    { img: "🌡️", label: "Temperature Sensor" },
+    { img: "🔘", label: "Button" },
+    { img: "🔋", label: "Battery" },
+    { img: "📶", label: "WiFi Module" }
+  ];
+
+  // Shuffle and pick 4 random pairs
+  const shuffled = pairsPool.sort(() => Math.random() - 0.5).slice(0, 4);
   let cards = [...shuffled, ...shuffled].sort(() => Math.random() - 0.5);
   return { type: "match", cards, matched: 0, attempts: 0, startTime: Date.now() };
 }
 
 function generateDebugCodeGame(questId) {
-  const shuffled = [...DEBUG_CODE_SNIPPETS].sort(() => Math.random() - 0.5).slice(0, 3);
+  const bugsPool = [
+    { code: "for (int i = 0; i < 10, i++) {\n  Serial.println(i);\n}", bugLine: 0, hint: "Look closely at the for loop punctuation", answers: ["Line 1", "Line 2", "Line 3"] },
+    { code: "int sensorValue = analogRead(A0);\nif (sensorValue = 500) {\n  digitalWrite(13, HIGH);\n}", bugLine: 1, hint: "How do you compare values in an if statement?", answers: ["Line 1", "Line 2", "Line 3"] },
+    { code: "void setup() {\n  pinmode(13, OUTPUT);\n}", bugLine: 1, hint: "Arduino functions are case-sensitive", answers: ["Line 1", "Line 2"] },
+    { code: "Serial.begin(9600);\nSerial.Println(\"Hello\");", bugLine: 1, hint: "Check the capitalization carefully", answers: ["Line 1", "Line 2"] },
+    { code: "int led = 13;\ndigitalWrite(led HIGH);", bugLine: 1, hint: "How do you separate function arguments?", answers: ["Line 1", "Line 2"] },
+    { code: "void loop() {\n  int x = analogRead(A0)\n  Serial.println(x);\n}", bugLine: 1, hint: "Every statement needs to end properly", answers: ["Line 1", "Line 2", "Line 3"] },
+    { code: "int val = digitalread(2);\npinMode(13, OUTPUT);", bugLine: 0, hint: "Arduino functions are case-sensitive", answers: ["Line 1", "Line 2"] },
+    { code: "digitalWrite(13, HIGH);\ndelay(1000);\ndigitalwrite(13, LOW);", bugLine: 2, hint: "Arduino functions are case-sensitive", answers: ["Line 1", "Line 2", "Line 3"] },
+    { code: "analogWrite(3, 255);\nanalogRead(A0)\ndigitalWrite(13, HIGH);", bugLine: 1, hint: "Every statement needs to end properly", answers: ["Line 1", "Line 2", "Line 3"] },
+    { code: "int x = 5;\nint y = x + 3\nSerial.println(y);", bugLine: 1, hint: "Every statement needs to end properly", answers: ["Line 1", "Line 2", "Line 3"] },
+    { code: "int temp = analogRead(A0);\nSerial.println(temp);\ndelay(\"500\");", bugLine: 2, hint: "What type of value does delay() expect?", answers: ["Line 1", "Line 2", "Line 3"] },
+    { code: "pinMode(LED_BUILTIN, OUTPUT);\ndigitalWrite(LED_BUILTIN, HIGH)\ndelay(1000);", bugLine: 1, hint: "Every statement needs to end properly", answers: ["Line 1", "Line 2", "Line 3"] }
+  ];
+
+  // Shuffle and pick 3 unique bugs
+  const shuffled = bugsPool.sort(() => Math.random() - 0.5).slice(0, 3);
   return { type: "debug", bugs: shuffled, score: 0, round: 0 };
 }
 
 function generateQuizGame(questId) {
-  const shuffled = [...QUIZ_QUESTIONS].sort(() => Math.random() - 0.5).slice(0, 5).map(q => ({
+  const questionPool = [
+    { q: "What does digitalWrite(13, HIGH) do?", a: "Turns pin 13 ON", wrong: ["Turns pin 13 OFF", "Reads pin 13 value"] },
+    { q: "How long does delay(1000) wait?", a: "1 second", wrong: ["1 millisecond", "1 minute"] },
+    { q: "What does pinMode(13, OUTPUT) do?", a: "Sets pin 13 as output", wrong: ["Sets pin 13 as input", "Connects a resistor"] },
+    { q: "What is an LED?", a: "Light Emitting Diode", wrong: ["Low Energy Device", "Light Emitting Display"] },
+    { q: "Why do we use resistors with LEDs?", a: "To limit current", wrong: ["To increase voltage", "To store energy"] },
+    { q: "What is GND?", a: "Ground (return path)", wrong: ["General Negative Device", "Ground Network Distributor"] },
+    { q: "What sensor detects light?", a: "Photoresistor", wrong: ["Thermometer", "Ultrasonic sensor"] },
+    { q: "What is analogRead() used for?", a: "Reading analog values 0-1023", wrong: ["Turning something on/off", "Measuring distance"] },
+    { q: "What does threshold mean?", a: "A limit value to compare against", wrong: ["A type of sensor", "A programming language"] },
+    { q: "What does Serial.begin(9600) do?", a: "Starts serial communication at 9600 baud", wrong: ["Sets pin 9600 as output", "Waits 9600 milliseconds"] },
+    { q: "What component spins when powered?", a: "Motor", wrong: ["LED", "Resistor"] },
+    { q: "What does a breadboard do?", a: "Connects components without soldering", wrong: ["Stores electricity", "Measures voltage"] },
+    { q: "What is PWM used for?", a: "Simulating analog output", wrong: ["Reading digital pins", "Measuring temperature"] },
+    { q: "What does map(val, 0, 1023, 0, 255) do?", a: "Scales a value from one range to another", wrong: ["Creates a navigation map", "Stores values in memory"] },
+    { q: "What is a servo motor?", a: "A motor that moves to precise angles", wrong: ["A motor that only spins fast", "A type of LED"] }
+  ];
+
+  // Shuffle and pick 5 random questions
+  const shuffled = questionPool.sort(() => Math.random() - 0.5).slice(0, 5).map(q => ({
     ...q,
     options: [q.a, ...q.wrong].sort(() => Math.random() - 0.5),
     answered: false
   }));
+
   return { type: "quiz", questions: shuffled, score: 0, index: 0 };
 }
 
-function generateWiringGame(questId) {
-  const project = PROJECTS.find(p => p.id === questId) || PROJECTS[0];
-  const connections = project.wiring.map((w, i) => ({
-    id: i, from: w.from, to: w.to, note: w.note, connected: false
-  }));
-  return { type: "wiring", connections: connections.sort(() => Math.random() - 0.5), score: 0, startTime: Date.now() };
-}
-
-function generateCodeCompletionGame(questId) {
-  const shuffled = [...CODE_COMPLETION_SNIPPETS].sort(() => Math.random() - 0.5).slice(0, 3);
-  return { type: "codecomplete", snippets: shuffled, score: 0, round: 0 };
-}
-
 // ─── MAIN APP ───────────────────────────────────────────────
-
-// ─── BADGE TOAST ─────────────────────────────────────────────
-function BadgeToast({ badge, onDismiss }) {
-  const b = ACHIEVEMENT_BADGES.find(a => a.id === badge);
-  if (!b) return null;
-  useEffect(() => { const t = setTimeout(onDismiss, 3000); return () => clearTimeout(t); }, []);
-  return React.createElement("div", {
-    style: { position:"fixed",top:20,right:20,zIndex:2000,background:"linear-gradient(135deg,#1e293b,#0f172a)",border:"2px solid #eab308",borderRadius:16,padding:"16px 24px",display:"flex",alignItems:"center",gap:16,animation:"slideIn 0.4s ease",boxShadow:"0 8px 32px rgba(234,179,8,0.3)" }
-  },
-    React.createElement("div", {style:{fontSize:40}}, b.icon),
-    React.createElement("div", null,
-      React.createElement("div", {style:{fontSize:10,color:"#eab308",fontWeight:800,textTransform:"uppercase",letterSpacing:1}}, "Badge Unlocked!"),
-      React.createElement("div", {style:{fontSize:16,fontWeight:700,color:"#e2e8f0"}}, b.title),
-      React.createElement("div", {style:{fontSize:12,color:"#94a3b8"}}, b.description)
-    )
-  );
-}
-
-// ─── ACHIEVEMENT MODAL ───────────────────────────────────────
-function AchievementModal({ badges, onClose }) {
-  return React.createElement("div", {
-    onClick: onClose,
-    style: {position:"fixed",inset:0,background:"rgba(0,0,0,0.7)",zIndex:1000,display:"flex",alignItems:"center",justifyContent:"center",backdropFilter:"blur(6px)"}
-  },
-    React.createElement("div", {
-      onClick: e => e.stopPropagation(),
-      style: {background:"#131a2b",border:"1px solid #1e293b",borderRadius:20,padding:32,maxWidth:560,width:"90%",maxHeight:"85vh",overflowY:"auto",animation:"fadeIn 0.3s ease"}
-    },
-      React.createElement("div", {style:{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:24}},
-        React.createElement("h2", {style:{fontFamily:"'Fredoka One',cursive",fontSize:22,color:"#e2e8f0"}}, "🏆 Achievements"),
-        React.createElement("button", {onClick:onClose,style:{background:"none",border:"none",color:"#64748b",fontSize:22,cursor:"pointer"}}, "✕")
-      ),
-      React.createElement("div", {style:{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(140px,1fr))",gap:16}},
-        ACHIEVEMENT_BADGES.map(b => {
-          const unlocked = badges[b.id] && badges[b.id].unlocked;
-          return React.createElement("div", {
-            key: b.id,
-            style: {
-              textAlign:"center",padding:16,borderRadius:12,
-              background: unlocked ? "rgba(234,179,8,0.1)" : "rgba(15,23,42,0.6)",
-              border: unlocked ? "1px solid rgba(234,179,8,0.3)" : "1px solid #1e293b",
-              opacity: unlocked ? 1 : 0.4, transition:"all 0.3s"
-            }
-          },
-            React.createElement("div", {style:{fontSize:36,marginBottom:8}}, unlocked ? b.icon : "🔒"),
-            React.createElement("div", {style:{fontSize:12,fontWeight:700,color:unlocked?"#e2e8f0":"#475569"}}, b.title),
-            React.createElement("div", {style:{fontSize:10,color:"#64748b",marginTop:4}}, b.description)
-          );
-        })
-      )
-    )
-  );
-}
-
-// ─── EXPLAINER VIEW ──────────────────────────────────────────
-function ExplainerView({ conceptId, onClose, onXpEarned }) {
-  const concept = EXPLAINER_CONCEPTS.find(c => c.id === conceptId);
-  const [step, setStep] = useState(0);
-  const [quizAnswer, setQuizAnswer] = useState(null);
-  const [quizSubmitted, setQuizSubmitted] = useState(false);
-  
-  if (!concept) return null;
-  const isQuizStep = step >= concept.steps.length;
-  const totalSteps = concept.steps.length + 1;
-  const visualIcons = {diagram:"📐",animation:"🎬",graph:"📊",formula:"🔢",calculation:"🧮",interactive:"🖱️",code:"💻",gallery:"🖼️",screenshot:"📷"};
-  
-  return React.createElement("div", {
-    onClick: onClose,
-    style:{position:"fixed",inset:0,background:"rgba(0,0,0,0.8)",zIndex:1000,display:"flex",alignItems:"center",justifyContent:"center",backdropFilter:"blur(6px)"}
-  },
-    React.createElement("div", {
-      onClick:e=>e.stopPropagation(),
-      style:{background:"#131a2b",border:"1px solid #1e293b",borderRadius:20,padding:32,maxWidth:600,width:"90%",animation:"fadeIn 0.3s ease"}
-    },
-      React.createElement("div", {style:{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:20}},
-        React.createElement("h3", {style:{fontFamily:"'Fredoka One',cursive",color:"#06b6d4",fontSize:20}}, "💡 " + concept.title),
-        React.createElement("button", {onClick:onClose,style:{background:"none",border:"none",color:"#64748b",fontSize:20,cursor:"pointer"}}, "✕")
-      ),
-      React.createElement("div", {style:{display:"flex",gap:4,marginBottom:24}},
-        Array.from({length:totalSteps}).map((_,i) =>
-          React.createElement("div", {key:i,style:{flex:1,height:4,borderRadius:2,background:i<=step?"#06b6d4":"#1e293b",transition:"all 0.3s"}})
-        )
-      ),
-      !isQuizStep ? React.createElement("div", {style:{animation:"fadeIn 0.3s ease"}},
-        React.createElement("div", {style:{fontSize:48,textAlign:"center",marginBottom:16}}, visualIcons[concept.steps[step].visual] || "📖"),
-        React.createElement("p", {style:{fontSize:16,lineHeight:1.8,color:"#e2e8f0",textAlign:"center",marginBottom:24}}, concept.steps[step].text),
-        React.createElement("div", {style:{display:"flex",justifyContent:"space-between"}},
-          step > 0 ? React.createElement("button", {onClick:()=>setStep(step-1),style:{padding:"10px 24px",borderRadius:10,border:"1px solid #334155",background:"rgba(30,41,59,0.6)",color:"#94a3b8",cursor:"pointer",fontFamily:"Nunito"}}, "← Back") : React.createElement("div"),
-          React.createElement("button", {onClick:()=>setStep(step+1),style:{padding:"10px 24px",borderRadius:10,border:"none",background:"#06b6d4",color:"#fff",fontWeight:700,cursor:"pointer",fontFamily:"Nunito"}}, "Next →")
-        )
-      ) :
-      React.createElement("div", {style:{animation:"fadeIn 0.3s ease"}},
-        React.createElement("div", {style:{fontSize:36,textAlign:"center",marginBottom:12}}, "🧪"),
-        React.createElement("p", {style:{fontSize:16,fontWeight:700,color:"#e2e8f0",textAlign:"center",marginBottom:20}}, concept.miniQuiz.q),
-        React.createElement("div", {style:{display:"flex",flexDirection:"column",gap:10}},
-          [concept.miniQuiz.a, ...concept.miniQuiz.wrong].sort(() => Math.random() - 0.5).map((opt,i) => {
-            const isCorrect = quizSubmitted && opt === concept.miniQuiz.a;
-            const isWrong = quizSubmitted && quizAnswer === opt && opt !== concept.miniQuiz.a;
-            return React.createElement("button", {
-              key:i,
-              onClick:() => { if (!quizSubmitted) { setQuizAnswer(opt); setQuizSubmitted(true); if(opt===concept.miniQuiz.a && onXpEarned) onXpEarned(15); }},
-              style:{padding:"12px 20px",borderRadius:10,border:"2px solid "+(isCorrect?"#22c55e":isWrong?"#ef4444":quizAnswer===opt?"#06b6d4":"#334155"),background:isCorrect?"rgba(34,197,94,0.15)":isWrong?"rgba(239,68,68,0.15)":"rgba(26,35,53,0.85)",color:"#e2e8f0",cursor:quizSubmitted?"default":"pointer",fontWeight:600,textAlign:"left",fontFamily:"Nunito",transition:"all 0.2s"}
-            }, opt + (isCorrect?" ✓":"") + (isWrong?" ✗":""));
-          })
-        ),
-        quizSubmitted && React.createElement("div", {style:{textAlign:"center",marginTop:20}},
-          React.createElement("p", {style:{color:quizAnswer===concept.miniQuiz.a?"#22c55e":"#ef4444",fontWeight:700}},
-            quizAnswer===concept.miniQuiz.a ? "✓ Correct! +15 XP" : "Not quite — the answer is: " + concept.miniQuiz.a
-          ),
-          React.createElement("button", {onClick:onClose,style:{marginTop:12,padding:"10px 24px",borderRadius:10,border:"none",background:"#334155",color:"#fff",cursor:"pointer",fontFamily:"Nunito"}}, "Close")
-        )
-      )
-    )
-  );
-}
-
-// ─── WIRING GAME ─────────────────────────────────────────────
-function WiringGame({ game, onClose, onComplete }) {
-  const [selected, setSelected] = useState(null);
-  const [connected, setConnected] = useState({});
-  const [score, setScore] = useState(0);
-  const connections = game.connections;
-  const total = connections.length;
-  
-  const handleSelect = (idx) => {
-    if (connected[idx]) return;
-    if (selected === null) { setSelected(idx); return; }
-    if (selected === idx) { setSelected(null); return; }
-    const newConnected = {...connected, [selected]: true, [idx]: true};
-    setConnected(newConnected);
-    setScore(score + 10);
-    setSelected(null);
-    if (Object.keys(newConnected).length >= total) {
-      setTimeout(() => onComplete(Math.min(50, score + 10)), 600);
-    }
-  };
-  
-  return React.createElement("div", {style:{minHeight:"100vh",background:"#131a2b",padding:24,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}},
-    React.createElement("h2", {style:{fontFamily:"'Fredoka One',cursive",fontSize:28,color:"#f97316",marginBottom:12}}, "🔌 Wiring Challenge"),
-    React.createElement("p", {style:{color:"#94a3b8",marginBottom:24}}, "Connect the matching wire pairs! Score: " + score),
-    React.createElement("div", {style:{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(200px,1fr))",gap:12,maxWidth:600,width:"100%"}},
-      connections.map((c, idx) =>
-        React.createElement("div", {
-          key: idx,
-          onClick: () => handleSelect(idx),
-          style: {
-            padding:"14px 18px",borderRadius:12,cursor:connected[idx]?"default":"pointer",
-            background:connected[idx]?"rgba(34,197,94,0.15)":selected===idx?"rgba(249,115,22,0.2)":"rgba(26,35,53,0.85)",
-            border:connected[idx]?"2px solid #22c55e":selected===idx?"2px solid #f97316":"2px solid #334155",
-            transition:"all 0.2s"
-          }
-        },
-          React.createElement("div", {style:{fontWeight:700,color:"#e2e8f0",fontSize:14}}, c.from + (c.to ? " → " + c.to : "")),
-          c.note && React.createElement("div", {style:{fontSize:12,color:"#64748b",marginTop:4}}, c.note),
-          connected[idx] && React.createElement("span", {style:{color:"#22c55e",fontWeight:700}}, " ✓")
-        )
-      )
-    ),
-    Object.keys(connected).length >= total && React.createElement("div", {style:{marginTop:24,textAlign:"center"}},
-      React.createElement("p", {style:{color:"#22c55e",fontSize:18,fontWeight:700}}, "✓ All connected! +" + Math.min(50, score) + " XP"),
-      React.createElement("button", {onClick:onClose,style:{marginTop:12,padding:"10px 20px",borderRadius:8,border:"none",background:"#22c55e",color:"#000",fontWeight:700,cursor:"pointer"}}, "Continue")
-    )
-  );
-}
-
-// ─── CODE COMPLETION GAME ────────────────────────────────────
-function CodeCompletionGame({ game, onClose, onComplete }) {
-  const [round, setRound] = useState(0);
-  const [answers, setAnswers] = useState({});
-  const [submitted, setSubmitted] = useState(false);
-  const scoreRef = useRef(0);
-  
-  const snippet = game.snippets[round];
-  if (!snippet) return null;
-  
-  const parts = snippet.code.split("___BLANK___");
-  
-  const handleSelect = (blankIdx, value) => {
-    if (submitted) return;
-    setAnswers(prev => ({...prev, [blankIdx]: value}));
-  };
-  
-  const handleSubmit = () => {
-    setSubmitted(true);
-    let correct = 0;
-    snippet.blanks.forEach((b, i) => { if (answers[i] === b.answer) correct++; });
-    scoreRef.current += correct * 10;
-    
-    setTimeout(() => {
-      if (round < game.snippets.length - 1) {
-        setRound(round + 1);
-        setAnswers({});
-        setSubmitted(false);
-      } else {
-        onComplete(scoreRef.current);
-      }
-    }, 1500);
-  };
-  
-  const allFilled = snippet.blanks.every((_, i) => answers[i] !== undefined);
-  
-  return React.createElement("div", {style:{minHeight:"100vh",background:"#131a2b",padding:24,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}},
-    React.createElement("h2", {style:{fontFamily:"'Fredoka One',cursive",fontSize:28,color:"#3b82f6",marginBottom:12}}, "💻 Code Builder"),
-    React.createElement("p", {style:{color:"#94a3b8",marginBottom:8}}, "Round " + (round+1) + " of " + game.snippets.length + " — Fill in the blanks!"),
-    React.createElement("p", {style:{color:"#3b82f6",fontSize:13,marginBottom:24,fontStyle:"italic"}}, "Hint: " + snippet.hint),
-    React.createElement("pre", {style:{background:"#0d1117",border:"1px solid #30363d",borderRadius:8,padding:16,marginBottom:24,maxWidth:600,width:"100%"}},
-      parts.map((part, i) => React.createElement(React.Fragment, {key:i},
-        React.createElement("code", null, part),
-        i < snippet.blanks.length && React.createElement("select", {
-          value: answers[i] || "",
-          onChange: (e) => handleSelect(i, e.target.value),
-          disabled: submitted,
-          style: {
-            background: submitted ? (answers[i] === snippet.blanks[i].answer ? "#166534" : "#991b1b") : "#1e293b",
-            color: "#e2e8f0", border: "2px solid " + (submitted ? (answers[i] === snippet.blanks[i].answer ? "#22c55e" : "#ef4444") : "#3b82f6"),
-            borderRadius: 6, padding: "4px 8px", fontSize: 13, fontFamily: "'Fira Code',monospace", cursor: submitted ? "default" : "pointer"
-          }
-        },
-          React.createElement("option", {value:""}, "???"),
-          snippet.blanks[i].options.map(opt =>
-            React.createElement("option", {key:opt, value:opt}, opt)
-          )
-        )
-      ))
-    ),
-    !submitted && React.createElement("button", {
-      onClick: handleSubmit,
-      disabled: !allFilled,
-      style: {padding:"12px 32px",borderRadius:10,border:"none",background:allFilled?"#3b82f6":"#334155",color:"#fff",fontWeight:700,cursor:allFilled?"pointer":"not-allowed",fontSize:16}
-    }, "Submit"),
-    submitted && React.createElement("div", {style:{marginTop:16,color:"#94a3b8",fontSize:14}}, "Score: " + scoreRef.current)
-  );
-}
-
-// ─── PARENT DASHBOARD ────────────────────────────────────────
-function ParentDashboard({ completed, bonusXp, badges, onClose }) {
-  const [pin, setPin] = useState("");
-  const [authenticated, setAuthenticated] = useState(false);
-  const [settingPin, setSettingPin] = useState(false);
-  
-  const storedPin = (() => { try { return localStorage.getItem("sparkcity_parent_pin"); } catch(e) { return null; } })();
-  
-  useEffect(() => {
-    if (!storedPin) setSettingPin(true);
-  }, []);
-  
-  const handlePinSubmit = () => {
-    if (settingPin) {
-      try { localStorage.setItem("sparkcity_parent_pin", pin); } catch(e) {}
-      setSettingPin(false);
-      setAuthenticated(true);
-    } else if (pin === storedPin) {
-      setAuthenticated(true);
-    }
-    setPin("");
-  };
-  
-  if (!authenticated) {
-    return React.createElement("div", {
-      onClick: onClose,
-      style:{position:"fixed",inset:0,background:"rgba(0,0,0,0.7)",zIndex:1000,display:"flex",alignItems:"center",justifyContent:"center",backdropFilter:"blur(6px)"}
-    },
-      React.createElement("div", {
-        onClick:e=>e.stopPropagation(),
-        style:{background:"#131a2b",border:"1px solid #1e293b",borderRadius:20,padding:32,maxWidth:400,width:"90%",textAlign:"center"}
-      },
-        React.createElement("div", {style:{fontSize:48,marginBottom:16}}, "🔒"),
-        React.createElement("h3", {style:{fontFamily:"'Fredoka One',cursive",color:"#e2e8f0",marginBottom:8}}, settingPin ? "Set Parent PIN" : "Enter Parent PIN"),
-        React.createElement("p", {style:{color:"#64748b",fontSize:13,marginBottom:20}}, settingPin ? "Choose a 4-digit PIN to protect the dashboard" : "Enter your 4-digit PIN"),
-        React.createElement("input", {
-          type:"password", maxLength:4, value:pin,
-          onChange:e => setPin(e.target.value.replace(/\D/g,"")),
-          onKeyDown:e => e.key==="Enter" && pin.length===4 && handlePinSubmit(),
-          style:{width:120,padding:"12px",fontSize:24,textAlign:"center",borderRadius:10,border:"2px solid #334155",background:"#1e293b",color:"#fff",fontFamily:"monospace",letterSpacing:8},
-          placeholder:"••••"
-        }),
-        React.createElement("div", {style:{marginTop:16,display:"flex",gap:12,justifyContent:"center"}},
-          React.createElement("button", {onClick:onClose,style:{padding:"10px 24px",borderRadius:10,border:"1px solid #334155",background:"transparent",color:"#94a3b8",cursor:"pointer",fontFamily:"Nunito"}}, "Cancel"),
-          React.createElement("button", {
-            onClick:handlePinSubmit,
-            disabled:pin.length!==4,
-            style:{padding:"10px 24px",borderRadius:10,border:"none",background:pin.length===4?"#a855f7":"#334155",color:"#fff",fontWeight:700,cursor:pin.length===4?"pointer":"not-allowed",fontFamily:"Nunito"}
-          }, settingPin ? "Set PIN" : "Unlock")
-        )
-      )
-    );
-  }
-  
-  const completedCount = Object.keys(completed).filter(k => completed[k]).length;
-  const totalXp = completedCount * 100 + bonusXp;
-  const unlockedBadges = Object.keys(badges).filter(k => badges[k] && badges[k].unlocked);
-  
-  return React.createElement("div", {
-    onClick:onClose,
-    style:{position:"fixed",inset:0,background:"rgba(0,0,0,0.7)",zIndex:1000,display:"flex",alignItems:"center",justifyContent:"center",backdropFilter:"blur(6px)"}
-  },
-    React.createElement("div", {
-      onClick:e=>e.stopPropagation(),
-      style:{background:"#131a2b",border:"1px solid #1e293b",borderRadius:20,padding:32,maxWidth:600,width:"90%",maxHeight:"85vh",overflowY:"auto"}
-    },
-      React.createElement("div", {style:{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:24}},
-        React.createElement("h2", {style:{fontFamily:"'Fredoka One',cursive",fontSize:22,color:"#a855f7"}}, "👨‍👩‍👧 Parent Dashboard"),
-        React.createElement("button", {onClick:onClose,style:{background:"none",border:"none",color:"#64748b",fontSize:22,cursor:"pointer"}}, "✕")
-      ),
-      React.createElement("div", {style:{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:16,marginBottom:24}},
-        [{label:"Quests Done",value:completedCount+"/12",color:"#22c55e"},{label:"Total XP",value:totalXp,color:"#3b82f6"},{label:"Badges",value:unlockedBadges.length+"/"+ACHIEVEMENT_BADGES.length,color:"#eab308"}].map((s,i) =>
-          React.createElement("div", {key:i,style:{textAlign:"center",padding:16,borderRadius:12,background:"rgba(26,35,53,0.85)",border:"1px solid #1e293b"}},
-            React.createElement("div", {style:{fontSize:24,fontWeight:800,color:s.color}}, s.value),
-            React.createElement("div", {style:{fontSize:11,color:"#64748b",marginTop:4}}, s.label)
-          )
-        )
-      ),
-      React.createElement("div", {style:{marginBottom:24}},
-        React.createElement("div", {style:{fontSize:13,color:"#94a3b8",marginBottom:8}}, "Overall Progress"),
-        React.createElement("div", {style:{width:"100%",height:12,background:"#1e293b",borderRadius:6,overflow:"hidden"}},
-          React.createElement("div", {style:{width:Math.round(completedCount/12*100)+"%",height:"100%",background:"linear-gradient(90deg,#22c55e,#3b82f6)",borderRadius:6,transition:"width 0.5s"}})
-        )
-      ),
-      React.createElement("h4", {style:{color:"#94a3b8",fontSize:13,fontWeight:700,textTransform:"uppercase",letterSpacing:1,marginBottom:12}}, "Completed Quests"),
-      PROJECTS.filter(p => completed[p.id]).length > 0 ?
-        PROJECTS.filter(p => completed[p.id]).map(p =>
-          React.createElement("div", {key:p.id,style:{display:"flex",alignItems:"center",gap:12,padding:"8px 0",borderBottom:"1px solid #1e293b"}},
-            React.createElement("span", {style:{fontSize:20}}, p.icon),
-            React.createElement("span", {style:{color:"#e2e8f0",fontSize:14}}, p.title),
-            React.createElement("span", {style:{marginLeft:"auto",color:"#22c55e",fontSize:12,fontWeight:700}}, "✓ Done")
-          )
-        ) :
-        React.createElement("p", {style:{color:"#475569",fontSize:14,fontStyle:"italic"}}, "No quests completed yet"),
-      unlockedBadges.length > 0 && React.createElement("div", {style:{marginTop:24}},
-        React.createElement("h4", {style:{color:"#94a3b8",fontSize:13,fontWeight:700,textTransform:"uppercase",letterSpacing:1,marginBottom:12}}, "Badges Earned"),
-        React.createElement("div", {style:{display:"flex",flexWrap:"wrap",gap:8}},
-          unlockedBadges.map(id => {
-            const b = ACHIEVEMENT_BADGES.find(a => a.id === id);
-            return b && React.createElement("div", {key:id,style:{padding:"6px 12px",borderRadius:8,background:"rgba(234,179,8,0.1)",border:"1px solid rgba(234,179,8,0.3)"}},
-              React.createElement("span", null, b.icon + " " + b.title)
-            );
-          })
-        )
-      )
-    )
-  );
-}
-
 function App() {
   const [view, setView] = useState("world");
   const [selectedQuest, setSelectedQuest] = useState(null);
@@ -2173,12 +885,6 @@ function App() {
     "Spark City Guardian",
     "City Hero"
   ];
-  const [badges, setBadges] = useState({});
-  const [badgeToast, setBadgeToast] = useState(null);
-  const [showAchievements, setShowAchievements] = useState(false);
-  const [showParentDash, setShowParentDash] = useState(false);
-  const [showExplainer, setShowExplainer] = useState(null);
-  const [gameHistory, setGameHistory] = useState({ gameTypes: new Set(), sessionCompletions: 0 });
   const title = titleNames[Math.min(level - 1, titleNames.length - 1)];
   const nextTitle = titleNames[Math.min(level, titleNames.length - 1)];
   const xpForNextLevel = level * 100;
@@ -2199,7 +905,7 @@ function App() {
 
   const saveState = (playerName, completedState, bonusXpState) => {
     try {
-      const data = { completed: completedState, bonusXp: bonusXpState, badges: badgesState || {}, lastPlayed: Date.now() };
+      const data = { completed: completedState, bonusXp: bonusXpState, lastPlayed: Date.now() };
       localStorage.setItem('sparkcity_' + playerName.toLowerCase(), JSON.stringify(data));
     } catch(e) {}
   };
@@ -2400,24 +1106,6 @@ function App() {
         }
       }, "+" + pop.xp + " XP")
     )
-  ,
-
-    // Badge Toast
-    badgeToast && React.createElement(BadgeToast, { badge: badgeToast, onDismiss: () => setBadgeToast(null) }),
-
-    // Achievements Modal  
-    showAchievements && React.createElement(AchievementModal, { badges, onClose: () => setShowAchievements(false) }),
-
-    // Parent Dashboard
-    showParentDash && React.createElement(ParentDashboard, { completed, bonusXp, badges, onClose: () => setShowParentDash(false) }),
-
-    // Explainer
-    showExplainer && React.createElement(ExplainerView, {
-      conceptId: showExplainer,
-      onClose: () => setShowExplainer(null),
-      onXpEarned: (xp) => { addXpPop(xp); setBonusXp(prev => prev + xp); }
-    })
-
   );
 }
 
@@ -2563,7 +1251,7 @@ function QuestView({ quest, player, isCompleted, onToggleComplete, onBack, onSta
     onToggleComplete();
     if (!isCompleted) {
       setTimeout(() => {
-        const gameType = ["match", "debug", "quiz", "wiring", "codecomplete"][quest.id % 5];
+        const gameType = ["match", "debug", "quiz"][quest.id % 3];
         let game;
         if (gameType === "match") game = generateComponentMatchGame(quest.id);
         else if (gameType === "debug") game = generateDebugCodeGame(quest.id);
@@ -2668,7 +1356,6 @@ function QuestView({ quest, player, isCompleted, onToggleComplete, onBack, onSta
 
       // STEP 2: Wiring
       currentStep === 2 && React.createElement("div", { style: { animation: "fadeIn 0.3s ease" }},
-        quest.diagram && React.createElement(WiringDiagram, { diagram: quest.diagram, color: quest.color }),
         React.createElement("div", { style: { background: "rgba(26,35,53,0.85)", borderRadius: 16, padding: 24, border: "1px solid #1e293b" }},
           React.createElement("h3", { style: { color: "#e2e8f0", marginBottom: 8, fontSize: 18 }}, "⚡ Wiring Connections"),
           React.createElement("p", { style: { color: "#7e8a9a", marginBottom: 20, fontSize: 14 }}, "Follow each connection carefully!"),
@@ -2699,11 +1386,7 @@ function QuestView({ quest, player, isCompleted, onToggleComplete, onBack, onSta
                 document.body.removeChild(el);
               },
               style: { padding: "8px 18px", borderRadius: 8, border: "1px solid #334155", background: "rgba(30,41,59,0.8)", color: "#94a3b8", cursor: "pointer", fontSize: 13, fontFamily: "Nunito", transition: "all 0.2s" }
-            }, "📋 Copy Code"),
-            quest.wokwiUrl && React.createElement("button", {
-              onClick: () => window.open(quest.wokwiUrl, "_blank"),
-              style: { padding: "8px 18px", borderRadius: 8, border: "1px solid #22c55e", background: "rgba(34,197,94,0.1)", color: "#22c55e", cursor: "pointer", fontSize: 13, fontFamily: "Nunito", transition: "all 0.2s" }
-            }, "🔬 Try in Simulator")
+            }, "📋 Copy Code")
           ),
           React.createElement("pre", null,
             React.createElement("code", { dangerouslySetInnerHTML: { __html: highlightArduinoCode(quest.code) }})
@@ -2773,13 +1456,6 @@ function MiniGameView({ game, onClose, onComplete }) {
   }
   if (gameState.type === "quiz") {
     return React.createElement(CircuitQuizGame, { game: gameState, setGame: setGameState, onComplete, onClose });
-
-  if (gameState.type === "wiring") {
-    return React.createElement(WiringGame, { game: gameState, onComplete, onClose });
-  }
-  if (gameState.type === "codecomplete") {
-    return React.createElement(CodeCompletionGame, { game: gameState, onComplete, onClose });
-  }
   }
 }
 
