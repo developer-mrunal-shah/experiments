@@ -69,7 +69,11 @@ class MainActivity : ComponentActivity() {
         super.onResume()
         // If Device Owner, engage lock task (blocks Home/Recent/Status bar)
         if (lockTaskHelper.isDeviceOwner) {
+            // Re-apply allowlist every resume in case new apps were installed
+            lockTaskHelper.setAllowedLockTaskPackages(getAllowedPackages())
+            lockTaskHelper.configureLockTaskFeatures()
             lockTaskHelper.startLockTask(this)
+            Log.d("KidShield", "Lock task started. Allowed: ${getAllowedPackages().size} packages")
         }
         // If not Device Owner but we are default launcher, Home button
         // already brings user back here — no extra action needed

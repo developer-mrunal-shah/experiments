@@ -54,8 +54,9 @@ class LaunchAppUseCase @Inject constructor(
             return LaunchResult.TimeLimitReached(app.displayName)
         }
 
-        // Launch the app
-        val launchIntent = context.packageManager.getLaunchIntentForPackage(packageName)
+        // Launch the app — try leanback launcher first (TV), then standard launcher
+        val launchIntent = context.packageManager.getLeanbackLaunchIntentForPackage(packageName)
+            ?: context.packageManager.getLaunchIntentForPackage(packageName)
         if (launchIntent != null) {
             launchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             context.startActivity(launchIntent)

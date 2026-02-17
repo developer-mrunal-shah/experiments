@@ -75,6 +75,19 @@ class TimeLimitsViewModel @Inject constructor(
         }
     }
 
+    fun setAllToMinutes(minutes: Int) {
+        viewModelScope.launch {
+            _uiState.value.apps.forEach { app ->
+                val existing = timeLimitDao.getTimeLimitForAppOnce(app.packageName)
+                timeLimitDao.upsertTimeLimit(
+                    (existing ?: TimeLimitEntity(packageName = app.packageName)).copy(
+                        dailyLimitMinutes = minutes
+                    )
+                )
+            }
+        }
+    }
+
     fun updateSchedule(packageName: String, startTime: String?, endTime: String?) {
         viewModelScope.launch {
             val existing = timeLimitDao.getTimeLimitForAppOnce(packageName)

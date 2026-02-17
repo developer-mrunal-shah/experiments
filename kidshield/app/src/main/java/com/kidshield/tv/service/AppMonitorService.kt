@@ -1,5 +1,6 @@
 package com.kidshield.tv.service
 
+import android.app.ActivityManager
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -8,6 +9,7 @@ import android.app.usage.UsageStatsManager
 import android.content.Context
 import android.content.Intent
 import android.os.IBinder
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.kidshield.tv.MainActivity
 import com.kidshield.tv.R
@@ -36,9 +38,10 @@ class AppMonitorService : Service() {
     private var isMonitoring = false
 
     companion object {
+        private const val TAG = "KidShield.Monitor"
         private const val NOTIFICATION_ID = 1001
         private const val CHANNEL_ID = "kidshield_monitor"
-        private const val POLL_INTERVAL_MS = 30_000L
+        private const val POLL_INTERVAL_MS = 10_000L  // 10s for snappy enforcement
         const val ACTION_TIME_UP = "com.kidshield.tv.TIME_UP"
         const val EXTRA_PACKAGE = "package"
         const val EXTRA_APP_NAME = "appName"
@@ -68,19 +71,40 @@ class AppMonitorService : Service() {
         }
     }
 
-    private suspend fun checkForegroundApp() {
-        val usm = getSystemService(Context.USAGE_STATS_SERVICE) as? UsageStatsManager ?: return
+    /**
+     * Detect which package is in the foreground.
+     * Uses ActivityManager first (more reliable for current task),
+     * falls back to UsageStatsManager.
+     */
+    private fun detectForegroundPackage(): String? {
+        // Method 1: ActivityManager — get top running task
+        try {
+            val am = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+            @Suppress("DEPRECATION")
+            val tasks = am.getRunningTasks(1)
+            if (!tasks.isNullOrEmpty()) {
+                val topPkg = tasks[0].topActivity?.packageName
+                if (topPkg != null) return topPkg
+            }
+        } catch (_: Exception) { }
+
+        // Method 2: UsageStatsManager — fallback
+        val usm = getSystemService(Context.USAGE_STATS_SERVICE) as? UsageStatsManager
+            ?: return null
         val now = System.currentTimeMillis()
         val stats = usm.queryUsageStats(
             UsageStatsManager.INTERVAL_DAILY,
             now - 60_000,
             now
         )
-
-        val foregroundPkg = stats
+        return stats
             ?.filter { it.totalTimeInForeground > 0 }
             ?.maxByOrNull { it.lastTimeUsed }
-            ?.packageName ?: return
+            ?.packageName
+    }
+
+    private suspend fun checkForegroundApp() {
+        val foregroundPkg = detectForegroundPackage() ?: return
 
         // If foreground is our own app, nothing to do
         if (foregroundPkg == packageName) return
@@ -89,13 +113,15 @@ class AppMonitorService : Service() {
         val systemPackages = setOf(
             "com.android.systemui",
             "com.android.launcher",
-            "com.android.settings"
+            "com.android.settings",
+            "com.google.android.tvlauncher"
         )
         if (foregroundPkg in systemPackages) return
 
         // Check if the foreground app is in the allowed list
         val app = appRepository.getApp(foregroundPkg)
         if (app == null || !app.isAllowed) {
+            Log.d(TAG, "Non-allowed app in foreground: $foregroundPkg — pulling back")
             bringKidShieldToForeground()
             return
         }
@@ -106,6 +132,7 @@ class AppMonitorService : Service() {
         val dailyLimit = timeLimit?.dailyLimitMinutes ?: Int.MAX_VALUE
 
         if (todayUsage >= dailyLimit) {
+            Log.d(TAG, "Time limit reached for ${app.displayName} ($todayUsage >= $dailyLimit)")
             lockTaskHelper.suspendPackage(foregroundPkg)
             bringKidShieldToForeground()
 
@@ -124,7 +151,11 @@ class AppMonitorService : Service() {
 
     private fun bringKidShieldToForeground() {
         val intent = Intent(this, MainActivity::class.java).apply {
-            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+            addFlags(
+                Intent.FLAG_ACTIVITY_NEW_TASK or
+                Intent.FLAG_ACTIVITY_CLEAR_TOP or
+                Intent.FLAG_ACTIVITY_SINGLE_TOP
+            )
         }
         startActivity(intent)
     }

@@ -2,10 +2,14 @@ package com.kidshield.tv.service
 
 import android.app.Activity
 import android.app.admin.DevicePolicyManager
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.os.Build
+import android.util.Log
+import com.kidshield.tv.MainActivity
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -36,14 +40,35 @@ class LockTaskHelper @Inject constructor(
 
     /**
      * Configure lock task features when in Device Owner mode.
-     * Disables status bar, recent apps, notifications, home button.
+     * Enables Home button and overview/recents so kids can return to KidShield.
+     * Disables status bar, notifications, and global actions.
+     *
+     * Also registers KidShield as the persistent preferred Home activity
+     * via DPM so the Home button always returns here.
      */
     fun configureLockTaskFeatures() {
         if (!isDeviceOwner) return
+
+        // Enable Home button so kids can always get back to KidShield
         dpm.setLockTaskFeatures(
             adminComponent,
-            DevicePolicyManager.LOCK_TASK_FEATURE_NONE
+            DevicePolicyManager.LOCK_TASK_FEATURE_HOME or
+            DevicePolicyManager.LOCK_TASK_FEATURE_OVERVIEW
         )
+
+        // Register KidShield as the preferred Home activity so the
+        // Home button in lock task mode always launches us
+        try {
+            val filter = IntentFilter(Intent.ACTION_MAIN).apply {
+                addCategory(Intent.CATEGORY_HOME)
+                addCategory(Intent.CATEGORY_DEFAULT)
+            }
+            val activity = ComponentName(context, MainActivity::class.java)
+            dpm.addPersistentPreferredActivity(adminComponent, filter, activity)
+            Log.d("KidShield", "Set as persistent preferred home activity")
+        } catch (e: Exception) {
+            Log.w("KidShield", "Could not set persistent preferred activity", e)
+        }
     }
 
     /**
