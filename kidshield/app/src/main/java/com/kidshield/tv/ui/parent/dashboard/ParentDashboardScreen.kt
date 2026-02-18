@@ -22,8 +22,9 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Apps
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Security
-import androidx.compose.material.icons.filled.Warning
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.Timer
+import androidx.compose.material.icons.filled.Warning
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -54,6 +55,7 @@ fun ParentDashboardScreen(
     onNavigateToAppManagement: () -> Unit,
     onNavigateToContentSafety: () -> Unit,
     onNavigateToSetupWizard: () -> Unit,
+    onNavigateToSubscription: () -> Unit,
     onBackToKids: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -251,6 +253,9 @@ fun ParentDashboardScreen(
                 }
                 item {
                     DashboardNavButton("Setup Wizard", Icons.Default.Settings, onNavigateToSetupWizard)
+                }
+                item {
+                    DashboardNavButton("Premium", Icons.Default.Star, onNavigateToSubscription)
                 }
             }
         }

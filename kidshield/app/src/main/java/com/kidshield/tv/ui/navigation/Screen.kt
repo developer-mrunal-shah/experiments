@@ -27,4 +27,5 @@ sealed class Screen(val route: String) {
     data object SetupWizard : Screen("setup_wizard?step={step}") {
         fun createRoute(step: Int = 0) = "setup_wizard?step=$step"
     }
+    data object Subscription : Screen("subscription")
 }

@@ -14,6 +14,7 @@ import com.kidshield.tv.ui.parent.contentsafety.ContentSafetyScreen
 import com.kidshield.tv.ui.parent.dashboard.ParentDashboardScreen
 import com.kidshield.tv.ui.parent.pin.PinEntryScreen
 import com.kidshield.tv.ui.parent.setupwizard.SetupWizardScreen
+import com.kidshield.tv.ui.parent.subscription.SubscriptionScreen
 import com.kidshield.tv.ui.parent.timelimits.AppTimeLimitScreen
 import com.kidshield.tv.ui.parent.timelimits.TimeLimitsScreen
 
@@ -82,6 +83,7 @@ fun KidShieldNavGraph(
                 onNavigateToAppManagement = { navController.navigate(Screen.AppManagement.route) },
                 onNavigateToContentSafety = { navController.navigate(Screen.ContentSafety.route) },
                 onNavigateToSetupWizard = { navController.navigate(Screen.SetupWizard.route) },
+                onNavigateToSubscription = { navController.navigate(Screen.Subscription.route) },
                 onBackToKids = {
                     navController.popBackStack(Screen.KidHome.route, inclusive = false)
                 }
@@ -178,6 +180,12 @@ fun KidShieldNavGraph(
                 onNavigateToTimeLimits = { 
                     navController.navigate(Screen.TimeLimits.createRoute(fromSetup = true))
                 }
+            )
+        }
+
+        composable(Screen.Subscription.route) {
+            SubscriptionScreen(
+                onBack = { navController.popBackStack() }
             )
         }
     }

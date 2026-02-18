@@ -7,6 +7,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.core.content.ContextCompat
 import androidx.navigation.compose.rememberNavController
+import com.kidshield.tv.data.iap.AmazonIapManager
 import com.kidshield.tv.service.AppMonitorService
 import com.kidshield.tv.service.LockTaskHelper
 import com.kidshield.tv.ui.navigation.KidShieldNavGraph
@@ -19,9 +20,15 @@ class MainActivity : ComponentActivity() {
 
     @Inject
     lateinit var lockTaskHelper: LockTaskHelper
+    
+    @Inject
+    lateinit var iapManager: AmazonIapManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Initialize Amazon IAP
+        iapManager.initialize()
 
         // Start monitoring service
         try {
@@ -57,6 +64,10 @@ class MainActivity : ComponentActivity() {
 
     override fun onResume() {
         super.onResume()
+        
+        // Refresh IAP purchase status in case purchase completed while app was in background
+        iapManager.refreshPurchaseStatus()
+        
         // If Device Owner, engage lock task (blocks Home/Recent/Status bar)
         if (lockTaskHelper.isDeviceOwner) {
             lockTaskHelper.startLockTask(this)
