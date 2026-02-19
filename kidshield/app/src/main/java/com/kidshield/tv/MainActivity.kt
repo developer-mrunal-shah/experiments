@@ -8,6 +8,8 @@ import androidx.activity.compose.setContent
 import androidx.core.content.ContextCompat
 import androidx.navigation.compose.rememberNavController
 import com.kidshield.tv.data.iap.AmazonIapManager
+import com.kidshield.tv.data.local.preferences.PinManager
+import com.kidshield.tv.data.repository.SettingsRepository
 import com.kidshield.tv.service.AppMonitorService
 import com.kidshield.tv.service.LockTaskHelper
 import com.kidshield.tv.ui.navigation.KidShieldNavGraph
@@ -24,11 +26,20 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var iapManager: AmazonIapManager
 
+    @Inject
+    lateinit var settingsRepository: SettingsRepository
+
+    @Inject
+    lateinit var pinManager: PinManager
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         // Initialize Amazon IAP
         iapManager.initialize()
+
+        // Ensure usage stats permission (needed for foreground app detection)
+        lockTaskHelper.ensureUsageStatsPermission()
 
         // Start monitoring service
         try {
@@ -56,7 +67,9 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
                 KidShieldNavGraph(
                     navController = navController,
-                    lockTaskHelper = lockTaskHelper
+                    lockTaskHelper = lockTaskHelper,
+                    settingsRepository = settingsRepository,
+                    pinManager = pinManager
                 )
             }
         }
@@ -70,7 +83,11 @@ class MainActivity : ComponentActivity() {
         
         // If Device Owner, engage lock task (blocks Home/Recent/Status bar)
         if (lockTaskHelper.isDeviceOwner) {
+            // Re-apply allowlist every resume in case new apps were installed
+            lockTaskHelper.setAllowedLockTaskPackages(getAllowedPackages())
+            lockTaskHelper.configureLockTaskFeatures()
             lockTaskHelper.startLockTask(this)
+            Log.d("KidShield", "Lock task started. Allowed: ${getAllowedPackages().size} packages")
         }
         // If not Device Owner but we are default launcher, Home button
         // already brings user back here — no extra action needed
@@ -78,29 +95,30 @@ class MainActivity : ComponentActivity() {
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
-        // Called when Home button is pressed and we are the default launcher.
-        // The app is already in front — nothing to do.
-    }
 
-    @Deprecated("Use OnBackPressedDispatcher", ReplaceWith(""))
-    override fun onBackPressed() {
-        // Prevent back button from exiting the app
-        // Do nothing - kids can't exit
+        // Allow setting device time via adb for emulator testing:
+        //   adb shell am start -n com.kidshield.tv/.MainActivity --el set_time <epoch_millis>
+        val setTime = intent.getLongExtra("set_time", -1L)
+        if (setTime > 0) {
+            lockTaskHelper.setDeviceTime(setTime)
+        }
     }
 
     /**
      * Packages allowed to run while in lock task mode (Device Owner only).
+     * Dynamically discovers all installed leanback apps so the allowlist
+     * stays in sync with what's actually on the device.
      */
     private fun getAllowedPackages(): List<String> {
-        return listOf(
+        val intent = Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_LEANBACK_LAUNCHER)
+        @Suppress("DEPRECATION")
+        val installed = packageManager.queryIntentActivities(intent, 0)
+            .map { it.activityInfo.packageName }
+
+        return (installed + listOf(
             packageName,
-            "com.google.android.youtube.tv",
-            "com.google.android.youtube.tvkids",
-            "com.netflix.ninja",
-            "in.startv.hotstar.dplus.tv",
-            "com.amazon.avod",
-            "com.disney.disneyplus",
-            "com.android.vending"
-        )
+            "com.android.vending",       // Google Play Store
+            "com.amazon.venezia"          // Amazon Appstore (Fire TV)
+        )).distinct()
     }
 }

@@ -77,8 +77,9 @@ object AppModule {
     @Singleton
     fun provideAppRepository(
         appConfigDao: AppConfigDao,
+        timeLimitDao: TimeLimitDao,
         packageManager: PackageManager
-    ): AppRepository = AppRepositoryImpl(appConfigDao, packageManager)
+    ): AppRepository = AppRepositoryImpl(appConfigDao, timeLimitDao, packageManager)
 
     @Provides
     @Singleton

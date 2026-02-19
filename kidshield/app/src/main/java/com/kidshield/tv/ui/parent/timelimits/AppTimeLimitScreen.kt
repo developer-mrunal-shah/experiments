@@ -24,6 +24,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.drawable.toBitmap
@@ -120,82 +121,110 @@ fun AppTimeLimitScreen(
 
         Spacer(modifier = Modifier.height(40.dp))
 
-        // - and + buttons side by side
+        // -15, -1, +1, +15 buttons side by side
         Row(
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // Decrease button
-            Surface(
+            // -15 button
+            TimeLimitAdjustButton(
+                label = "15",
+                icon = Icons.Default.Remove,
+                tint = Color(0xFFFF6B6B),
+                containerColor = Color(0xFF3A2020),
+                focusedContainerColor = Color(0xFF4A2020),
                 onClick = {
-                    val newLimit = (currentMinutes - 15).coerceAtLeast(15)
+                    val newLimit = (currentMinutes - 15).coerceAtLeast(1)
                     viewModel.updateDailyLimit(packageName, newLimit)
-                },
-                modifier = Modifier.size(width = 160.dp, height = 64.dp),
-                shape = ClickableSurfaceDefaults.shape(shape = RoundedCornerShape(12.dp)),
-                scale = ClickableSurfaceDefaults.scale(focusedScale = 1.05f),
-                border = ClickableSurfaceDefaults.border(
-                    focusedBorder = Border(
-                        border = BorderStroke(2.dp, KidShieldBlue),
-                        shape = RoundedCornerShape(12.dp)
-                    )
-                ),
-                colors = ClickableSurfaceDefaults.colors(
-                    containerColor = Color(0xFF3A2020),
-                    focusedContainerColor = Color(0xFF4A2020)
-                )
-            ) {
-                Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Icon(
-                            Icons.Default.Remove,
-                            contentDescription = "Decrease",
-                            modifier = Modifier.size(28.dp),
-                            tint = Color(0xFFFF6B6B)
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Text("15 min", style = TvTextStyles.titleLarge, color = Color(0xFFFF6B6B))
-                    }
                 }
-            }
+            )
 
-            Spacer(modifier = Modifier.width(40.dp))
+            Spacer(modifier = Modifier.width(16.dp))
 
-            // Increase button
-            Surface(
+            // -1 button
+            TimeLimitAdjustButton(
+                label = "1",
+                icon = Icons.Default.Remove,
+                tint = Color(0xFFFF6B6B),
+                containerColor = Color(0xFF3A2020),
+                focusedContainerColor = Color(0xFF4A2020),
+                onClick = {
+                    val newLimit = (currentMinutes - 1).coerceAtLeast(1)
+                    viewModel.updateDailyLimit(packageName, newLimit)
+                }
+            )
+
+            Spacer(modifier = Modifier.width(32.dp))
+
+            // +1 button
+            TimeLimitAdjustButton(
+                label = "1",
+                icon = Icons.Default.Add,
+                tint = Color(0xFF69DB7C),
+                containerColor = Color(0xFF203A20),
+                focusedContainerColor = Color(0xFF204A20),
+                onClick = {
+                    val newLimit = (currentMinutes + 1).coerceAtMost(480)
+                    viewModel.updateDailyLimit(packageName, newLimit)
+                }
+            )
+
+            Spacer(modifier = Modifier.width(16.dp))
+
+            // +15 button
+            TimeLimitAdjustButton(
+                label = "15",
+                icon = Icons.Default.Add,
+                tint = Color(0xFF69DB7C),
+                containerColor = Color(0xFF203A20),
+                focusedContainerColor = Color(0xFF204A20),
                 onClick = {
                     val newLimit = (currentMinutes + 15).coerceAtMost(480)
                     viewModel.updateDailyLimit(packageName, newLimit)
-                },
-                modifier = Modifier.size(width = 160.dp, height = 64.dp),
-                shape = ClickableSurfaceDefaults.shape(shape = RoundedCornerShape(12.dp)),
-                scale = ClickableSurfaceDefaults.scale(focusedScale = 1.05f),
-                border = ClickableSurfaceDefaults.border(
-                    focusedBorder = Border(
-                        border = BorderStroke(2.dp, KidShieldBlue),
-                        shape = RoundedCornerShape(12.dp)
-                    )
-                ),
-                colors = ClickableSurfaceDefaults.colors(
-                    containerColor = Color(0xFF203A20),
-                    focusedContainerColor = Color(0xFF204A20)
-                )
-            ) {
-                Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Icon(
-                            Icons.Default.Add,
-                            contentDescription = "Increase",
-                            modifier = Modifier.size(28.dp),
-                            tint = Color(0xFF69DB7C)
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Text("15 min", style = TvTextStyles.titleLarge, color = Color(0xFF69DB7C))
-                    }
                 }
-            }
+            )
         }
 
         Spacer(modifier = Modifier.weight(1f))
+    }
+}
+
+@Composable
+private fun TimeLimitAdjustButton(
+    label: String,
+    icon: ImageVector,
+    tint: Color,
+    containerColor: Color,
+    focusedContainerColor: Color,
+    onClick: () -> Unit
+) {
+    Surface(
+        onClick = onClick,
+        modifier = Modifier.size(width = 120.dp, height = 64.dp),
+        shape = ClickableSurfaceDefaults.shape(shape = RoundedCornerShape(12.dp)),
+        scale = ClickableSurfaceDefaults.scale(focusedScale = 1.05f),
+        border = ClickableSurfaceDefaults.border(
+            focusedBorder = Border(
+                border = BorderStroke(2.dp, KidShieldBlue),
+                shape = RoundedCornerShape(12.dp)
+            )
+        ),
+        colors = ClickableSurfaceDefaults.colors(
+            containerColor = containerColor,
+            focusedContainerColor = focusedContainerColor
+        )
+    ) {
+        Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Icon(
+                    icon,
+                    contentDescription = null,
+                    modifier = Modifier.size(24.dp),
+                    tint = tint
+                )
+                Spacer(modifier = Modifier.width(4.dp))
+                Text("${label}m", style = TvTextStyles.titleLarge, color = tint)
+            }
+        }
     }
 }

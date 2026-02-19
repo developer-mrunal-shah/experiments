@@ -4,7 +4,9 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import com.kidshield.tv.data.KnownStreamingApps
 import com.kidshield.tv.data.local.db.dao.AppConfigDao
+import com.kidshield.tv.data.local.db.dao.TimeLimitDao
 import com.kidshield.tv.data.model.AppConfigEntity
+import com.kidshield.tv.data.model.TimeLimitEntity
 import com.kidshield.tv.domain.model.AgeProfile
 import com.kidshield.tv.domain.model.AppCategory
 import com.kidshield.tv.domain.model.StreamingApp
@@ -14,6 +16,7 @@ import javax.inject.Inject
 
 class AppRepositoryImpl @Inject constructor(
     private val appConfigDao: AppConfigDao,
+    private val timeLimitDao: TimeLimitDao,
     private val packageManager: PackageManager
 ) : AppRepository {
 
@@ -31,6 +34,13 @@ class AppRepositoryImpl @Inject constructor(
 
     override suspend fun setAppAllowed(packageName: String, allowed: Boolean) {
         appConfigDao.setAllowed(packageName, allowed)
+        // When allowing an app, ensure a default time limit row exists (60 min)
+        if (allowed) {
+            val existing = timeLimitDao.getTimeLimitForAppOnce(packageName)
+            if (existing == null) {
+                timeLimitDao.upsertTimeLimit(TimeLimitEntity(packageName = packageName))
+            }
+        }
     }
 
     override suspend fun syncInstalledApps() {
@@ -60,6 +70,14 @@ class AppRepositoryImpl @Inject constructor(
         }
 
         appConfigDao.upsertApps(entitiesToUpsert)
+
+        // Ensure all allowed apps have a default time limit row
+        entitiesToUpsert.filter { it.isAllowed }.forEach { app ->
+            val existing = timeLimitDao.getTimeLimitForAppOnce(app.packageName)
+            if (existing == null) {
+                timeLimitDao.upsertTimeLimit(TimeLimitEntity(packageName = app.packageName))
+            }
+        }
     }
 
     override suspend fun getApp(packageName: String): StreamingApp? {

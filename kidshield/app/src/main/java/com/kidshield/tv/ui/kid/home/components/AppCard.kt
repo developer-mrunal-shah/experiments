@@ -1,8 +1,9 @@
 package com.kidshield.tv.ui.kid.home.components
 
-import android.graphics.drawable.Drawable
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.text.style.TextAlign
@@ -26,6 +28,7 @@ import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import androidx.tv.material3.Text
 import com.kidshield.tv.domain.model.StreamingApp
+import com.kidshield.tv.ui.theme.KidShieldBlue
 import com.kidshield.tv.ui.theme.KidShieldGreen
 import com.kidshield.tv.ui.theme.KidShieldOrange
 import com.kidshield.tv.ui.theme.TvTextStyles
@@ -44,71 +47,93 @@ fun AppCard(
 
     Surface(
         onClick = onClick,
-        modifier = Modifier.size(width = 200.dp, height = 160.dp),
-        shape = ClickableSurfaceDefaults.shape(shape = RoundedCornerShape(16.dp)),
+        modifier = Modifier.size(width = 200.dp, height = 170.dp),
+        shape = ClickableSurfaceDefaults.shape(shape = RoundedCornerShape(20.dp)),
         scale = ClickableSurfaceDefaults.scale(focusedScale = 1.05f),
         glow = ClickableSurfaceDefaults.glow(
             focusedGlow = Glow(
-                elevationColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.5f),
-                elevation = 16.dp
+                elevationColor = KidShieldBlue.copy(alpha = 0.4f),
+                elevation = 20.dp
             )
         ),
         border = ClickableSurfaceDefaults.border(
             focusedBorder = Border(
                 border = androidx.compose.foundation.BorderStroke(
                     2.dp,
-                    MaterialTheme.colorScheme.primary
+                    Brush.linearGradient(
+                        colors = listOf(KidShieldBlue, KidShieldBlue.copy(alpha = 0.4f))
+                    )
                 ),
-                shape = RoundedCornerShape(16.dp)
+                shape = RoundedCornerShape(20.dp)
             )
         ),
         colors = ClickableSurfaceDefaults.colors(
-            containerColor = MaterialTheme.colorScheme.surface,
-            focusedContainerColor = MaterialTheme.colorScheme.surfaceVariant
+            containerColor = Color(0xFF1A1A2E),
+            focusedContainerColor = Color(0xFF222240)
         )
     ) {
-        Column(
-            modifier = Modifier.fillMaxSize().padding(12.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+        // Subtle gradient overlay
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(
+                    Brush.verticalGradient(
+                        colors = listOf(
+                            Color.Transparent,
+                            KidShieldBlue.copy(alpha = 0.03f)
+                        )
+                    )
+                )
         ) {
-            if (app.iconDrawable != null) {
-                val bitmap = remember(app.iconDrawable) {
-                    app.iconDrawable.toBitmap(128, 128).asImageBitmap()
+            Column(
+                modifier = Modifier.fillMaxSize().padding(14.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                if (app.iconDrawable != null) {
+                    val bitmap = remember(app.iconDrawable) {
+                        app.iconDrawable.toBitmap(128, 128).asImageBitmap()
+                    }
+                    Image(
+                        bitmap = bitmap,
+                        contentDescription = app.displayName,
+                        modifier = Modifier.size(72.dp)
+                    )
+                } else {
+                    // Styled placeholder
+                    Box(
+                        modifier = Modifier
+                            .size(72.dp)
+                            .background(
+                                KidShieldBlue.copy(alpha = 0.15f),
+                                RoundedCornerShape(16.dp)
+                            ),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = app.displayName.take(1),
+                            style = TvTextStyles.headlineLarge,
+                            color = KidShieldBlue
+                        )
+                    }
                 }
-                Image(
-                    bitmap = bitmap,
-                    contentDescription = app.displayName,
-                    modifier = Modifier.size(64.dp)
+
+                Spacer(modifier = Modifier.height(10.dp))
+
+                Text(
+                    text = app.displayName,
+                    style = TvTextStyles.bodyLarge,
+                    color = Color.White,
+                    textAlign = TextAlign.Center,
+                    maxLines = 1
                 )
-            } else {
-                // Placeholder
-                Surface(
-                    modifier = Modifier.size(64.dp),
-                    shape = ClickableSurfaceDefaults.shape(shape = RoundedCornerShape(12.dp)),
-                    colors = ClickableSurfaceDefaults.colors(
-                        containerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.3f)
-                    ),
-                    onClick = {}
-                ) {
-                    // Empty placeholder
+
+                if (app.dailyMinutesRemaining != null) {
+                    TimeRemainingBadge(
+                        minutesRemaining = app.dailyMinutesRemaining,
+                        color = timeColor
+                    )
                 }
-            }
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            Text(
-                text = app.displayName,
-                style = TvTextStyles.bodyLarge,
-                textAlign = TextAlign.Center,
-                maxLines = 1
-            )
-
-            if (app.dailyMinutesRemaining != null) {
-                TimeRemainingBadge(
-                    minutesRemaining = app.dailyMinutesRemaining,
-                    color = timeColor
-                )
             }
         }
     }
